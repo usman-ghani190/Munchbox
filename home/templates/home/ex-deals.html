@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} {% load static %}
+{% block title %} Munchbox | Ex
+Deals {% endblock title %} {% block content %}
 
 <div class="main-sec"></div>
 <!-- Navigation -->
@@ -15,14 +17,16 @@
             <p class="text-light-black">
               Munchbox deals, coupons, promos, and more
             </p>
-            <a href="ex-deals.html" class="btn-second btn-submit">View Deals</a>
+            <a href="{% url 'explore' %}" class="btn-second btn-submit"
+              >View Deals</a
+            >
           </div>
         </div>
       </div>
       <div class="col-md-5">
         <div class="deals-image">
           <img
-            src="assets/img/deals/banner-1.jpg"
+            src="{% static 'app/assets/img/deals/banner-1.jpg' %}"
             class="img-fluid full-width"
             alt="#"
           />
@@ -50,7 +54,7 @@
                 <div class="featured-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/deals/360x178/shop-1.jpg"
+                      src="{% static 'app/assets/img/deals/360x178/shop-1.jpg' %}"
                       class="img-fluid full-width"
                       alt="#"
                     />
@@ -62,7 +66,7 @@
                 <div class="featured-product-details">
                   <div class="pro-logo">
                     <img
-                      src="assets/img/logo-7.jpg"
+                      src="{% static 'app/assets/img/logo-7.jpg' %}"
                       class="img-fluid"
                       alt="#"
                     />
@@ -88,7 +92,7 @@
                 <div class="featured-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/deals/360x178/shop-2.jpg"
+                      src="{% static 'app/assets/img/deals/360x178/shop-2.jpg' %}"
                       class="img-fluid full-width"
                       alt="#"
                     />
@@ -100,7 +104,7 @@
                 <div class="featured-product-details">
                   <div class="pro-logo">
                     <img
-                      src="assets/img/logo-6.jpg"
+                      src="{% static 'app/assets/img/logo-6.jpg' %}"
                       class="img-fluid"
                       alt="#"
                     />
@@ -126,7 +130,7 @@
                 <div class="featured-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/deals/360x178/shop-3.jpg"
+                      src="{% static 'app/assets/img/deals/360x178/shop-3.jpg' %}"
                       class="img-fluid full-width"
                       alt="#"
                     />
@@ -138,7 +142,7 @@
                 <div class="featured-product-details">
                   <div class="pro-logo">
                     <img
-                      src="assets/img/logo-5.jpg"
+                      src="{% static 'app/assets/img/logo-5.jpg' %}"
                       class="img-fluid"
                       alt="#"
                     />
@@ -225,7 +229,7 @@
                 <div class="product-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/restaurants/255x150/shop-1.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-1.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -274,7 +278,7 @@
                 <div class="product-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/restaurants/255x150/shop-12.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-12.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -323,7 +327,7 @@
                 <div class="product-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/restaurants/255x150/shop-3.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-3.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -372,7 +376,7 @@
                 <div class="product-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/restaurants/255x150/shop-2.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-2.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -421,7 +425,7 @@
                 <div class="product-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/restaurants/255x150/shop-5.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-5.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -495,7 +499,7 @@
                 <div class="product-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/restaurants/255x150/shop-10.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-10.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -544,7 +548,7 @@
                 <div class="product-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/restaurants/255x150/shop-11.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-11.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -593,7 +597,7 @@
                 <div class="product-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/restaurants/255x150/shop-21.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-21.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -642,7 +646,7 @@
                 <div class="product-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/restaurants/255x150/shop-13.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-13.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -691,7 +695,7 @@
                 <div class="product-img">
                   <a href="restaurant.html">
                     <img
-                      src="assets/img/restaurants/255x150/shop-19.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-19.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -760,7 +764,7 @@
             <div class="product-img">
               <a href="restaurant.html">
                 <img
-                  src="assets/img/deals/88x112/mdeals-1.jpg"
+                  src="{% static 'app/assets/img/deals/88x112/mdeals-1.jpg' %}"
                   class="img-fluid"
                   alt="product-img"
                 />
@@ -809,7 +813,7 @@
             <div class="product-img">
               <a href="restaurant.html">
                 <img
-                  src="assets/img/deals/88x112/mdeals-2.jpg"
+                  src="{% static 'app/assets/img/deals/88x112/mdeals-2.jpg' %}"
                   class="img-fluid"
                   alt="product-img"
                 />
@@ -858,7 +862,7 @@
             <div class="product-img">
               <a href="restaurant.html">
                 <img
-                  src="assets/img/deals/88x112/mdeals-3.jpg"
+                  src="{% static 'app/assets/img/deals/88x112/mdeals-3.jpg' %}"
                   class="img-fluid"
                   alt="product-img"
                 />
@@ -907,7 +911,7 @@
             <div class="product-img">
               <a href="restaurant.html">
                 <img
-                  src="assets/img/deals/88x112/mdeals-4.jpg"
+                  src="{% static 'app/assets/img/deals/88x112/mdeals-4.jpg' %}"
                   class="img-fluid"
                   alt="product-img"
                 />
@@ -956,7 +960,7 @@
             <div class="product-img">
               <a href="restaurant.html">
                 <img
-                  src="assets/img/deals/88x112/mdeals-5.jpg"
+                  src="{% static 'app/assets/img/deals/88x112/mdeals-5.jpg' %}"
                   class="img-fluid"
                   alt="product-img"
                 />
@@ -1005,7 +1009,7 @@
             <div class="product-img">
               <a href="restaurant.html">
                 <img
-                  src="assets/img/deals/88x112/mdeals-6.jpg"
+                  src="{% static 'app/assets/img/deals/88x112/mdeals-6.jpg' %}"
                   class="img-fluid"
                   alt="product-img"
                 />

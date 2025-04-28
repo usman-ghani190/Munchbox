@@ -8,3 +8,8 @@ def home(request):
 
     context = {}
     return render(request, 'home/homepage.html', context)
+
+def explore(request):
+    """View for Explore-deals page"""
+    context = {}
+    return render(request, 'home/ex-deals.html', context)
