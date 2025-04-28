@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "core",
     "home",
     "accounts",
+    "restaurants",
+    "checkouts",
 ]
 
 MIDDLEWARE = [
