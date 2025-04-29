@@ -36,7 +36,9 @@
               >
             </h5>
             <h5>
-              <a href="{% url 'login' %}" class="text-light-green fw-700">Sign in</a>
+              <a href="{% url 'login' %}" class="text-light-green fw-700"
+                >Sign in</a
+              >
             </h5>
           </div>
           <div class="login-box">
@@ -92,7 +94,7 @@
         <div class="category-slider swiper-container">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <a href="restaurant.html" class="categories">
+              <a href="{% url 'restaurant' %}" class="categories">
                 <div class="icon icon-parent text-custom-white bg-light-green">
                   <i class="fas fa-map-marker-alt"></i>
                 </div>
@@ -100,7 +102,7 @@
               </a>
             </div>
             <div class="swiper-slide">
-              <a href="restaurant.html" class="categories">
+              <a href="{% url 'restaurant' %}" class="categories">
                 <div class="icon text-custom-white bg-light-green">
                   <img
                     src="{% static 'app/assets/img/restaurants/125x125/cuisine-1.jpg' %}"
@@ -112,7 +114,7 @@
               </a>
             </div>
             <div class="swiper-slide">
-              <a href="restaurant.html" class="categories">
+              <a href="{% url 'restaurant' %}" class="categories">
                 <div class="icon text-custom-white bg-light-green">
                   <img
                     src="{% static 'app/assets/img/restaurants/125x125/cuisine-2.jpg' %}"
@@ -124,7 +126,7 @@
               </a>
             </div>
             <div class="swiper-slide">
-              <a href="restaurant.html" class="categories">
+              <a href="{% url 'restaurant' %}" class="categories">
                 <div class="icon text-custom-white bg-light-green">
                   <img
                     src="{% static 'app/assets/img/restaurants/125x125/cuisine-3.jpg' %}"
@@ -136,7 +138,7 @@
               </a>
             </div>
             <div class="swiper-slide">
-              <a href="restaurant.html" class="categories">
+              <a href="{% url 'restaurant' %}" class="categories">
                 <div class="icon text-custom-white bg-light-green">
                   <img
                     src="{% static 'app/assets/img/restaurants/125x125/cuisine-4.jpg' %}"
@@ -148,7 +150,7 @@
               </a>
             </div>
             <div class="swiper-slide">
-              <a href="restaurant.html" class="categories">
+              <a href="{% url 'restaurant' %}" class="categories">
                 <div class="icon text-custom-white bg-light-green">
                   <img
                     src="{% static 'app/assets/img/restaurants/125x125/cuisine-5.jpg' %}"
@@ -160,7 +162,7 @@
               </a>
             </div>
             <div class="swiper-slide">
-              <a href="restaurant.html" class="categories">
+              <a href="{% url 'restaurant' %}" class="categories">
                 <div class="icon text-custom-white bg-light-green">
                   <img
                     src="{% static 'app/assets/img/restaurants/125x125/cuisine-6.jpg' %}"
@@ -172,7 +174,7 @@
               </a>
             </div>
             <div class="swiper-slide">
-              <a href="restaurant.html" class="categories">
+              <a href="{% url 'restaurant' %}" class="categories">
                 <div class="icon text-custom-white bg-light-green">
                   <img
                     src="{% static 'app/assets/img/restaurants/125x125/cuisine-7.jpg' %}"
@@ -184,7 +186,7 @@
               </a>
             </div>
             <div class="swiper-slide">
-              <a href="restaurant.html" class="categories">
+              <a href="{% url 'restaurant' %}" class="categories">
                 <div class="icon text-custom-white bg-light-green">
                   <img
                     src="{% static 'app/assets/img/restaurants/125x125/cuisine-8.jpg' %}"
@@ -222,7 +224,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="product-box mb-md-20">
           <div class="product-img">
-            <a href="restaurant.html">
+            <a href="{% url 'restaurant' %}">
               <img
                 src="{% static 'app/assets/img/restaurants/255x104/order-1.jpg' %}"
                 class="img-fluid full-width"
@@ -232,7 +234,7 @@
           </div>
           <div class="product-caption">
             <h6 class="product-title">
-              <a href="restaurant.html" class="text-light-black">
+              <a href="{% url 'restaurant' %}" class="text-light-black">
                 Chilli Chicken Pizza</a
               >
             </h6>
@@ -250,7 +252,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="product-box mb-md-20">
           <div class="product-img">
-            <a href="restaurant.html">
+            <a href="{% url 'restaurant' %}">
               <img
                 src="{% static 'app/assets/img/restaurants/255x104/order-2.jpg' %}"
                 class="img-fluid full-width"
@@ -260,14 +262,14 @@
           </div>
           <div class="product-caption">
             <h6 class="product-title">
-              <a href="restaurant.html" class="text-light-black">
+              <a href="{% url 'order_details' %}" class="text-light-black">
                 Hakka Noodles</a
               >
             </h6>
             <p class="text-light-white">Flavor Town, Brooklyn</p>
             <div class="product-btn">
               <a
-                href="{% url 'order_details' %}l"
+                href="{% url 'order_details' %}"
                 class="btn-first white-btn full-width text-light-green fw-600"
                 >Track Order</a
               >
@@ -278,7 +280,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="product-box mb-md-20">
           <div class="product-img">
-            <a href="restaurant.html">
+            <a href="{% url 'restaurant' %}">
               <img
                 src="{% static 'app/assets/img/restaurants/255x104/order-3.jpg' %}"
                 class="img-fluid full-width"
@@ -288,7 +290,7 @@
           </div>
           <div class="product-caption">
             <h6 class="product-title">
-              <a href="restaurant.html" class="text-light-black">
+              <a href="{% url 'restaurant' %}" class="text-light-black">
                 Vegan Burger
               </a>
             </h6>
@@ -306,7 +308,7 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="product-box mb-md-20">
           <div class="product-img">
-            <a href="restaurant.html">
+            <a href="{% url 'restaurant' %}">
               <img
                 src="{% static 'app/assets/img/restaurants/255x104/order-4.jpg' %}"
                 class="img-fluid full-width"
@@ -316,7 +318,7 @@
           </div>
           <div class="product-caption">
             <h6 class="product-title">
-              <a href="restaurant.html" class="text-light-black">
+              <a href="{% url 'restaurant' %}" class="text-light-black">
                 Sticky Date Cake</a
               >
             </h6>
@@ -356,7 +358,7 @@
             alt="image"
           />
           <div class="category-type overlay padding-15">
-            <a href="restaurant.html" class="category-btn">Top rated</a>
+            <a href="{% url 'restaurant' %}" class="category-btn">Top rated</a>
           </div>
         </div>
       </div>
@@ -368,7 +370,7 @@
             alt="image"
           />
           <div class="category-type overlay padding-15">
-            <a href="restaurant.html" class="category-btn">Top rated</a>
+            <a href="{% url 'restaurant' %}" class="category-btn">Top rated</a>
           </div>
         </div>
       </div>
@@ -384,7 +386,7 @@
           <div class="category-type overlay padding-15">
             <button class="category-btn">Most popular near you</button>
             <a
-              href="restaurant.html"
+              href="{% url 'restaurant' %}"
               class="btn-first white-btn text-light-black fw-600 full-width"
               >See all</a
             >
@@ -396,7 +398,7 @@
           <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product-box mb-xl-20">
               <div class="product-img">
-                <a href="restaurant.html">
+                <a href="{% url 'restaurant' %}">
                   <img
                     src="{% static 'app/assets/img/restaurants/255x150/shop-23.jpg' %}"
                     class="img-fluid full-width"
@@ -424,7 +426,7 @@
               <div class="product-caption">
                 <div class="title-box">
                   <h6 class="product-title">
-                    <a href="restaurant.html" class="text-light-black">
+                    <a href="{% url 'restaurant' %}" class="text-light-black">
                       Great Burger</a
                     >
                   </h6>
@@ -491,7 +493,7 @@
           <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product-box mb-xl-20">
               <div class="product-img">
-                <a href="restaurant.html">
+                <a href="{% url 'restaurant' %}">
                   <img
                     src="{% static 'app/assets/img/restaurants/255x150/shop-2.jpg' %}"
                     class="img-fluid full-width"
@@ -512,7 +514,7 @@
               <div class="product-caption">
                 <div class="title-box">
                   <h6 class="product-title">
-                    <a href="restaurant.html" class="text-light-black">
+                    <a href="{% url 'restaurant' %}" class="text-light-black">
                       Flavor Town</a
                     >
                   </h6>
@@ -567,7 +569,7 @@
           <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product-box mb-xl-20">
               <div class="product-img">
-                <a href="restaurant.html">
+                <a href="{% url 'restaurant' %}">
                   <img
                     src="{% static 'app/assets/img/restaurants/255x150/shop-3.jpg' %}"
                     class="img-fluid full-width"
@@ -591,7 +593,7 @@
               <div class="product-caption">
                 <div class="title-box">
                   <h6 class="product-title">
-                    <a href="restaurant.html" class="text-light-black">
+                    <a href="{% url 'restaurant' %}" class="text-light-black">
                       Big Bites</a
                     >
                   </h6>
@@ -640,7 +642,7 @@
           <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product-box mb-xl-20">
               <div class="product-img">
-                <a href="restaurant.html">
+                <a href="{% url 'restaurant' %}">
                   <img
                     src="{% static 'app/assets/img/restaurants/255x150/shop-4.jpg' %}"
                     class="img-fluid full-width"
@@ -664,7 +666,7 @@
               <div class="product-caption">
                 <div class="title-box">
                   <h6 class="product-title">
-                    <a href="restaurant.html" class="text-light-black">
+                    <a href="{% url 'restaurant' %}" class="text-light-black">
                       Smile N’ Delight</a
                     >
                   </h6>
@@ -719,7 +721,7 @@
           <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product-box mb-xl-20">
               <div class="product-img">
-                <a href="restaurant.html">
+                <a href="{% url 'restaurant' %}">
                   <img
                     src="{% static 'app/assets/img/restaurants/255x150/shop-5.jpg' %}"
                     class="img-fluid full-width"
@@ -747,7 +749,7 @@
               <div class="product-caption">
                 <div class="title-box">
                   <h6 class="product-title">
-                    <a href="restaurant.html" class="text-light-black">
+                    <a href="{% url 'restaurant' %}" class="text-light-black">
                       Lil Johnny’s</a
                     >
                   </h6>
@@ -790,7 +792,7 @@
           <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="product-box mb-xl-20">
               <div class="product-img">
-                <a href="restaurant.html">
+                <a href="{% url 'restaurant' %}">
                   <img
                     src="{% static 'app/assets/img/restaurants/255x150/shop-6.jpg' %}"
                     class="img-fluid full-width"
@@ -814,7 +816,7 @@
               <div class="product-caption">
                 <div class="title-box">
                   <h6 class="product-title">
-                    <a href="restaurant.html" class="text-light-black">
+                    <a href="{% url 'restaurant' %}" class="text-light-black">
                       Choice Foods</a
                     >
                   </h6>
