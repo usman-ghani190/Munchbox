@@ -38,7 +38,7 @@
           <p class="text-light-black sub-title no-margin">
             4508 Fort Hamilton Pkwy
             <span
-              ><a href="checkout.html" class="text-success"
+              ><a href="{% url 'checkout' %}" class="text-success"
                 >Change locations</a
               ></span
             >
@@ -172,7 +172,7 @@
         <div class="address-details">
           <div class="address">
             <div class="delivery-address">
-              <a href="order-details.html" class="text-light-black"
+              <a href="{% url 'order_details' %}" class="text-light-black"
                 >Delivery, ASAP (45–55m)</a
               >
               <div class="delivery-type">
@@ -181,7 +181,7 @@
               </div>
             </div>
             <div class="change-address">
-              <a href="checkout.html" class="fw-500">Change</a>
+              <a href="{% url 'checkout' %}" class="fw-500">Change</a>
             </div>
           </div>
           <p class="text-light-white no-margin">
@@ -207,7 +207,7 @@
                 <div class="testimonial-wrapper">
                   <div class="testimonial-box">
                     <div class="testimonial-img p-relative">
-                      <a href="restaurant.html">
+                      <a href="{% url 'restaurant' %}">
                         <img
                           src="{% static 'app/assets/img/blog/438x180/shop-1.jpg' %}"
                           class="img-fluid full-width"
@@ -234,7 +234,7 @@
                         Featured
                       </p>
                       <h5 class="fw-600">
-                        <a href="restaurant.html" class="text-light-black"
+                        <a href="{% url 'restaurant' %}" class="text-light-black"
                           >GSA King Tomato Farm</a
                         >
                       </h5>
@@ -276,7 +276,7 @@
                         </strong>
                         From $7.99 (4.0 mi)
                       </p>
-                      <a href="checkout.html" class="btn-second btn-submit"
+                      <a href="{% url 'checkout' %}" class="btn-second btn-submit"
                         >Order Now</a
                       >
                     </div>
@@ -287,7 +287,7 @@
                 <div class="testimonial-wrapper">
                   <div class="testimonial-box">
                     <div class="testimonial-img p-relative">
-                      <a href="restaurant.html">
+                      <a href="{% url 'restaurant' %}">
                         <img
                           src="{% static 'app/assets/img/blog/438x180/shop-2.jpg' %}"
                           class="img-fluid full-width"
@@ -314,7 +314,7 @@
                         Featured
                       </p>
                       <h5 class="fw-600">
-                        <a href="restaurant.html" class="text-light-black"
+                        <a href="{% url 'restaurant' %}" class="text-light-black"
                           >GSA King Tomato Farm</a
                         >
                       </h5>
@@ -356,7 +356,7 @@
                         </strong>
                         From $7.99 (4.0 mi)
                       </p>
-                      <a href="checkout.html" class="btn-second btn-submit"
+                      <a href="{% url 'checkout' %}" class="btn-second btn-submit"
                         >Order Now</a
                       >
                     </div>
@@ -367,7 +367,7 @@
                 <div class="testimonial-wrapper">
                   <div class="testimonial-box">
                     <div class="testimonial-img p-relative">
-                      <a href="restaurant.html">
+                      <a href="{% url 'restaurant' %}">
                         <img
                           src="{% static 'app/assets/img/blog/438x180/shop-2.jpg' %}"
                           class="img-fluid full-width"
@@ -394,7 +394,7 @@
                         Featured
                       </p>
                       <h5 class="fw-600">
-                        <a href="restaurant.html" class="text-light-black"
+                        <a href="{% url 'restaurant' %}" class="text-light-black"
                           >GSA King Tomato Farm</a
                         >
                       </h5>
@@ -436,7 +436,7 @@
                         </strong>
                         From $7.99 (4.0 mi)
                       </p>
-                      <a href="checkout.html" class="btn-second btn-submit"
+                      <a href="{% url 'checkout' %}" class="btn-second btn-submit"
                         >Order Now</a
                       >
                     </div>
@@ -526,7 +526,7 @@
                   </p>
                 </div>
                 <div class="promocode-btn">
-                  <a href="ex-deals.html">Get Deal</a>
+                  <a href="{% url 'explore' %}">Get Deal</a>
                 </div>
               </div>
               <div class="overlay overlay-bg"></div>
@@ -1721,7 +1721,7 @@
                               </div>
                               <span class="circle-tag">
                                 <img
-                                  src="{% static 'app/assets/img/svg/013-heart-1.' %}svg"
+                                  src="{% static 'app/assets/img/svg/013-heart-1.svg' %}"
                                   alt="tag"
                                 />
                               </span>
@@ -1782,7 +1782,7 @@
                     >
                     <h4 class="text-light-black no-margin">50%</h4>
                   </div>
-                  <a href="restaurent.html">
+                  <a href="{% url 'restaurant' %}">
                     <img
                       src="{% static 'app/assets/img/logo-3.jpg' %}"
                       class="img-fluid"
@@ -2200,7 +2200,7 @@
           <div class="review-user">
             <div class="review-user-img">
               <img
-                src="assets/img/blog-details/40x40/user-2.png"
+                src="{% static 'app/assets/img/blog-details/40x40/user-2.png' %}"
                 class="rounded-circle"
                 alt="#"
               />
@@ -2268,7 +2268,7 @@
           <div class="review-user">
             <div class="review-user-img">
               <img
-                src="assets/img/blog-details/40x40/user-3.png"
+                src="{% static 'app/assets/img/blog-details/40x40/user-3.png' %}"
                 class="rounded-circle"
                 alt="#"
               />
@@ -2336,7 +2336,7 @@
           <div class="review-user">
             <div class="review-user-img">
               <img
-                src="assets/img/blog-details/40x40/user-4.png"
+                src="{% static 'app/assets/img/blog-details/40x40/user-4.png' %}"
                 class="rounded-circle"
                 alt="#"
               />
@@ -2403,7 +2403,7 @@
       </div>
       <div class="col-12">
         <div class="review-img">
-          <img src="assets/img/review-footer.png" class="img-fluid" alt="#" />
+          <img src="{% static 'app/assets/img/review-footer.png' %}" class="img-fluid" alt="#" />
           <div class="review-text">
             <h2 class="text-light-white mb-2 fw-600">
               Be one of the first to review
@@ -2433,9 +2433,9 @@
             <div class="swiper-slide">
               <div class="product-box">
                 <div class="product-img">
-                  <a href="restaurant.html">
+                  <a href="{% url 'restaurant' %}">
                     <img
-                      src="assets/img/restaurants/255x150/shop-10.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-10.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -2444,7 +2444,7 @@
                 <div class="product-caption">
                   <div class="title-box">
                     <h6 class="product-title">
-                      <a href="restaurant.html" class="text-light-black"
+                      <a href="{% url 'restaurant' %}" class="text-light-black"
                         >Great Burger</a
                       >
                     </h6>
@@ -2482,9 +2482,9 @@
             <div class="swiper-slide">
               <div class="product-box">
                 <div class="product-img">
-                  <a href="restaurant.html">
+                  <a href="{% url 'restaurant' %}">
                     <img
-                      src="assets/img/restaurants/255x150/shop-12.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-12.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -2493,7 +2493,7 @@
                 <div class="product-caption">
                   <div class="title-box">
                     <h6 class="product-title">
-                      <a href="restaurant.html" class="text-light-black"
+                      <a href="{% url 'restaurant' %}" class="text-light-black"
                         >Flavor Town</a
                       >
                     </h6>
@@ -2531,9 +2531,9 @@
             <div class="swiper-slide">
               <div class="product-box">
                 <div class="product-img">
-                  <a href="restaurant.html">
+                  <a href="{% url 'restaurant' %}">
                     <img
-                      src="assets/img/restaurants/255x150/shop-17.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-17.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -2542,7 +2542,7 @@
                 <div class="product-caption">
                   <div class="title-box">
                     <h6 class="product-title">
-                      <a href="restaurant.html" class="text-light-black"
+                      <a href="{% url 'restaurant' %}" class="text-light-black"
                         >Big Bites</a
                       >
                     </h6>
@@ -2580,9 +2580,9 @@
             <div class="swiper-slide">
               <div class="product-box">
                 <div class="product-img">
-                  <a href="restaurant.html">
+                  <a href="{% url 'restaurant' %}">
                     <img
-                      src="assets/img/restaurants/255x150/shop-10.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-10.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -2591,7 +2591,7 @@
                 <div class="product-caption">
                   <div class="title-box">
                     <h6 class="product-title">
-                      <a href="restaurant.html" class="text-light-black"
+                      <a href="{% url 'restaurant' %}" class="text-light-black"
                         >Smile N’ Delight</a
                       >
                     </h6>
@@ -2629,9 +2629,9 @@
             <div class="swiper-slide">
               <div class="product-box">
                 <div class="product-img">
-                  <a href="restaurant.html">
+                  <a href="{% url 'restaurant' %}">
                     <img
-                      src="assets/img/restaurants/255x150/shop-32.jpg"
+                      src="{% static 'app/assets/img/restaurants/255x150/shop-32.jpg' %}"
                       class="img-fluid full-width"
                       alt="product-img"
                     />
@@ -2640,7 +2640,7 @@
                 <div class="product-caption">
                   <div class="title-box">
                     <h6 class="product-title">
-                      <a href="restaurant.html" class="text-light-black"
+                      <a href="{% url 'restaurant' %}" class="text-light-black"
                         >Lil Johnny’s</a
                       >
                     </h6>
