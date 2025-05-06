@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <!-- munchbox/register.html  05 Dec 2019 10:25:15 GMT -->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -59,12 +58,10 @@
     />
     <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;display=swap"
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap"
       rel="stylesheet"
     />
-    <!-- place -->
   </head>
-
   <body>
     <div class="inner-wrapper">
       <div class="container-fluid no-padding">
@@ -94,8 +91,21 @@
             <div class="section-2 user-page main-padding">
               <div class="login-sec">
                 <div class="login-box">
-                  <form>
+                  <!-- Sign-out button (visible if authenticated) -->
+                  {% if user.is_authenticated %}
+                  <div class="form-group text-right">
+                    <button id="logout-btn" class="btn-second btn-submit">
+                      Sign out
+                    </button>
+                  </div>
+                  {% endif %}
+                  <form id="register-form">
                     <h4 class="text-light-black fw-600">Create your account</h4>
+                    <div
+                      id="form-errors"
+                      class="alert alert-danger"
+                      style="display: none"
+                    ></div>
                     <div class="row">
                       <div class="col-lg-6 col-md-12 col-sm-6">
                         <div class="form-group">
@@ -104,7 +114,7 @@
                           >
                           <input
                             type="text"
-                            name="#"
+                            name="first_name"
                             class="form-control form-control-submit"
                             placeholder="First Name"
                             required
@@ -118,7 +128,7 @@
                           >
                           <input
                             type="text"
-                            name="#"
+                            name="last_name"
                             class="form-control form-control-submit"
                             placeholder="Last Name"
                             required
@@ -130,7 +140,7 @@
                           <label class="text-light-white fs-14">Email</label>
                           <input
                             type="email"
-                            name="#"
+                            name="email"
                             class="form-control form-control-submit"
                             placeholder="Email I'd"
                             required
@@ -143,9 +153,8 @@
                           <input
                             type="password"
                             id="password-field"
-                            name="#"
+                            name="password"
                             class="form-control form-control-submit"
-                            value="password"
                             placeholder="Password"
                             required
                           />
@@ -154,12 +163,23 @@
                             class="fa fa-fw fa-eye field-icon toggle-password"
                           ></div>
                         </div>
+                        <div class="form-group">
+                          <label class="text-light-white fs-14"
+                            >Confirm Password</label
+                          >
+                          <input
+                            type="password"
+                            name="password2"
+                            class="form-control form-control-submit"
+                            placeholder="Confirm Password"
+                            required
+                          />
+                        </div>
                         <div class="form-group checkbox-reset">
                           <label class="custom-checkbox mb-0">
-                            <input type="checkbox" name="#" />
-                            <span class="checkmark"></span> Keep me signed
-                            in</label
-                          >
+                            <input type="checkbox" name="keep_signed_in" />
+                            <span class="checkmark"></span> Keep me signed in
+                          </label>
                         </div>
                         <div class="form-group">
                           <button
@@ -200,11 +220,11 @@
                             <a href="{% url 'login' %}">Sign in</a>
                           </p>
                         </div>
-                        <span class="text-light-black fs-12 terms"
-                          >By creating your Munchbox account, you agree to the
+                        <span class="text-light-black fs-12 terms">
+                          By creating your Munchbox account, you agree to the
                           <a href="#"> Terms of Use </a> and
-                          <a href="#"> Privacy Policy.</a></span
-                        >
+                          <a href="#"> Privacy Policy.</a>
+                        </span>
                       </div>
                     </div>
                   </form>
@@ -215,29 +235,105 @@
         </div>
       </div>
     </div>
-    <!-- Place all Scripts Here -->
-    <!-- jQuery -->
+    <!-- Scripts -->
     <script src="{% static 'app/assets/js/jquery.min.js' %}"></script>
-    <!-- Popper -->
     <script src="{% static 'app/assets/js/popper.min.js' %}"></script>
-    <!-- Bootstrap -->
     <script src="{% static 'app/assets/js/bootstrap.min.js' %}"></script>
-    <!-- Range Slider -->
     <script src="{% static 'app/assets/js/ion.rangeSlider.min.js' %}"></script>
-    <!-- Swiper Slider -->
     <script src="{% static 'app/assets/js/swiper.min.js' %}"></script>
-    <!-- Nice Select -->
     <script src="{% static 'app/assets/js/jquery.nice-select.min.js' %}"></script>
-    <!-- magnific popup -->
     <script src="{% static 'app/assets/js/jquery.magnific-popup.min.js' %}"></script>
-    <!-- Maps -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnd9JwZvXty-1gHZihMoFhJtCXmHfeRQg"></script>
-    <!-- sticky sidebar -->
     <script src="{% static 'app/assets/js/sticksy.js' %}"></script>
-    <!-- Munch Box Js -->
     <script src="{% static 'app/assets/js/munchbox.js' %}"></script>
-    <!-- /Place all Scripts Here -->
-  </body>
+    <script>
+      $(document).ready(function() {
+          function getCookie(name) {
+              let cookieValue = null;
+              if (document.cookie && document.cookie !== '') {
+                  const cookies = document.cookie.split(';');
+                  for (let i = 0; i < cookies.length; i++) {
+                      const cookie = cookies[i].trim();
+                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                          break;
+                      }
+                  }
+              }
+              return cookieValue;
+          }
 
-  <!-- munchbox/register.html  05 Dec 2019 10:25:15 GMT -->
+          const csrftoken = getCookie('csrftoken');
+
+          // Registration form submission
+          $('#register-form').on('submit', function(e) {
+              e.preventDefault();
+              var formData = $(this).serializeArray();
+              var data = {};
+              $.each(formData, function(i, field) {
+                  data[field.name] = field.value;
+              });
+              console.log('Sending data:', data);
+              $.ajax({
+                  url: '{% url 'api_register' %}',
+                  type: 'POST',
+                  data: JSON.stringify(data),
+                  contentType: 'application/json',
+                  headers: {'X-CSRFToken': csrftoken},
+                  success: function(response) {
+                      console.log('Registration successful:', response);
+                      localStorage.setItem('token', response.token);
+                      window.location.href = '/';
+                  },
+                  error: function(xhr) {
+                      console.error('Registration failed:', xhr.responseJSON);
+                      var errors = xhr.responseJSON;
+                      var errorHtml = '';
+                      $.each(errors, function(key, value) {
+                          errorHtml += '<p>' + (Array.isArray(value) ? value.join('<br>') : value) + '</p>';
+                      });
+                      $('#form-errors').html(errorHtml).show();
+                  }
+              });
+          });
+
+          // Logout button
+          $('#logout-btn').on('click', function(e) {
+              e.preventDefault();
+              const token = localStorage.getItem('token');
+              if (!token) {
+                  console.log('No token found, redirecting to login');
+                  window.location.href = '{% url 'login' %}';
+                  return;
+              }
+              $.ajax({
+                  url: '{% url 'api_logout' %}',
+                  type: 'POST',
+                  headers: {
+                      'X-CSRFToken': csrftoken,
+                      'Authorization': 'Token ' + token
+                  },
+                  success: function(response) {
+                      console.log('Logout successful:', response);
+                      localStorage.removeItem('token');
+                      window.location.href = '{% url 'login' %}';
+                  },
+                  error: function(xhr) {
+                      console.error('Logout failed:', xhr.responseJSON);
+                      localStorage.removeItem('token');
+                      window.location.href = '{% url 'login' %}';
+                  }
+              });
+          });
+
+          // Password toggle
+          $('.toggle-password').click(function() {
+              var field = $($(this).data('name'));
+              var type = field.attr('type') === 'password' ? 'text' : 'password';
+              field.attr('type', type);
+              $(this).toggleClass('fa-eye fa-eye-slash');
+          });
+      });
+    </script>
+  </body>
 </html>
