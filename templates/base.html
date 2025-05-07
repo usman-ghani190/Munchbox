@@ -60,7 +60,7 @@
     />
     <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&amp;display=swap"
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap"
       rel="stylesheet"
     />
     <!-- place -->
@@ -367,7 +367,7 @@
                     </ul>
                     <div class="user-footer">
                       <span class="text-light-black">Not Jhon?</span>
-                      <a href="{% url 'api_logout' %}">Sign Out</a>
+                      <button id="logout-btn-base" class="text-custom-white fw-500" style="background: none; border: none; padding: 0; font: inherit; cursor: pointer; color: red">Sign Out</button>
                     </div>
                   </div>
                 </div>
@@ -890,7 +890,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">
-              &times;
+              ×
             </button>
             <h4 class="modal-title fw-700">Change Address</h4>
           </div>
@@ -911,7 +911,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">
-              &times;
+              ×
             </button>
             <div class="search-box p-relative full-width">
               <input
@@ -941,12 +941,65 @@
     <!-- magnific popup -->
     <script src="{% static 'app/assets/js/jquery.magnific-popup.min.js' %}"></script>
     <!-- Maps -->
-    <script src="your google Api key"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnd9JwZvXty-1gHZihMoFhJtCXmHfeRQg"></script>
     <!-- sticky sidebar -->
     <script src="{% static 'app/assets/js/sticksy.js' %}"></script>
     <!-- Munch Box Js -->
     <script src="{% static 'app/assets/js/munchbox.js' %}"></script>
+    <!-- Custom Script for Logout -->
+    <script>
+      $(document).ready(function() {
+          function getCookie(name) {
+              let cookieValue = null;
+              if (document.cookie && document.cookie !== '') {
+                  const cookies = document.cookie.split(';');
+                  for (let i = 0; i < cookies.length; i++) {
+                      const cookie = cookies[i].trim();
+                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                          break;
+                      }
+                  }
+              }
+              return cookieValue;
+          }
+
+          const csrftoken = getCookie('csrftoken');
+
+          // Logout button in base.html
+          $('#logout-btn-base').on('click', function(e) {
+              e.preventDefault();
+              const token = localStorage.getItem('token');
+              console.log('Sending logout with token:', token);
+              if (!token) {
+                  console.log('No token found, redirecting to login');
+                  window.location.href = '{% url 'login' %}';
+                  return;
+              }
+              $.ajax({
+                  url: '{% url 'api_logout' %}',
+                  type: 'POST',
+                  headers: {
+                      'X-CSRFToken': csrftoken,
+                      'Authorization': 'Token ' + token
+                  },
+                  success: function(response) {
+                      console.log('Logout successful:', response);
+                      localStorage.removeItem('token');
+                      window.location.href = '{% url 'login' %}';
+                  },
+                  error: function(xhr) {
+                      console.error('Logout failed:', xhr.responseJSON);
+                      localStorage.removeItem('token');
+                      window.location.href = '{% url 'login' %}';
+                  }
+              });
+          });
+      });
+    </script>
     <!-- /Place all Scripts Here -->
+    {% block extra_scripts %}
+    {% endblock %}
   </body>
 
   <!-- munchbox/homepage-1.html  05 Dec 2019 10:14:51 GMT -->

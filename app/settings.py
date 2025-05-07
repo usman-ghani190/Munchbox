@@ -148,6 +148,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+RATLIMT_STORAGE_URL = 'memory://'  # In-memory for development (use redis:// for production)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
