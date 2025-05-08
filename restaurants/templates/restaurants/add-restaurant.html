@@ -1,5 +1,8 @@
 {% extends 'base.html' %} {% load static %}
-{% block title %} Munchbox | Add Restaurant {% endblock title %} {% block content %}
+{% load widget_tweaks %}
+{% block title %}
+Munchbox | Add
+Restaurant {% endblock title %} {% block content %}
 
 <div class="main-sec"></div>
 <!-- Navigation -->
@@ -77,7 +80,13 @@
                 <div class="step-content">
                   <div class="step-tab-panel active" id="steppanel1">
                     <div class="general-sec">
-                      <form>
+                      <form
+                        method="post"
+                        action="{% url 'add_restaurant' %}"
+                        enctype="multipart/form-data"
+                      >
+                        {% csrf_token %}
+
                         <div class="row">
                           <div class="col-12">
                             <h5 class="text-light-black fw-700">
@@ -89,12 +98,11 @@
                               <label class="text-light-black fw-700"
                                 >Restaurant name <sup class="fs-16">*</sup>
                               </label>
-                              <input
-                                type="text"
-                                name="#"
-                                class="form-control form-control-submit"
-                                placeholder="i.e Pizza Hut"
-                              />
+                              {{ form.name|add_class:"form-control form-control-submit" }} {% if form.name.errors %}
+                              <div class="text-danger">
+                                {{ form.name.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -102,12 +110,11 @@
                               <label class="text-light-black fw-700"
                                 >Restaurant phone</label
                               >
-                              <input
-                                type="text"
-                                name="#"
-                                class="form-control form-control-submit"
-                                placeholder="i.e +1 321 828 6662"
-                              />
+                              {{ form.phone|add_class:"form-control form-control-submit" }} {% if form.phone.errors %}
+                              <div class="text-danger">
+                                {{ form.phone.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -115,12 +122,11 @@
                               <label class="text-light-black fw-700"
                                 >Manager Name</label
                               >
-                              <input
-                                type="text"
-                                name="#"
-                                class="form-control form-control-submit"
-                                placeholder="i.e Alard Willaim"
-                              />
+                              {{ form.manager_name|add_class:"form-control form-control-submit" }} {% if form.manager_name.errors %}
+                              <div class="text-danger">
+                                {{ form.manager_name.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -128,12 +134,11 @@
                               <label class="text-light-black fw-700"
                                 >Manager Contact phone</label
                               >
-                              <input
-                                type="text"
-                                name="#"
-                                class="form-control form-control-submit"
-                                placeholder="i.e +1 321 828 6662"
-                              />
+                              {{ form.manager_phone|add_class:"form-control form-control-submit" }} {% if form.manager_phone.errors %}
+                              <div class="text-danger">
+                                {{ form.manager_phone.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                           <div class="col-md-12">
@@ -141,12 +146,11 @@
                               <label class="text-light-black fw-700"
                                 >Contact Email</label
                               >
-                              <input
-                                type="email"
-                                name="#"
-                                class="form-control form-control-submit"
-                                placeholder="i.e alard@example.com "
-                              />
+                              {{ form.contact_email|add_class:"form-control form-control-submit" }} {% if form.contact_email.errors %}
+                              <div class="text-danger">
+                                {{ form.contact_email.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                         </div>
@@ -164,35 +168,12 @@
                               <label class="text-light-black fw-700"
                                 >Country <sup class="fs-16">*</sup>
                               </label>
-                              <select
-                                class="form-control form-control-submit custom-select-2 full-width"
-                              >
-                                <option value="">Select Country</option>
-                                <option value="brazil" data-name="">
-                                  Brazil
-                                </option>
-                                <option value="canada" data-name="">
-                                  Canada
-                                </option>
-                                <option value="france" data-name="">
-                                  France
-                                </option>
-                                <option value="india" data-name="">
-                                  India
-                                </option>
-                                <option value="italy" data-name="">
-                                  Italy
-                                </option>
-                                <option value="spain" data-name="">
-                                  Spain
-                                </option>
-                                <option value="united-kingdom" data-name="">
-                                  United Kingdom
-                                </option>
-                                <option value="united-states" data-name="">
-                                  United States
-                                </option>
-                              </select>
+                              {{ form.country|add_class:"form-control form-control-submit custom-select-2 full-width" }}
+                              {% if form.country.errors %}
+                              <div class="text-danger">
+                                {{ form.country.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -200,14 +181,12 @@
                               <label class="text-light-black fw-700"
                                 >State</label
                               >
-                              <select
-                                class="form-control form-control-submit custom-select-2 full-width"
-                              >
-                                <option value="">Select State</option>
-                                <option value="uttar-pradesh">
-                                  Uttar Pradesh
-                                </option>
-                              </select>
+                              {{ form.state|add_class:"form-control form-control-submit custom-select-2 full-width" }}
+                              {% if form.state.errors %}
+                              <div class="text-danger">
+                                {{ form.state.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -215,14 +194,12 @@
                               <label class="text-light-black fw-700"
                                 >City</label
                               >
-                              <select
-                                class="form-control form-control-submit custom-select-2 full-width"
-                              >
-                                <option value="">Select City</option>
-                                <option value="uttar-pradesh">
-                                  Uttar Pradesh
-                                </option>
-                              </select>
+                              {{ form.city|add_class:"form-control form-control-submit custom-select-2 full-width" }}
+                              {% if form.city.errors %}
+                              <div class="text-danger">
+                                {{ form.city.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -230,12 +207,12 @@
                               <label class="text-light-black fw-700"
                                 >Latitude</label
                               >
-                              <input
-                                type="text"
-                                name="#"
-                                class="form-control form-control-submit"
-                                value="40.4167754"
-                              />
+                              {{ form.latitude|add_class:"form-control form-control-submit" }}
+                              {% if form.latitude.errors %}
+                              <div class="text-danger">
+                                {{ form.latitude.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -243,12 +220,12 @@
                               <label class="text-light-black fw-700"
                                 >Longitude</label
                               >
-                              <input
-                                type="text"
-                                name="#"
-                                class="form-control form-control-submit"
-                                value="-3.7037901999999576"
-                              />
+                              {{ form.longitude|add_class:"form-control form-control-submit" }}
+                              {% if form.longitude.errors %}
+                              <div class="text-danger">
+                                {{ form.longitude.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                           <div class="col-md-6">

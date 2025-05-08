@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth import login as auth_login
 import rest_framework
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -55,6 +56,7 @@ class LoginAPIView(APIView):
             serializer = LoginSerializer(data=request.data)
             if serializer.is_valid():
                 user = serializer.validated_data['user']
+                auth_login(request, user)  # Ensure the user is logged into the session
                 token, created = Token.objects.get_or_create(user=user)
                 keep_signed_in = serializer.validated_data.get('keep_signed_in', False)
                 if keep_signed_in:
@@ -62,8 +64,10 @@ class LoginAPIView(APIView):
                 else:
                     request.session.set_expiry(0)  # Browser close
                 logger.info(f"User logged in: {user.email}")
+                next_url = request.GET.get('next', '/')  # Get next URL
                 return Response({
                     'token': token.key,
+                    'redirect': next_url,  # Include next URL in response
                     'user': {
                         'email': user.email,
                         'first_name': user.first_name,

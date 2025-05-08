@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "blog",
     'rest_framework',
     'rest_framework.authtoken',
+    'widget_tweaks',
 ]
 
 AUTH_USER_MODEL = 'core.User'
@@ -149,6 +150,12 @@ STATICFILES_DIRS = [
 ]
 
 RATLIMT_STORAGE_URL = 'memory://'  # In-memory for development (use redis:// for production)
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# settings.py
+LOGIN_URL = '/accounts/login'  # No trailing slash
+LOGIN_REDIRECT_URL = '/'  # Where to redirect after login
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
