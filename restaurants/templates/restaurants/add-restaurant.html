@@ -1,8 +1,5 @@
-{% extends 'base.html' %} {% load static %}
-{% load widget_tweaks %}
-{% block title %}
-Munchbox | Add
-Restaurant {% endblock title %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% load widget_tweaks %}
+{% block title %} Munchbox | Add Restaurant {% endblock title %} {% block content %}
 
 <div class="main-sec"></div>
 <!-- Navigation -->
@@ -98,7 +95,8 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >Restaurant name <sup class="fs-16">*</sup>
                               </label>
-                              {{ form.name|add_class:"form-control form-control-submit" }} {% if form.name.errors %}
+                              {{ form.name|add_class:"form-control
+                              form-control-submit" }} {% if form.name.errors %}
                               <div class="text-danger">
                                 {{ form.name.errors }}
                               </div>
@@ -110,7 +108,8 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >Restaurant phone</label
                               >
-                              {{ form.phone|add_class:"form-control form-control-submit" }} {% if form.phone.errors %}
+                              {{ form.phone|add_class:"form-control
+                              form-control-submit" }} {% if form.phone.errors %}
                               <div class="text-danger">
                                 {{ form.phone.errors }}
                               </div>
@@ -122,7 +121,9 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >Manager Name</label
                               >
-                              {{ form.manager_name|add_class:"form-control form-control-submit" }} {% if form.manager_name.errors %}
+                              {{ form.manager_name|add_class:"form-control
+                              form-control-submit" }} {% if
+                              form.manager_name.errors %}
                               <div class="text-danger">
                                 {{ form.manager_name.errors }}
                               </div>
@@ -134,7 +135,9 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >Manager Contact phone</label
                               >
-                              {{ form.manager_phone|add_class:"form-control form-control-submit" }} {% if form.manager_phone.errors %}
+                              {{ form.manager_phone|add_class:"form-control
+                              form-control-submit" }} {% if
+                              form.manager_phone.errors %}
                               <div class="text-danger">
                                 {{ form.manager_phone.errors }}
                               </div>
@@ -146,7 +149,9 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >Contact Email</label
                               >
-                              {{ form.contact_email|add_class:"form-control form-control-submit" }} {% if form.contact_email.errors %}
+                              {{ form.contact_email|add_class:"form-control
+                              form-control-submit" }} {% if
+                              form.contact_email.errors %}
                               <div class="text-danger">
                                 {{ form.contact_email.errors }}
                               </div>
@@ -168,7 +173,8 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >Country <sup class="fs-16">*</sup>
                               </label>
-                              {{ form.country|add_class:"form-control form-control-submit custom-select-2 full-width" }}
+                              {{ form.country|add_class:"form-control
+                              form-control-submit custom-select-2 full-width" }}
                               {% if form.country.errors %}
                               <div class="text-danger">
                                 {{ form.country.errors }}
@@ -181,7 +187,8 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >State</label
                               >
-                              {{ form.state|add_class:"form-control form-control-submit custom-select-2 full-width" }}
+                              {{ form.state|add_class:"form-control
+                              form-control-submit custom-select-2 full-width" }}
                               {% if form.state.errors %}
                               <div class="text-danger">
                                 {{ form.state.errors }}
@@ -194,7 +201,8 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >City</label
                               >
-                              {{ form.city|add_class:"form-control form-control-submit custom-select-2 full-width" }}
+                              {{ form.city|add_class:"form-control
+                              form-control-submit custom-select-2 full-width" }}
                               {% if form.city.errors %}
                               <div class="text-danger">
                                 {{ form.city.errors }}
@@ -207,8 +215,9 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >Latitude</label
                               >
-                              {{ form.latitude|add_class:"form-control form-control-submit" }}
-                              {% if form.latitude.errors %}
+                              {{ form.latitude|add_class:"form-control
+                              form-control-submit" }} {% if form.latitude.errors
+                              %}
                               <div class="text-danger">
                                 {{ form.latitude.errors }}
                               </div>
@@ -220,8 +229,9 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >Longitude</label
                               >
-                              {{ form.longitude|add_class:"form-control form-control-submit" }}
-                              {% if form.longitude.errors %}
+                              {{ form.longitude|add_class:"form-control
+                              form-control-submit" }} {% if
+                              form.longitude.errors %}
                               <div class="text-danger">
                                 {{ form.longitude.errors }}
                               </div>
@@ -274,27 +284,41 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >Delivery/Pickup</label
                               >
-                              <select
-                                class="form-control form-control-submit custom-select-2 full-width"
-                              >
-                                <option value="delivery">Delivery</option>
-                                <option value="pickup">Pickup</option>
-                                <option value="delivery_and_pickup">
-                                  Delivery &amp; Pickup
-                                </option>
-                              </select>
+                              {{ form.delivery_type|add_class:"form-control
+                              form-control-submit custom-select-2 full-width" }}
+                              {% if form.delivery_type.errors %}
+                              <div class="text-danger">
+                                {{ form.delivery_type.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Cuisines <sub>*</sub>
+                              <label class="text-light-black fw-700">
+                                Cuisines <sub>*</sub>
                               </label>
-                              <input
-                                type="text"
-                                class="form-control form-control-submit"
-                                placeholder="Cuisines"
-                              />
+                              {% if form.cuisines.field.queryset.exists %} {{
+                              form.cuisines }}
+                              <small class="text-muted"
+                                >{{ form.cuisines.help_text }}</small
+                              >
+                              {% if form.cuisines.errors %}
+                              <div class="text-danger">
+                                {{ form.cuisines.errors }}
+                              </div>
+                              {% endif %} {% else %}
+                              <select class="form-control" disabled>
+                                <option>
+                                  No cuisines available. Please add cuisines in
+                                  the admin panel.
+                                </option>
+                              </select>
+                              <p class="text-muted">
+                                Note: Add cuisines via the admin panel to enable
+                                selection.
+                              </p>
+                              {% endif %}
                             </div>
                           </div>
                         </div>
@@ -314,11 +338,13 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >Username</label
                               >
-                              <input
-                                type="text"
-                                class="form-control form-control-submit"
-                                placeholder="Username"
-                              />
+                              {{ form.username|add_class:"form-control
+                              form-control-submit" }} {% if form.username.errors
+                              %}
+                              <div class="text-danger">
+                                {{ form.username.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -326,11 +352,13 @@ Restaurant {% endblock title %} {% block content %}
                               <label class="text-light-black fw-700"
                                 >Email</label
                               >
-                              <input
-                                type="email"
-                                class="form-control form-control-submit"
-                                placeholder="Email I'D"
-                              />
+                              {{ form.user_email|add_class:"form-control
+                              form-control-submit" }} {% if
+                              form.user_email.errors %}
+                              <div class="text-danger">
+                                {{ form.user_email.errors }}
+                              </div>
+                              {% endif %}
                             </div>
                           </div>
                         </div>
