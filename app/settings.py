@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'rest_framework',
+    'rest_framework.authtoken',
     "app",
     "core",
     "home",
@@ -44,8 +46,6 @@ INSTALLED_APPS = [
     "restaurants",
     "checkouts",
     "blog",
-    'rest_framework',
-    'rest_framework.authtoken',
     'widget_tweaks',
 ]
 

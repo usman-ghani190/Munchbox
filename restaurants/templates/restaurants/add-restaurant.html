@@ -1,8 +1,11 @@
-{% extends 'base.html' %} {% load static %} {% load widget_tweaks %}
-{% block title %} Munchbox | Add Restaurant {% endblock title %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
 
+{% block title %}Munchbox | Add Restaurant{% endblock title %}
+
+{% block content %}
 <div class="main-sec"></div>
-<!-- Navigation -->
 <section class="register-restaurent-sec section-padding bg-light-theme">
   <div class="container-fluid">
     <div class="row">
@@ -13,149 +16,71 @@
               <div class="col-xl-4 col-lg-5 mb-md-40">
                 <ul class="step-steps steps-1">
                   <li class="stepbtn active" id="step1">
-                    <a href="#">
-                      <span class="number"></span>
-                      <span class="step-name">General Info</span>
-                    </a>
+                    <a href="#"><span class="number">1</span><span class="step-name">General Info</span></a>
                   </li>
                   <li class="stepbtn" id="step2">
-                    <a href="#">
-                      <span class="number"></span>
-                      <span class="step-name">Select Package</span>
-                    </a>
+                    <a href="#"><span class="number">2</span><span class="step-name">Select Package</span></a>
                   </li>
                   <li class="stepbtn" id="step3">
-                    <a href="#">
-                      <span class="number"></span>
-                      <span class="step-name">Payment</span>
-                    </a>
+                    <a href="#"><span class="number">3</span><span class="step-name">Payment Method</span></a>
                   </li>
                   <li class="stepbtn" id="step4">
-                    <a href="#">
-                      <span class="number"></span>
-                      <span class="step-name">Save & Preview</span>
-                    </a>
-                  </li>
-                </ul>
-                <ul class="step-steps steps-2">
-                  <li class="add-res-tab active" id="stepbtn1">
-                    <a href="#" class="add-res-tab">General Info</a>
-                  </li>
-                  <li class="add-res-tab" id="stepbtn2">
-                    <a href="#" class="add-res-tab">Select Package</a>
-                  </li>
-                  <li class="add-res-tab" id="stepbtn3">
-                    <a href="#" class="add-res-tab">Payment</a>
-                  </li>
-                  <li class="add-res-tab" id="stepbtn4">
-                    <a href="#" class="add-res-tab">Save & Preview</a>
+                    <a href="#"><span class="number">4</span><span class="step-name">Preview</span></a>
                   </li>
                 </ul>
                 <div class="step-footer">
-                  <button class="btn-first white-btn none" id="prev-1">
-                    Previous
-                  </button>
-                  <button class="btn-first white-btn none" id="prev-2">
-                    Previous
-                  </button>
-                  <button class="btn-first white-btn none" id="prev-3">
-                    Previous
-                  </button>
+                  <button class="btn-first white-btn none" id="prev-1">Previous</button>
+                  <button class="btn-first white-btn none" id="prev-2">Previous</button>
+                  <button class="btn-first white-btn none" id="prev-3">Previous</button>
                   <button class="btn-first white-btn" id="next-1">Next</button>
-                  <button class="btn-first white-btn none" id="next-2">
-                    Next
-                  </button>
-                  <button class="btn-first white-btn none" id="next-3">
-                    Next
-                  </button>
-                  <button class="btn-first white-btn none" id="finish-1">
-                    Finish
-                  </button>
+                  <button class="btn-first white-btn none" id="next-2">Next</button>
+                  <button class="btn-first white-btn none" id="next-3">Next</button>
+                  <button class="btn-first white-btn none" id="finish-1">Finish</button>
                 </div>
               </div>
               <div class="col-xl-8 col-lg-7">
                 <div class="step-content">
                   <div class="step-tab-panel active" id="steppanel1">
                     <div class="general-sec">
-                      <form
-                        method="post"
-                        action="{% url 'add_restaurant' %}"
-                        enctype="multipart/form-data"
-                      >
+                      <form id="step1-form">
                         {% csrf_token %}
-
                         <div class="row">
                           <div class="col-12">
-                            <h5 class="text-light-black fw-700">
-                              General Information
-                            </h5>
+                            <h5 class="text-light-black fw-700">General Information</h5>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Restaurant name <sup class="fs-16">*</sup>
-                              </label>
-                              {{ form.name|add_class:"form-control
-                              form-control-submit" }} {% if form.name.errors %}
-                              <div class="text-danger">
-                                {{ form.name.errors }}
-                              </div>
-                              {% endif %}
+                              <label class="text-light-black fw-700">Restaurant name <sup class="fs-16">*</sup></label>
+                              <input type="text" name="name" class="form-control form-control-submit" required>
+                              <div class="text-danger" id="name-error"></div>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Restaurant phone</label
-                              >
-                              {{ form.phone|add_class:"form-control
-                              form-control-submit" }} {% if form.phone.errors %}
-                              <div class="text-danger">
-                                {{ form.phone.errors }}
-                              </div>
-                              {% endif %}
+                              <label class="text-light-black fw-700">Restaurant phone</label>
+                              <input type="text" name="phone" class="form-control form-control-submit">
+                              <div class="text-danger" id="phone-error"></div>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Manager Name</label
-                              >
-                              {{ form.manager_name|add_class:"form-control
-                              form-control-submit" }} {% if
-                              form.manager_name.errors %}
-                              <div class="text-danger">
-                                {{ form.manager_name.errors }}
-                              </div>
-                              {% endif %}
+                              <label class="text-light-black fw-700">Manager Name</label>
+                              <input type="text" name="manager_name" class="form-control form-control-submit">
+                              <div class="text-danger" id="manager_name-error"></div>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Manager Contact phone</label
-                              >
-                              {{ form.manager_phone|add_class:"form-control
-                              form-control-submit" }} {% if
-                              form.manager_phone.errors %}
-                              <div class="text-danger">
-                                {{ form.manager_phone.errors }}
-                              </div>
-                              {% endif %}
+                              <label class="text-light-black fw-700">Manager Contact phone</label>
+                              <input type="text" name="manager_phone" class="form-control form-control-submit">
+                              <div class="text-danger" id="manager_phone-error"></div>
                             </div>
                           </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Contact Email</label
-                              >
-                              {{ form.contact_email|add_class:"form-control
-                              form-control-submit" }} {% if
-                              form.contact_email.errors %}
-                              <div class="text-danger">
-                                {{ form.contact_email.errors }}
-                              </div>
-                              {% endif %}
+                              <label class="text-light-black fw-700">Contact Email <sup class="fs-16">*</sup></label>
+                              <input type="email" name="contact_email" class="form-control form-control-submit" required>
+                              <div class="text-danger" id="contact_email-error"></div>
                             </div>
                           </div>
                         </div>
@@ -168,108 +93,51 @@
                           <div class="col-12">
                             <h5 class="text-light-black fw-700">Location</h5>
                           </div>
-                          <div class="col-12">
+                          <div class="col-md-6">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Country <sup class="fs-16">*</sup>
-                              </label>
-                              {{ form.country|add_class:"form-control
-                              form-control-submit custom-select-2 full-width" }}
-                              {% if form.country.errors %}
-                              <div class="text-danger">
-                                {{ form.country.errors }}
-                              </div>
-                              {% endif %}
+                              <label class="text-light-black fw-700">Country <sup class="fs-16">*</sup></label>
+                              <input type="text" name="country" class="form-control form-control-submit" required>
+                              <div class="text-danger" id="country-error"></div>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >State</label
-                              >
-                              {{ form.state|add_class:"form-control
-                              form-control-submit custom-select-2 full-width" }}
-                              {% if form.state.errors %}
-                              <div class="text-danger">
-                                {{ form.state.errors }}
-                              </div>
-                              {% endif %}
+                              <label class="text-light-black fw-700">State</label>
+                              <input type="text" name="state" class="form-control form-control-submit">
+                              <div class="text-danger" id="state-error"></div>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >City</label
-                              >
-                              {{ form.city|add_class:"form-control
-                              form-control-submit custom-select-2 full-width" }}
-                              {% if form.city.errors %}
-                              <div class="text-danger">
-                                {{ form.city.errors }}
-                              </div>
-                              {% endif %}
+                              <label class="text-light-black fw-700">City</label>
+                              <input type="text" name="city" class="form-control form-control-submit">
+                              <div class="text-danger" id="city-error"></div>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Latitude</label
-                              >
-                              {{ form.latitude|add_class:"form-control
-                              form-control-submit" }} {% if form.latitude.errors
-                              %}
-                              <div class="text-danger">
-                                {{ form.latitude.errors }}
-                              </div>
-                              {% endif %}
+                              <label class="text-light-black fw-700">Latitude</label>
+                              <input type="number" name="latitude" class="form-control form-control-submit" step="0.0001">
+                              <div class="text-danger" id="latitude-error"></div>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Longitude</label
-                              >
-                              {{ form.longitude|add_class:"form-control
-                              form-control-submit" }} {% if
-                              form.longitude.errors %}
-                              <div class="text-danger">
-                                {{ form.longitude.errors }}
-                              </div>
-                              {% endif %}
+                              <label class="text-light-black fw-700">Longitude</label>
+                              <input type="number" name="longitude" class="form-control form-control-submit" step="0.0001">
+                              <div class="text-danger" id="longitude-error"></div>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Find On Map</label
-                              >
-                              <input
-                                type="text"
-                                name="#"
-                                class="form-control form-control-submit"
-                                placeholder="Type Your Address"
-                              />
+                              <label class="text-light-black fw-700">Address</label>
+                              <input type="text" name="address" class="form-control form-control-submit" placeholder="Type Your Address">
+                              <div class="text-danger" id="address-error"></div>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <div class="form-group"></div>
-                              <button
-                                type="submit"
-                                class="btn-second btn-submit"
-                              >
-                                Search Location
-                              </button>
-                            </div>
-                          </div>
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <iframe
-                                id="locmap"
-                                class="w-100"
-                                height="300"
-                                src="https://maps.google.com/maps?q=university%20of%20san%20francisco&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
-                              ></iframe>
+                              <button type="button" class="btn-second btn-submit">Search Location</button>
                             </div>
                           </div>
                         </div>
@@ -281,44 +149,32 @@
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Delivery/Pickup</label
-                              >
-                              {{ form.delivery_type|add_class:"form-control
-                              form-control-submit custom-select-2 full-width" }}
-                              {% if form.delivery_type.errors %}
-                              <div class="text-danger">
-                                {{ form.delivery_type.errors }}
+                              <label class="text-light-black fw-700">Delivery/Pickup</label>
+                              <div>
+                                <label class="custom-radio mr-3">
+                                  <input type="radio" name="delivery_type" value="delivery"> Delivery
+                                </label>
+                                <label class="custom-radio mr-3">
+                                  <input type="radio" name="delivery_type" value="pickup"> Pickup
+                                </label>
+                                <label class="custom-radio">
+                                  <input type="radio" name="delivery_type" value="delivery_and_pickup" checked> Delivery & Pickup
+                                </label>
                               </div>
-                              {% endif %}
+                              <div class="text-danger" id="delivery_type-error"></div>
                             </div>
                           </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label class="text-light-black fw-700">
-                                Cuisines <sub>*</sub>
-                              </label>
-                              {% if form.cuisines.field.queryset.exists %} {{
-                              form.cuisines }}
-                              <small class="text-muted"
-                                >{{ form.cuisines.help_text }}</small
-                              >
-                              {% if form.cuisines.errors %}
-                              <div class="text-danger">
-                                {{ form.cuisines.errors }}
+                              <label class="text-light-black fw-700">Cuisines <sup class="fs-16">*</sup></label>
+                              <div>
+                                {% for cuisine in cuisines %}
+                                  <label class="custom-checkbox mr-3">
+                                    <input type="checkbox" name="cuisines" value="{{ cuisine.id }}"> {{ cuisine.name }}
+                                  </label>
+                                {% endfor %}
                               </div>
-                              {% endif %} {% else %}
-                              <select class="form-control" disabled>
-                                <option>
-                                  No cuisines available. Please add cuisines in
-                                  the admin panel.
-                                </option>
-                              </select>
-                              <p class="text-muted">
-                                Note: Add cuisines via the admin panel to enable
-                                selection.
-                              </p>
-                              {% endif %}
+                              <div class="text-danger" id="cuisines-error"></div>
                             </div>
                           </div>
                         </div>
@@ -329,54 +185,16 @@
                         </div>
                         <div class="row">
                           <div class="col-12">
-                            <h5 class="text-light-black fw-700">
-                              Account Information
-                            </h5>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Username</label
-                              >
-                              {{ form.username|add_class:"form-control
-                              form-control-submit" }} {% if form.username.errors
-                              %}
-                              <div class="text-danger">
-                                {{ form.username.errors }}
-                              </div>
-                              {% endif %}
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label class="text-light-black fw-700"
-                                >Email</label
-                              >
-                              {{ form.user_email|add_class:"form-control
-                              form-control-submit" }} {% if
-                              form.user_email.errors %}
-                              <div class="text-danger">
-                                {{ form.user_email.errors }}
-                              </div>
-                              {% endif %}
-                            </div>
+                            <label class="custom-checkbox text-light-black fw-700">
+                              <input type="checkbox" name="accept_terms" required>
+                              <span class="checkmark"></span> By Registering You Confirm That You Accept The Terms & Conditions And Privacy Policy
+                            </label>
+                            <div class="text-danger" id="accept_terms-error"></div>
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-12">
-                            <div class="u-line mb-xl-20"></div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-12">
-                            <label
-                              class="custom-checkbox text-light-black fw-700"
-                            >
-                              <input type="checkbox" name="#" />
-                              <span class="checkmark"></span>By Registering You
-                              Confirm That You Accept The Terms & Conditions And
-                              Privacy Policy</label
-                            >
+                          <div class="col-12 mt-3">
+                            <button type="button" class="btn-first white-btn full-width" id="next-to-package">Next</button>
                           </div>
                         </div>
                       </form>
@@ -384,888 +202,28 @@
                   </div>
                   <div class="step-tab-panel" id="steppanel2">
                     <div class="package-sec">
-                      <div class="row">
-                        <div class="col-xl-6 col-lg-12 col-md-6">
-                          <div class="package-box main-box mb-lg-20">
-                            <div class="package-img">
-                              <a href="#">
-                                <img
-                                  src="{% static 'app/assets/img/package/package-1.jpg' %}"
-                                  class="img-fluid full-width"
-                                  alt="package image"
-                                />
-                              </a>
-                            </div>
-                            <div class="package-caption padding-20 bg-black">
-                              <div class="package-item-first">
-                                <div class="pack-type fs-18 text-custom-white">
-                                  Silver Package
-                                </div>
-                                <div class="pack-type fs-18 text-light-green">
-                                  $ 18
-                                </div>
-                              </div>
-                              <ul>
-                                <li class="text-custom-white">
-                                  <span>10 days</span>
-                                </li>
-                                <li class="text-custom-white">
-                                  <span>1 dip free (with every meal)</span>
-                                </li>
-                                <li class="text-custom-white">
-                                  <span>1 Soft drinks</span>
-                                </li>
-                                <li class="text-custom-white">
-                                  <span>Unlimited order</span>
-                                </li>
-                                <li class="text-custom-white">
-                                  <span>Free delivery</span>
-                                </li>
-                              </ul>
-                              <div class="package-btn">
-                                <a
-                                  href="#"
-                                  class="btn-second btn-submit full-width"
-                                  >Choose Plan</a
-                                >
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-xl-6 col-lg-12 col-md-6">
-                          <div class="package-box main-box">
-                            <div class="package-img">
-                              <a href="#">
-                                <img
-                                  src="{% static 'app/assets/img/package/package-2.jpg' %}"
-                                  class="img-fluid full-width"
-                                  alt="package image"
-                                />
-                              </a>
-                            </div>
-                            <div class="package-caption padding-20 bg-black">
-                              <div class="package-item-first">
-                                <div class="pack-type fs-18 text-custom-white">
-                                  Gold Package
-                                </div>
-                                <div class="pack-type fs-18 text-light-green">
-                                  $ 35
-                                </div>
-                              </div>
-                              <ul>
-                                <li class="text-custom-white">
-                                  <span>20 days</span>
-                                </li>
-                                <li class="text-custom-white">
-                                  <span>2 dip free (with every meal)</span>
-                                </li>
-                                <li class="text-custom-white">
-                                  <span>3 Soft drinks</span>
-                                </li>
-                                <li class="text-custom-white">
-                                  <span>Unlimited order</span>
-                                </li>
-                                <li class="text-custom-white">
-                                  <span>Free delivery</span>
-                                </li>
-                              </ul>
-                              <div class="package-btn">
-                                <a
-                                  href="#"
-                                  class="btn-second btn-submit full-width"
-                                  >Choose Plan</a
-                                >
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                      <div class="row" id="package-list">
+                        <!-- Populated by AJAX -->
                       </div>
                     </div>
                   </div>
                   <div class="step-tab-panel" id="steppanel3">
                     <div class="payment-sec">
                       <div class="section-header-left">
-                        <h3 class="text-light-black header-title">
-                          Payment information
-                        </h3>
+                        <h3 class="text-light-black header-title">Payment Information</h3>
                       </div>
-                      <div class="row">
-                        <div class="col-12">
-                          <div id="accordion">
-                            <div class="card">
-                              <div class="card-header">
-                                <a
-                                  class="collapsed card-link fw-500 fs-14"
-                                  data-toggle="collapse"
-                                  href="#collapseOne"
-                                >
-                                  Pay with a Gift Card
-                                </a>
-                              </div>
-                              <div
-                                id="collapseOne"
-                                class="collapse"
-                                data-parent="#accordion"
-                              >
-                                <div
-                                  class="card-body no-padding payment-option-tab"
-                                >
-                                  <div class="form-group">
-                                    <div
-                                      class="credit-card gift-card p-relative"
-                                    >
-                                      <input
-                                        type="text"
-                                        name="#"
-                                        class="form-control-submit fs-16"
-                                        value="AC2B76"
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="card">
-                              <div class="card-header">
-                                <a
-                                  class="collapsed card-link fw-500 fs-14"
-                                  data-toggle="collapse"
-                                  href="#collapseTwo"
-                                >
-                                  Add a promo code
-                                </a>
-                              </div>
-                              <div
-                                id="collapseTwo"
-                                class="collapse"
-                                data-parent="#accordion"
-                              >
-                                <div
-                                  class="card-body no-padding payment-option-tab"
-                                >
-                                  <div class="form-group">
-                                    <div
-                                      class="credit-card promocode p-relative input-group"
-                                    >
-                                      <input
-                                        type="text"
-                                        name="#"
-                                        class="form-control-submit fs-16"
-                                        placeholder="AC2B76"
-                                      />
-                                      <button
-                                        type="submit"
-                                        class="btn-second btn-submit ml-1"
-                                      >
-                                        Apply
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="payment-option-tab">
-                              <ul class="nav nav-tabs">
-                                <li class="nav-item">
-                                  <a
-                                    class="nav-link fw-600 active"
-                                    data-toggle="tab"
-                                    href="#savecreditcard"
-                                    >Saved credit card</a
-                                  >
-                                </li>
-                                <li class="nav-item">
-                                  <a
-                                    class="nav-link fw-600"
-                                    data-toggle="tab"
-                                    href="#newcreditcard"
-                                    >New credit card</a
-                                  >
-                                </li>
-                                <li class="nav-item">
-                                  <a
-                                    class="nav-link fw-600"
-                                    data-toggle="tab"
-                                    href="#cash"
-                                    >Cash</a
-                                  >
-                                </li>
-                                <li class="nav-item">
-                                  <a
-                                    class="nav-link fw-600"
-                                    data-toggle="tab"
-                                    href="#paypal"
-                                    >PayPal<sup>TM</sup></a
-                                  >
-                                </li>
-                                <li class="nav-item">
-                                  <a
-                                    class="nav-link fw-600"
-                                    data-toggle="tab"
-                                    href="#amexcheckout"
-                                    >Amex Express Checkout</a
-                                  >
-                                </li>
-                              </ul>
-                              <div class="tab-content">
-                                <div
-                                  class="tab-pane active"
-                                  id="savecreditcard"
-                                >
-                                  <div class="form-group">
-                                    <div class="credit-card p-relative">
-                                      <input
-                                        type="text"
-                                        name="#"
-                                        class="form-control form-control-submit"
-                                        value="VISA....1877,exp 12/21"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div class="section-header-left">
-                                    <h3 class="text-light-black header-title">
-                                      Donate the change
-                                    </h3>
-                                  </div>
-                                  <div class="form-group">
-                                    <label class="custom-checkbox">
-                                      <input type="checkbox" name="#" />
-                                      <span class="checkmark"></span> Donate
-                                      $0.77 to No kid Hungry. By checking this
-                                      box you agree to the Donate the Change
-                                      <a href="#">Terms of use</a>
-                                      <span class="ml-2"
-                                        ><a href="#">Learn More</a></span
-                                      >
-                                    </label>
-                                  </div>
-                                  <div class="form-group">
-                                    <button
-                                      type="submit"
-                                      class="btn-first green-btn text-custom-white full-width fw-500"
-                                    >
-                                      Place Your Order
-                                    </button>
-                                  </div>
-                                  <p
-                                    class="text-center text-light-black no-margin"
-                                  >
-                                    By placing your order, you agree to
-                                    Munchbox's <a href="#">terms of use</a> and
-                                    <a href="#">privacy agreement</a>
-                                  </p>
-                                </div>
-                                <div class="tab-pane fade" id="newcreditcard">
-                                  <div class="row">
-                                    <div
-                                      class="col-xl-4 col-lg-6 col-md-4 col-sm-6"
-                                    >
-                                      <div class="form-group">
-                                        <label class="text-light-white fw-700"
-                                          >Card Number</label
-                                        >
-                                        <div
-                                          class="credit-card card-front p-relative"
-                                        >
-                                          <input
-                                            type="text"
-                                            name="#"
-                                            class="form-control form-control-submit"
-                                            placeholder="1234 5678 9101 1234"
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div
-                                      class="col-xl-2 col-lg-6 col-md-2 col-sm-6"
-                                    >
-                                      <div class="form-group">
-                                        <label class="text-light-white fw-700"
-                                          >Expires on</label
-                                        >
-                                        <input
-                                          type="text"
-                                          name="#"
-                                          class="form-control form-control-submit"
-                                          placeholder="12/21"
-                                        />
-                                      </div>
-                                    </div>
-                                    <div
-                                      class="col-xl-3 col-lg-6 col-md-3 col-sm-6"
-                                    >
-                                      <div class="form-group">
-                                        <label class="text-light-white fw-700"
-                                          >Security Code</label
-                                        >
-                                        <div
-                                          class="credit-card card-back p-relative"
-                                        >
-                                          <input
-                                            type="text"
-                                            name="#"
-                                            class="form-control form-control-submit"
-                                            placeholder="123"
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div
-                                      class="col-xl-3 col-lg-6 col-md-3 col-sm-6"
-                                    >
-                                      <div class="form-group">
-                                        <label class="text-light-white fw-700"
-                                          >ZIP Code</label
-                                        >
-                                        <input
-                                          type="text"
-                                          name="#"
-                                          class="form-control form-control-submit"
-                                          placeholder="123456"
-                                        />
-                                      </div>
-                                    </div>
-                                    <div class="col-12">
-                                      <div class="form-group">
-                                        <label class="custom-checkbox">
-                                          <input type="checkbox" name="#" />
-                                          <span class="checkmark"></span> Save
-                                          Credit card</label
-                                        >
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="section-header-left">
-                                    <h3 class="text-light-black header-title">
-                                      Donate the change
-                                    </h3>
-                                  </div>
-                                  <div class="form-group">
-                                    <label class="custom-checkbox">
-                                      <input type="checkbox" name="#" />
-                                      <span class="checkmark"></span> Donate
-                                      $0.77 to No kid Hungry. By checking this
-                                      box you agree to the Donate the Change
-                                      <a href="#">Terms of use</a>
-                                      <span class="ml-2"
-                                        ><a href="#">Learn More</a></span
-                                      >
-                                    </label>
-                                  </div>
-                                  <div class="form-group">
-                                    <button
-                                      type="submit"
-                                      class="btn-first green-btn text-custom-white full-width fw-500"
-                                    >
-                                      Place Your Order
-                                    </button>
-                                  </div>
-                                  <p
-                                    class="text-center text-light-black no-margin"
-                                  >
-                                    By placing your order, you agree to
-                                    Munchbox's <a href="#">terms of use</a> and
-                                    <a href="#">privacy agreement</a>
-                                  </p>
-                                </div>
-                                <div class="tab-pane fade" id="cash">
-                                  <p class="text-light-black">
-                                    Have the cash ready when you receive your
-                                    order.
-                                  </p>
-                                  <div class="section-header-left">
-                                    <h3 class="text-light-black header-title">
-                                      Donate the change
-                                    </h3>
-                                  </div>
-                                  <div class="form-group">
-                                    <label class="custom-checkbox">
-                                      <input type="checkbox" name="#" />
-                                      <span class="checkmark"></span> Apologies,
-                                      but you can't donate with the selected
-                                      payment type</label
-                                    >
-                                  </div>
-                                  <div class="form-group">
-                                    <button
-                                      type="submit"
-                                      class="btn-first green-btn text-custom-white full-width fw-500"
-                                    >
-                                      Place Your Order
-                                    </button>
-                                  </div>
-                                  <p
-                                    class="text-center text-light-black no-margin"
-                                  >
-                                    By placing your order, you agree to
-                                    Munchbox's <a href="#">terms of use</a> and
-                                    <a href="#">privacy agreement</a>
-                                  </p>
-                                </div>
-                                <div class="tab-pane fade" id="paypal">
-                                  <p class="text-light-black">
-                                    Please review your order and make any
-                                    necessary changes before checking out with
-                                    PayPal.
-                                  </p>
-                                  <div class="section-header-left">
-                                    <h3 class="text-light-black header-title">
-                                      Donate the change
-                                    </h3>
-                                  </div>
-                                  <div class="form-group">
-                                    <label class="custom-checkbox">
-                                      <input type="checkbox" name="#" />
-                                      <span class="checkmark"></span> Donate
-                                      $0.77 to No kid Hungry. By checking this
-                                      box you agree to the Donate the Change
-                                      <a href="#">Terms of use</a>
-                                      <span class="ml-2"
-                                        ><a href="#">Learn More</a></span
-                                      >
-                                    </label>
-                                  </div>
-                                  <div class="form-group">
-                                    <button
-                                      type="submit"
-                                      class="btn-first paypal-btn text-custom-white full-width fw-500"
-                                    >
-                                      Checkout with
-                                      <img
-                                        src="{% static 'app/assets/img/pay-pal.png' %}"
-                                        alt="image"
-                                      />
-                                    </button>
-                                  </div>
-                                  <p
-                                    class="text-center text-light-black no-margin"
-                                  >
-                                    By placing your order, you agree to
-                                    Munchbox's <a href="#">terms of use</a> and
-                                    <a href="#">privacy agreement</a>
-                                  </p>
-                                </div>
-                                <div class="tab-pane fade" id="amexcheckout">
-                                  <div class="card">
-                                    <div class="card-header">
-                                      <a
-                                        class="card-link fw-500 fs-14"
-                                        data-toggle="collapse"
-                                        href="#saveamex"
-                                      >
-                                        Saved Card
-                                      </a>
-                                    </div>
-                                    <div
-                                      id="saveamex"
-                                      class="collapse show"
-                                      data-parent="#accordion"
-                                    >
-                                      <div
-                                        class="card-body no-padding payment-option-tab"
-                                      >
-                                        <div class="form-group">
-                                          <div
-                                            class="credit-card amex-card-front p-relative"
-                                          >
-                                            <input
-                                              type="text"
-                                              name="#"
-                                              class="form-control form-control-submit"
-                                              value="VISA....1877,exp 12/21"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="card">
-                                    <div class="card-header">
-                                      <a
-                                        class="collapsed card-link fw-500 fs-14"
-                                        data-toggle="collapse"
-                                        href="#newcardamex"
-                                      >
-                                        Add New Card
-                                      </a>
-                                    </div>
-                                    <div
-                                      id="newcardamex"
-                                      class="collapse"
-                                      data-parent="#accordion"
-                                    >
-                                      <div
-                                        class="card-body no-padding payment-option-tab"
-                                      >
-                                        <div class="row">
-                                          <div
-                                            class="col-xl-4 col-lg-6 col-md-4 col-sm-6"
-                                          >
-                                            <div class="form-group">
-                                              <label
-                                                class="text-light-white fw-700"
-                                                >Card Number</label
-                                              >
-                                              <div
-                                                class="credit-card amex-card-front p-relative"
-                                              >
-                                                <input
-                                                  type="text"
-                                                  name="#"
-                                                  class="form-control form-control-submit"
-                                                  placeholder="1234 5678 9101 1234"
-                                                />
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div
-                                            class="col-xl-2 col-lg-6 col-md-2 col-sm-6"
-                                          >
-                                            <div class="form-group">
-                                              <label
-                                                class="text-light-white fw-700"
-                                                >Expires on</label
-                                              >
-                                              <input
-                                                type="text"
-                                                name="#"
-                                                class="form-control form-control-submit"
-                                                placeholder="12/21"
-                                              />
-                                            </div>
-                                          </div>
-                                          <div
-                                            class="col-xl-3 col-lg-6 col-md-3 col-sm-6"
-                                          >
-                                            <div class="form-group">
-                                              <label
-                                                class="text-light-white fw-700"
-                                                >Security Code</label
-                                              >
-                                              <div
-                                                class="credit-card amex-card-back p-relative"
-                                              >
-                                                <input
-                                                  type="text"
-                                                  name="#"
-                                                  class="form-control form-control-submit"
-                                                  placeholder="123"
-                                                />
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div
-                                            class="col-xl-3 col-lg-6 col-md-3 col-sm-6"
-                                          >
-                                            <div class="form-group">
-                                              <label
-                                                class="text-light-white fw-700"
-                                                >ZIP Code</label
-                                              >
-                                              <input
-                                                type="text"
-                                                name="#"
-                                                class="form-control form-control-submit"
-                                                placeholder="123456"
-                                              />
-                                            </div>
-                                          </div>
-                                          <div class="col-12">
-                                            <div class="form-group">
-                                              <label class="custom-checkbox">
-                                                <input
-                                                  type="checkbox"
-                                                  name="#"
-                                                />
-                                                <span class="checkmark"></span>
-                                                Save Credit card</label
-                                              >
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="section-header-left">
-                                    <h3 class="text-light-black header-title">
-                                      Donate the change
-                                    </h3>
-                                  </div>
-                                  <div class="form-group">
-                                    <label class="custom-checkbox">
-                                      <input type="checkbox" name="#" />
-                                      <span class="checkmark"></span> Donate
-                                      $0.77 to No kid Hungry. By checking this
-                                      box you agree to the Donate the Change
-                                      <a href="#">Terms of use</a>
-                                      <span class="ml-2"
-                                        ><a href="#">Learn More</a></span
-                                      >
-                                    </label>
-                                  </div>
-                                  <div class="form-group">
-                                    <button
-                                      type="submit"
-                                      class="btn-first green-btn text-custom-white full-width fw-500"
-                                    >
-                                      Place Your Order
-                                    </button>
-                                  </div>
-                                  <p
-                                    class="text-center text-light-black no-margin"
-                                  >
-                                    By placing your order, you agree to
-                                    Munchbox's <a href="#">terms of use</a> and
-                                    <a href="#">privacy agreement</a>
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                      <div class="row" id="payment-content">
+                        <!-- Populated by AJAX -->
                       </div>
                     </div>
                   </div>
                   <div class="step-tab-panel" id="steppanel4">
                     <div class="thankmsg-sec">
                       <div class="msg-wrapper text-center">
-                        <div class="wrapper-1 bg-black padding-20 mb-xl-20">
-                          <h1 class="text-light-green mb-2">Thank You</h1>
-
-                          <h3 class="text-custom-white">
-                            We are looking forward for next order.
-                          </h3>
-                          <p class="text-custom-white">
-                            You have successfully created your restaurent, to
-                            add more details, go to your email inbox for login
-                            details
-                          </p>
+                        <div class="wrapper-1 bg-black padding-20 mb-xl-20" id="preview-content">
+                          <!-- Populated by AJAX -->
                         </div>
-                        <div class="row text-left">
-                          <div class="col-md-6">
-                            <div class="product-box mb-xl-20">
-                              <div class="product-img">
-                                <a href="{% url 'restaurant' %}">
-                                  <img
-                                    src="{% static 'app/assets/img/package/shop-2.jpg' %}"
-                                    class="img-fluid full-width"
-                                    alt="product-img"
-                                  />
-                                </a>
-                                <div class="overlay">
-                                  <div class="product-tags padding-10">
-                                    <span class="circle-tag">
-                                      <img
-                                        src="{% static 'app/assets/img/svg/013-heart-1.svg' %}"
-                                        alt="tag"
-                                      />
-                                    </span>
-                                    <div class="custom-tag">
-                                      <span
-                                        class="text-custom-white rectangle-tag bg-gradient-red"
-                                      >
-                                        10%
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="product-caption">
-                                <div class="title-box">
-                                  <h6 class="product-title">
-                                    <a
-                                      href="{% url 'restaurant' %}"
-                                      class="text-light-black"
-                                    >
-                                      Great Burger</a
-                                    >
-                                  </h6>
-                                  <div class="tags">
-                                    <span
-                                      class="text-custom-white rectangle-tag bg-yellow"
-                                    >
-                                      3.1
-                                    </span>
-                                  </div>
-                                </div>
-                                <p class="text-light-white">
-                                  American, Fast Food
-                                </p>
-                                <div class="product-details">
-                                  <div class="price-time">
-                                    <span class="text-light-black time"
-                                      >30-40 min</span
-                                    >
-                                    <span class="text-light-white price"
-                                      >$10 min</span
-                                    >
-                                  </div>
-                                  <div class="rating">
-                                    <span>
-                                      <i class="fas fa-star text-yellow"></i>
-                                      <i class="fas fa-star text-yellow"></i>
-                                      <i class="fas fa-star text-yellow"></i>
-                                      <i class="fas fa-star text-yellow"></i>
-                                      <i class="fas fa-star text-yellow"></i>
-                                    </span>
-                                    <span class="text-light-white text-right"
-                                      >4225 ratings</span
-                                    >
-                                  </div>
-                                </div>
-                                <div class="product-footer">
-                                  <span class="text-custom-white square-tag">
-                                    <img
-                                      src="{% static 'app/assets/img/svg/004-leaf.svg' %}"
-                                      alt="tag"
-                                    />
-                                  </span>
-                                  <span class="text-custom-white square-tag">
-                                    <img
-                                      src="{% static 'app/assets/img/svg/006-chili.svg' %}"
-                                      alt="tag"
-                                    />
-                                  </span>
-                                  <span class="text-custom-white square-tag">
-                                    <img
-                                      src="{% static 'app/assets/img/svg/005-chef.svg' %}"
-                                      alt="tag"
-                                    />
-                                  </span>
-                                  <span class="text-custom-white square-tag">
-                                    <img
-                                      src="{% static 'app/assets/img/svg/008-protein.svg' %}"
-                                      alt="tag"
-                                    />
-                                  </span>
-                                  <span class="text-custom-white square-tag">
-                                    <img
-                                      src="{% static 'app/assets/img/svg/009-lemon.svg' %}"
-                                      alt="tag"
-                                    />
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="product-box mb-xl-20">
-                              <div class="product-img">
-                                <a href="{% url 'restaurant' %}">
-                                  <img
-                                    src="{% static 'app/assets/img/package/shop-1.jpg' %}"
-                                    class="img-fluid full-width"
-                                    alt="product-img"
-                                  />
-                                </a>
-                                <div class="overlay">
-                                  <div class="product-tags padding-10">
-                                    <span class="circle-tag">
-                                      <img
-                                        src="{% static 'app/assets/img/svg/013-heart-1.svg' %}"
-                                        alt="tag"
-                                      />
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="product-caption">
-                                <div class="title-box">
-                                  <h6 class="product-title">
-                                    <a
-                                      href="{% url 'restaurant' %}"
-                                      class="text-light-black"
-                                    >
-                                      Flavor Town</a
-                                    >
-                                  </h6>
-                                  <div class="tags">
-                                    <span
-                                      class="text-custom-white rectangle-tag bg-red"
-                                    >
-                                      2.1
-                                    </span>
-                                  </div>
-                                </div>
-                                <p class="text-light-white">
-                                  Breakfast, Lunch &amp; Dinner
-                                </p>
-                                <div class="product-details">
-                                  <div class="price-time">
-                                    <span class="text-light-black time"
-                                      >30-40 min</span
-                                    >
-                                    <span class="text-light-white price"
-                                      >$10 min</span
-                                    >
-                                  </div>
-                                  <div class="rating">
-                                    <span>
-                                      <i class="fas fa-star text-yellow"></i>
-                                      <i class="fas fa-star text-yellow"></i>
-                                      <i class="fas fa-star text-yellow"></i>
-                                      <i class="fas fa-star text-yellow"></i>
-                                      <i class="fas fa-star text-yellow"></i>
-                                    </span>
-                                    <span class="text-light-white text-right"
-                                      >4225 ratings</span
-                                    >
-                                  </div>
-                                </div>
-                                <div class="product-footer">
-                                  <span class="text-custom-white square-tag">
-                                    <img
-                                      src="{% static 'app/assets/img/svg/007-chili-1.svg' %}"
-                                      alt="tag"
-                                    />
-                                  </span>
-                                  <span class="text-custom-white square-tag">
-                                    <img
-                                      src="{% static 'app/assets/img/svg/004-leaf.svg' %}"
-                                      alt="tag"
-                                    />
-                                  </span>
-                                  <span class="text-custom-white square-tag">
-                                    <img
-                                      src="{% static 'app/assets/img/svg/009-lemon.svg' %}"
-                                      alt="tag"
-                                    />
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <p class="text-light-black">
-                          For cancellation or more information Please Contact Us
-                        </p>
-                        <ul class="contact-details">
-                          <li>
-                            <i class="fas fa-phone-alt text-light-black"></i>
-                            <span
-                              ><a href="tel:" class="text-light-black"
-                                >(347) 123456789</a
-                              ></span
-                            >
-                          </li>
-                          <li>
-                            <i class="fas fa-fax text-light-black"></i>
-                            <span
-                              ><a href="tel:" class="text-light-black"
-                                >(347) 123456789</a
-                              ></span
-                            >
-                          </li>
-                          <li>
-                            <i class="far fa-envelope text-light-black"></i>
-                            <span
-                              ><a href="mailto:" class="text-light-black"
-                                >demo@domain.com</a
-                              ></span
-                            >
-                          </li>
-                        </ul>
-                        <button class="btn-first white-btn">Preview</button>
+                        <button class="btn-first white-btn" id="preview-button">Preview</button>
                       </div>
                     </div>
                   </div>
@@ -1280,22 +238,13 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide">
               <div class="large-product-box p-relative pb-0">
-                <img
-                  src="{% static 'app/assets/img/sidebanner-1.jpg' %}"
-                  class="img-fluid full-width"
-                  alt="image"
-                />
+                <img src="{% static 'app/assets/img/sidebanner-1.jpg' %}" class="img-fluid full-width" alt="image">
                 <div class="overlay padding-20">
                   <div class="tag-box">
-                    <span
-                      class="text-custom-white rectangle-tag bg-gradient-red"
-                      >Trending</span
-                    >
+                    <span class="text-custom-white rectangle-tag bg-gradient-red">Trending</span>
                   </div>
                   <div class="content-wrapper">
-                    <h3 class="text-custom-white">
-                      50% Discount on All New Restaurants
-                    </h3>
+                    <h3 class="text-custom-white">50% Discount on All New Restaurants</h3>
                     <a href="#" class="btn-submit btn-second">Get Deals</a>
                   </div>
                 </div>
@@ -1304,22 +253,13 @@
             </div>
             <div class="swiper-slide">
               <div class="large-product-box p-relative pb-0">
-                <img
-                  src="{% static 'app/assets/img/sidebanner-2.jpg' %}"
-                  class="img-fluid full-width"
-                  alt="image"
-                />
+                <img src="{% static 'app/assets/img/sidebanner-2.jpg' %}" class="img-fluid full-width" alt="image">
                 <div class="overlay padding-20">
                   <div class="tag-box">
-                    <span
-                      class="text-custom-white rectangle-tag bg-gradient-red"
-                      >New</span
-                    >
+                    <span class="text-custom-white rectangle-tag bg-gradient-red">New</span>
                   </div>
                   <div class="content-wrapper">
-                    <h3 class="text-custom-white">
-                      50% Discount on All New Restaurants
-                    </h3>
+                    <h3 class="text-custom-white">50% Discount on All New Restaurants</h3>
                     <a href="#" class="btn-submit btn-second">Get Deals</a>
                   </div>
                 </div>
@@ -1328,22 +268,13 @@
             </div>
             <div class="swiper-slide">
               <div class="large-product-box p-relative pb-0">
-                <img
-                  src="{% static 'app/assets/img/sidebanner-3.jpg' %}"
-                  class="img-fluid full-width"
-                  alt="image"
-                />
+                <img src="{% static 'app/assets/img/sidebanner-3.jpg' %}" class="img-fluid full-width" alt="image">
                 <div class="overlay padding-20">
                   <div class="tag-box">
-                    <span
-                      class="text-custom-white rectangle-tag bg-gradient-red"
-                      >Trending</span
-                    >
+                    <span class="text-custom-white rectangle-tag bg-gradient-red">Trending</span>
                   </div>
                   <div class="content-wrapper">
-                    <h3 class="text-custom-white">
-                      50% Discount on All New Restaurants
-                    </h3>
+                    <h3 class="text-custom-white">50% Discount on All New Restaurants</h3>
                     <a href="#" class="btn-submit btn-second">Get Deals</a>
                   </div>
                 </div>
@@ -1352,22 +283,13 @@
             </div>
             <div class="swiper-slide">
               <div class="large-product-box p-relative pb-0">
-                <img
-                  src="{% static 'app/assets/img/sidebanner-2.jpg' %}"
-                  class="img-fluid full-width"
-                  alt="image"
-                />
+                <img src="{% static 'app/assets/img/sidebanner-2.jpg' %}" class="img-fluid full-width" alt="image">
                 <div class="overlay padding-20">
                   <div class="tag-box">
-                    <span
-                      class="text-custom-white rectangle-tag bg-gradient-red"
-                      >New</span
-                    >
+                    <span class="text-custom-white rectangle-tag bg-gradient-red">New</span>
                   </div>
                   <div class="content-wrapper">
-                    <h3 class="text-custom-white">
-                      50% Discount on All New Restaurants
-                    </h3>
+                    <h3 class="text-custom-white">50% Discount on All New Restaurants</h3>
                     <a href="#" class="btn-submit btn-second">Get Deals</a>
                   </div>
                 </div>
@@ -1382,4 +304,177 @@
     </div>
   </div>
 </section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Step 1 to Step 2: Next button with AJAX
+    $('#next-to-package').on('click', function() {
+        var formData = $('#step1-form').serializeArray();
+        var cuisines = $('input[name="cuisines"]:checked').map(function() { return this.value; }).get();
+        formData.push({name: 'cuisines', value: cuisines});
+        $.ajax({
+            url: '{% url "restaurant-step1" %}',
+            type: 'POST',
+            data: formData,
+            headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()},
+            success: function(response) {
+                if (response.next_step === 'select-package') {
+                    $('#step1').addClass('done');
+                    $('#steppanel1').removeClass('active');
+                    $('#steppanel2').addClass('active');
+                    $('#step1').removeClass('active');
+                    $('#step2').addClass('active');
+                    $('#next-1').hide();
+                    $('#prev-1').show();
+                    $('#next-2').show();
+                    $.get('{% url "restaurant-step2" %}', function(data) {
+                        var packagesHtml = '';
+                        data.packages.forEach(function(pkg) {
+                            packagesHtml += `
+                                <div class="col-xl-6 col-lg-12 col-md-6">
+                                    <div class="package-box main-box mb-lg-20">
+                                        <div class="package-img">
+                                            <a href="#"><img src="{% static 'app/assets/img/package/package-1.jpg' %}" class="img-fluid full-width" alt="package image" /></a>
+                                        </div>
+                                        <div class="package-caption padding-20 bg-black">
+                                            <div class="package-item-first">
+                                                <div class="pack-type fs-18 text-custom-white">${pkg.name}</div>
+                                                <div class="pack-type fs-18 text-light-green">$${pkg.price}</div>
+                                            </div>
+                                            <ul>
+                                                <li class="text-custom-white"><span>${pkg.duration_days} days</span></li>
+                                                <li class="text-custom-white"><span>${pkg.description}</span></li>
+                                            </ul>
+                                            <div class="package-btn">
+                                                <button type="button" class="btn-second btn-submit full-width choose-package" data-package-id="${pkg.id}">Choose Plan</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        $('#package-list').html(packagesHtml);
+                    });
+                }
+            },
+            error: function(xhr) {
+                var errors = xhr.responseJSON;
+                if (errors) {
+                    $.each(errors, function(key, value) {
+                        $('#' + key + '-error').text(value[0]);
+                    });
+                } else {
+                    alert('An error occurred. Please try again.');
+                }
+            }
+        });
+    });
+
+    // Step 2 to Step 3: Choose Package
+    $(document).on('click', '.choose-package', function() {
+        var packageId = $(this).data('package-id');
+        $.ajax({
+            url: '{% url "restaurant-step2" %}',
+            type: 'POST',
+            data: { package: packageId },
+            headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()},
+            success: function(response) {
+                if (response.next_step === 'payment') {
+                    $('#step2').addClass('done');
+                    $('#steppanel2').removeClass('active');
+                    $('#steppanel3').addClass('active');
+                    $('#step2').removeClass('active');
+                    $('#step3').addClass('active');
+                    $('#next-2').hide();
+                    $('#prev-2').show();
+                    $('#next-3').show();
+                    $('#payment-content').html(`
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="text-light-black fw-700">Payment Method</label>
+                                <select name="payment_method" class="form-control form-control-submit custom-select-2 full-width">
+                                    <option value="credit_card">Credit Card</option>
+                                    <option value="paypal">PayPal</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="gift_card">Gift Card</option>
+                                    <option value="amex">Amex Express</option>
+                                </select>
+                                <div class="text-danger" id="payment_method-error"></div>
+                            </div>
+                            <button type="button" class="btn-first green-btn text-custom-white full-width fw-500 proceed-to-preview">Proceed to Preview</button>
+                        </div>
+                    `);
+                }
+            },
+            error: function(xhr) {
+                var errors = xhr.responseJSON;
+                if (errors) {
+                    $('#package-error').text(errors.package ? errors.package[0] : 'Please select a package.');
+                }
+            }
+        });
+    });
+
+    // Step 3 to Step 4: Proceed to Preview
+    $(document).on('click', '.proceed-to-preview', function() {
+        var paymentMethod = $('#payment-content select[name="payment_method"]').val();
+        $.ajax({
+            url: '{% url "restaurant-step3" %}',
+            type: 'POST',
+            data: { payment_method: paymentMethod },
+            headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()},
+            success: function(response) {
+                if (response.next_step === 'save-preview') {
+                    $('#step3').addClass('done');
+                    $('#steppanel3').removeClass('active');
+                    $('#steppanel4').addClass('active');
+                    $('#step3').removeClass('active');
+                    $('#step4').addClass('active');
+                    $('#next-3').hide();
+                    $('#prev-3').show();
+                    $('#finish-1').show();
+                    $('#preview-content').html(`
+                        <h1 class="text-light-green mb-2">Thank You</h1>
+                        <h3 class="text-custom-white">We are looking forward for next order.</h3>
+                        <p class="text-custom-white">You have successfully created your restaurant. To add more details, go to your email inbox for login details.</p>
+                    `);
+                }
+            },
+            error: function(xhr) {
+                var errors = xhr.responseJSON;
+                if (errors) {
+                    $('#payment_method-error').text(errors.payment_method ? errors.payment_method[0] : 'Payment step failed.');
+                }
+            }
+        });
+    });
+
+    // Step 4: Preview button
+    $(document).on('click', '#preview-button', function() {
+        var allData = $('#step1-form').serializeArray();
+        var cuisines = $('input[name="cuisines"]:checked').map(function() { return this.value; }).get();
+        allData.push({name: 'cuisines', value: cuisines});
+        $.ajax({
+            url: '{% url "restaurant-final" %}',
+            type: 'POST',
+            data: allData,
+            headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()},
+            success: function(response) {
+                window.location.href = '/restaurants/' + response.restaurant_id + '/';
+            },
+            error: function(xhr) {
+                var errors = xhr.responseJSON;
+                if (errors) {
+                    $.each(errors, function(key, value) {
+                        $('#' + key + '-error').text(value[0]);
+                    });
+                } else {
+                    alert('Failed to save restaurant.');
+                }
+            }
+        });
+    });
+});
+</script>
 {% endblock content %}
