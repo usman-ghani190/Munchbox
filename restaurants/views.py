@@ -11,7 +11,6 @@ from rest_framework import status
 from core.models import Restaurant, Package
 from .serializers import CuisineSerializer, PackageSerializer, RestaurantStep1Serializer, RestaurantStep2Serializer, RestaurantFinalSerializer, RestaurantStep3Serializer
 
-
 def restaurant(request):
     """View for restaurant"""
     context = {}
@@ -27,7 +26,9 @@ def add_restaurant(request):
     else:
         form = RestaurantForm(user=request.user)
     packages = Package.objects.all()
-    context = {'form': form, 'packages': packages}
+    cuisines = Cuisine.objects.all()  # Fetch all cuisines
+    print("Cuisines fetched:", list(cuisines))  # Debug log to confirm data
+    context = {'form': form, 'packages': packages, 'cuisines': cuisines}  # Add cuisines to context
     return render(request, 'restaurants/add-restaurant.html', context)
 
 @api_view(['POST'])
@@ -39,15 +40,20 @@ def restaurant_step1(request):
         return Response({'message': 'Step 1 data saved', 'next_step': 'select-package'}, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def restaurant_step2(request):
-    serializer = RestaurantStep2Serializer(data=request.data)
-    if serializer.is_valid():
-        request.session['step2_data'] = serializer.validated_data
+    if request.method == 'POST':
+        serializer = RestaurantStep2Serializer(data=request.data)
+        if serializer.is_valid():
+            # Store only the package ID in the session
+            request.session['step2_data'] = {'package': serializer.validated_data['package'].pk}
+            packages = Package.objects.all()
+            return Response({'message': 'Step 2 data saved', 'packages': PackageSerializer(packages, many=True).data, 'next_step': 'payment'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'GET':
         packages = Package.objects.all()
-        return Response({'message': 'Step 2 data saved', 'packages': PackageSerializer(packages, many=True).data, 'next_step': 'payment'}, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'packages': PackageSerializer(packages, many=True).data})
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

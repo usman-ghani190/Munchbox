@@ -1,6 +1,6 @@
 # app/restaurants/serializers.py
 from rest_framework import serializers
-from core.models import Restaurant, Package, Cuisine, Payment
+from core.models import Restaurant, Package, Cuisine, Payment, RestaurantSubscription
 
 class CuisineSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,15 +32,17 @@ class RestaurantStep1Serializer(serializers.ModelSerializer):
             raise serializers.ValidationError("At least one cuisine is required.")
         return data
 
-class RestaurantStep2Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = Restaurant
-        fields = ['package']
+class RestaurantStep2Serializer(serializers.Serializer):
+    package = serializers.PrimaryKeyRelatedField(queryset=Package.objects.all())
 
     def validate(self, data):
         if not data.get('package'):
             raise serializers.ValidationError("A package is required.")
         return data
+
+    def to_representation(self, instance):
+        # Ensure only the package ID is returned
+        return {'package': instance['package'].pk}
 
 class RestaurantStep3Serializer(serializers.Serializer):
     payment_method = serializers.ChoiceField(choices=[
