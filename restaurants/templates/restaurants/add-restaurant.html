@@ -447,7 +447,7 @@
                   <div class="step-tab-panel" id="steppanel4">
                     <div class="thankmsg-sec">
                       <div class="msg-wrapper text-center">
-                        <div class="wrapper-1 bg-black padding-20 mb-xl-20" id="preview-content">
+                        <div class="wrapper-1 bg-white padding-20 mb-xl-20" id="preview-content">
                           <!-- Populated by AJAX -->
                         </div>
                         <button class="btn-first white-btn" id="preview-button">Preview</button>
@@ -534,7 +534,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
+  $(document).ready(function() {
     // Step 1 to Step 2: Next button with AJAX
     $('#next-to-package').on('click', function() {
         var formData = {
@@ -553,50 +553,33 @@ $(document).ready(function() {
             cuisines: $('#cuisines-select').val() || []
         };
 
-        // Debug: Log the raw value and transformed value
-        console.log('Raw cuisines value:', $('#cuisines-select').val());
         var transformedCuisines = formData.cuisines.map(function(value) {
             var intValue = parseInt(value, 10);
-            if (isNaN(intValue)) {
-                console.error('Invalid cuisine ID:', value);
-                return null;
-            }
-            return intValue;
-        }).filter(function(value) {
-            return value !== null;
-        });
-        console.log('Transformed cuisines:', transformedCuisines);
+            return isNaN(intValue) ? null : intValue;
+        }).filter(function(value) { return value !== null; });
         formData.cuisines = transformedCuisines;
 
-        // Validate that cuisines are selected
         if (formData.cuisines.length === 0) {
             $('#cuisines-error').text('Please select at least one cuisine.');
-            return; // Stop the AJAX request
+            return;
         }
 
-        // Debug: Log the final formData before sending
-        console.log('Final Form Data:', formData);
-
-        // Clear previous error messages
         $('.text-danger').text('');
 
-        // Send as JSON to preserve array structure
         $.ajax({
             url: '{% url "restaurant-step1" %}',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),
-            headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()},
+            headers: { 'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val() },
             success: function(response) {
                 if (response.next_step === 'select-package') {
-                    $('#step1').addClass('done');
-                    $('#stepbtn1').addClass('done');
+                    $('#step1').addClass('done').removeClass('active');
+                    $('#stepbtn1').addClass('done').removeClass('active');
                     $('#steppanel1').removeClass('active');
-                    $('#steppanel2').addClass('active');
-                    $('#step1').removeClass('active');
                     $('#step2').addClass('active');
-                    $('#stepbtn1').removeClass('active');
                     $('#stepbtn2').addClass('active');
+                    $('#steppanel2').addClass('active');
                     $('#next-1').hide();
                     $('#prev-1').show();
                     $('#next-2').show();
@@ -631,7 +614,6 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr) {
-                console.log('AJAX Error Response:', xhr.responseJSON);
                 var errors = xhr.responseJSON;
                 if (errors) {
                     $.each(errors, function(key, value) {
@@ -649,17 +631,14 @@ $(document).ready(function() {
         var latitude = $('input[name="latitude"]').val();
         var longitude = $('input[name="longitude"]').val();
 
-        // Validate inputs
         if (!latitude || !longitude) {
             alert('Please enter both latitude and longitude.');
             return;
         }
 
-        // Convert to float to ensure valid numbers
         latitude = parseFloat(latitude);
         longitude = parseFloat(longitude);
 
-        // Validate range
         if (latitude < -90 || latitude > 90) {
             alert('Latitude must be between -90 and 90.');
             return;
@@ -669,7 +648,6 @@ $(document).ready(function() {
             return;
         }
 
-        // Construct the Google Maps URL with the coordinates
         var mapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
         $('#locmap').attr('src', mapUrl);
     });
@@ -681,331 +659,57 @@ $(document).ready(function() {
             url: '{% url "restaurant-step2" %}',
             type: 'POST',
             data: { package: packageId },
-            headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()},
+            headers: { 'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val() },
             success: function(response) {
                 if (response.next_step === 'payment') {
-                    $('#step2').addClass('done');
-                    $('#stepbtn2').addClass('done');
+                    $('#step2').addClass('done').removeClass('active');
+                    $('#stepbtn2').addClass('done').removeClass('active');
                     $('#steppanel2').removeClass('active');
-                    $('#steppanel3').addClass('active');
-                    $('#step2').removeClass('active');
                     $('#step3').addClass('active');
-                    $('#stepbtn2').removeClass('active');
                     $('#stepbtn3').addClass('active');
+                    $('#steppanel3').addClass('active');
                     $('#next-2').hide();
                     $('#prev-2').show();
                     $('#next-3').show();
-                    $('#payment-content').html(`
-                        <div class="col-12">
-                          <div class="payment-book">
-                            <div class="payment-info-tab">
-                              <ul class="nav nav-pills justify-content-center" id="pills-tab" role="tablist">
-                                <li class="nav-item">
-                                  <a class="nav-link active" id="pills-gift-tab" data-toggle="pill" href="#pills-gift" role="tab" aria-controls="pills-gift" aria-selected="true">Pay with a Gift Card</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" id="pills-promo-tab" data-toggle="pill" href="#pills-promo" role="tab" aria-controls="pills-promo" aria-selected="false">Add a promo code</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" id="pills-credit-tab" data-toggle="pill" href="#pills-credit" role="tab" aria-controls="pills-credit" aria-selected="false">Saved credit card</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" id="pills-newcredit-tab" data-toggle="pill" href="#pills-newcredit" role="tab" aria-controls="pills-newcredit" aria-selected="false">New credit card</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" id="pills-cash-tab" data-toggle="pill" href="#pills-cash" role="tab" aria-controls="pills-cash" aria-selected="false">Cash</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" id="pills-paypal-tab" data-toggle="pill" href="#pills-paypal" role="tab" aria-controls="pills-paypal" aria-selected="false">PayPalTM</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" id="pills-amex-tab" data-toggle="pill" href="#pills-amex" role="tab" aria-controls="pills-amex" aria-selected="false">Amex Express Checkout</a>
-                                </li>
-                              </ul>
-                              <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-gift" role="tabpanel" aria-labelledby="pills-gift-tab">
-                                  <div class="form-group">
-                                    <input type="text" class="form-control form-control-submit" placeholder="Gift Card Number">
-                                    <input type="text" class="form-control form-control-submit" placeholder="PIN">
-                                    <button type="button" class="btn-second btn-submit">Apply</button>
-                                  </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-promo" role="tabpanel" aria-labelledby="pills-promo-tab">
-                                  <div class="form-group">
-                                    <input type="text" class="form-control form-control-submit" placeholder="Enter promo code">
-                                    <button type="button" class="btn-second btn-submit">Apply</button>
-                                  </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-credit" role="tabpanel" aria-labelledby="pills-credit-tab">
-                                  <div class="payment-content">
-                                    <div class="payment-info">
-                                      <div class="accordion" id="saved-credit-accordion">
-                                        <div class="card">
-                                          <div class="card-header" id="saved-credit-heading">
-                                            <h2 class="mb-0">
-                                              <button class="btn btn-link text-light-black fw-700" type="button" data-toggle="collapse" data-target="#saved-credit-collapse" aria-expanded="true" aria-controls="saved-credit-collapse">
-                                                Saved Card
-                                              </button>
-                                            </h2>
-                                          </div>
-                                          <div id="saved-credit-collapse" class="collapse show" aria-labelledby="saved-credit-heading" data-parent="#saved-credit-accordion">
-                                            <div class="card-body">
-                                              <div class="form-group">
-                                                <label class="custom-control custom-radio">
-                                                  <input type="radio" name="payment_method" class="custom-control-input" value="credit_card" checked>
-                                                  <span class="custom-control-label"><img src="{% static 'app/assets/img/credit-card.png' %}" alt="credit card"> XXXX-XXXX-XXXX-1234</span>
-                                                </label>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="payment-info">
-                                      <label class="custom-checkbox">
-                                        <input type="checkbox" name="donate_change">
-                                        <span class="checkmark"></span>Donate $0.77 to No Kid Hungry. By checking this box you agree to the Donate the Change Terms of use <a href="#">Learn More</a>
-                                      </label>
-                                    </div>
-                                    <button type="button" class="btn-first green-btn text-custom-white full-width fw-500 proceed-to-preview">Place Your Order</button>
-                                    <p class="text-light-black">By placing your order, you agree to Munchbox's terms of use and privacy agreement</p>
-                                  </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-newcredit" role="tabpanel" aria-labelledby="pills-newcredit-tab">
-                                  <div class="payment-content">
-                                    <div class="payment-info">
-                                      <div class="accordion" id="new-credit-accordion">
-                                        <div class="card">
-                                          <div class="card-header" id="new-credit-heading">
-                                            <h2 class="mb-0">
-                                              <button class="btn btn-link text-light-black fw-700" type="button" data-toggle="collapse" data-target="#new-credit-collapse" aria-expanded="true" aria-controls="new-credit-collapse">
-                                                Add New Card
-                                              </button>
-                                            </h2>
-                                          </div>
-                                          <div id="new-credit-collapse" class="collapse show" aria-labelledby="new-credit-heading" data-parent="#new-credit-accordion">
-                                            <div class="card-body">
-                                              <div class="form-group">
-                                                <input type="text" class="form-control form-control-submit" placeholder="Card Number">
-                                                <input type="text" class="form-control form-control-submit" placeholder="Expires on">
-                                                <input type="text" class="form-control form-control-submit" placeholder="Security Code">
-                                                <input type="text" class="form-control form-control-submit" placeholder="ZIP Code">
-                                                <label class="custom-checkbox">
-                                                  <input type="checkbox" name="save_card">
-                                                  <span class="checkmark"></span>Save Credit card
-                                                </label>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="payment-info">
-                                      <label class="custom-checkbox">
-                                        <input type="checkbox" name="donate_change">
-                                        <span class="checkmark"></span>Donate $0.77 to No Kid Hungry. By checking this box you agree to the Donate the Change Terms of use <a href="#">Learn More</a>
-                                      </label>
-                                    </div>
-                                    <button type="button" class="btn-first green-btn text-custom-white full-width fw-500 proceed-to-preview" data-method="credit_card">Place Your Order</button>
-                                    <p class="text-light-black">By placing your order, you agree to Munchbox's terms of use and privacy agreement</p>
-                                  </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-cash" role="tabpanel" aria-labelledby="pills-cash-tab">
-                                  <div class="payment-content">
-                                    <p class="text-light-black">Have the cash ready when you receive your order.</p>
-                                    <div class="payment-info">
-                                      <label class="custom-checkbox">
-                                        <input type="checkbox" name="donate_change" disabled>
-                                        <span class="checkmark"></span>Apologies, but you can't donate with the selected payment type
-                                      </label>
-                                    </div>
-                                    <button type="button" class="btn-first green-btn text-custom-white full-width fw-500 proceed-to-preview" data-method="cash">Place Your Order</button>
-                                    <p class="text-light-black">By placing your order, you agree to Munchbox's terms of use and privacy agreement</p>
-                                  </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-paypal" role="tabpanel" aria-labelledby="pills-paypal-tab">
-                                  <div class="payment-content">
-                                    <p class="text-light-black">Please review your order and make any necessary changes before checking out with PayPal.</p>
-                                    <div class="payment-info">
-                                      <label class="custom-checkbox">
-                                        <input type="checkbox" name="donate_change">
-                                        <span class="checkmark"></span>Donate $0.77 to No Kid Hungry. By checking this box you agree to the Donate the Change Terms of use <a href="#">Learn More</a>
-                                      </label>
-                                    </div>
-                                    <button type="button" class="btn-first green-btn text-custom-white full-width fw-500 proceed-to-preview" data-method="paypal">Checkout with <img src="{% static 'app/assets/img/paypal.png' %}" alt="paypal"></button>
-                                    <p class="text-light-black">By placing your order, you agree to Munchbox's terms of use and privacy agreement</p>
-                                  </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-amex" role="tabpanel" aria-labelledby="pills-amex-tab">
-                                  <div class="payment-content">
-                                    <div class="payment-info">
-                                      <div class="accordion" id="amex-accordion">
-                                        <div class="card">
-                                          <div class="card-header" id="amex-heading">
-                                            <h2 class="mb-0">
-                                              <button class="btn btn-link text-light-black fw-700" type="button" data-toggle="collapse" data-target="#amex-collapse" aria-expanded="true" aria-controls="amex-collapse">
-                                                Saved Card
-                                              </button>
-                                            </h2>
-                                          </div>
-                                          <div id="amex-collapse" class="collapse show" aria-labelledby="amex-heading" data-parent="#amex-accordion">
-                                            <div class="card-body">
-                                              <div class="form-group">
-                                                <label class="custom-control custom-radio">
-                                                  <input type="radio" name="payment_method_amex" class="custom-control-input" value="amex" checked>
-                                                  <span class="custom-control-label"><img src="{% static 'app/assets/img/credit-card.png' %}" alt="credit card"> XXXX-XXXX-XXXX-1234</span>
-                                                </label>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="payment-info">
-                                      <div class="accordion" id="amex-new-accordion">
-                                        <div class="card">
-                                          <div class="card-header" id="amex-new-heading">
-                                            <h2 class="mb-0">
-                                              <button class="btn btn-link text-light-black fw-700" type="button" data-toggle="collapse" data-target="#amex-new-collapse" aria-expanded="true" aria-controls="amex-new-collapse">
-                                                Add New Card
-                                              </button>
-                                            </h2>
-                                          </div>
-                                          <div id="amex-new-collapse" class="collapse show" aria-labelledby="amex-new-heading" data-parent="#amex-new-accordion">
-                                            <div class="card-body">
-                                              <div class="form-group">
-                                                <input type="text" class="form-control form-control-submit" placeholder="Card Number">
-                                                <input type="text" class="form-control form-control-submit" placeholder="Expires on">
-                                                <input type="text" class="form-control form-control-submit" placeholder="Security Code">
-                                                <input type="text" class="form-control form-control-submit" placeholder="ZIP Code">
-                                                <label class="custom-checkbox">
-                                                  <input type="checkbox" name="save_card">
-                                                  <span class="checkmark"></span>Save Credit card
-                                                </label>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="payment-info">
-                                      <label class="custom-checkbox">
-                                        <input type="checkbox" name="donate_change">
-                                        <span class="checkmark"></span>Donate $0.77 to No Kid Hungry. By checking this box you agree to the Donate the Change Terms of use <a href="#">Learn More</a>
-                                      </label>
-                                    </div>
-                                    <button type="button" class="btn-first green-btn text-custom-white full-width fw-500 proceed-to-preview" data-method="amex">Place Your Order</button>
-                                    <p class="text-light-black">By placing your order, you agree to Munchbox's terms of use and privacy agreement</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    `);
                 }
             },
             error: function(xhr) {
-                var errors = xhr.responseJSON;
-                if (errors) {
-                    $('#package-error').text(errors.package ? errors.package[0] : 'Please select a package.');
-                }
+                alert('An error occurred while selecting the package.');
             }
         });
     });
 
     // Step 3 to Step 4: Proceed to Preview
     $(document).on('click', '.proceed-to-preview', function() {
-        var paymentMethod;
-        // Determine payment method based on the active tab or data-method attribute
-        if ($(this).attr('data-method')) {
-            paymentMethod = $(this).attr('data-method');
-        } else {
-            // For Saved Credit Card tab, get the selected radio button value
-            paymentMethod = $('#pills-credit input[name="payment_method"]:checked').val() ||
-                            $('#pills-amex input[name="payment_method_amex"]:checked').val();
-        }
-
-        if (!paymentMethod) {
-            alert('Please select a payment method.');
-            return;
-        }
-
+        var paymentMethod = $(this).data('method') || 'credit_card'; // Default to credit_card if not specified
         $.ajax({
             url: '{% url "restaurant-step3" %}',
             type: 'POST',
             data: { payment_method: paymentMethod },
-            headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()},
+            headers: { 'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val() },
             success: function(response) {
-                if (response.next_step === 'save-preview') {
-                    $('#step3').addClass('done');
-                    $('#stepbtn3').addClass('done');
+                if (response.next_step === 'preview') {
+                    $('#step3').addClass('done').removeClass('active');
+                    $('#stepbtn3').addClass('done').removeClass('active');
                     $('#steppanel3').removeClass('active');
-                    $('#steppanel4').addClass('active');
-                    $('#step3').removeClass('active');
                     $('#step4').addClass('active');
-                    $('#stepbtn3').removeClass('active');
                     $('#stepbtn4').addClass('active');
+                    $('#steppanel4').addClass('active');
                     $('#next-3').hide();
                     $('#prev-3').show();
                     $('#finish-1').show();
-                    $('#preview-content').html(`
-                        <h1 class="text-light-green mb-2">Thank You</h1>
-                        <h3 class="text-custom-white">We are looking forward for next order.</h3>
-                        <p class="text-custom-white">You have successfully created your restaurant. To add more details, go to your email inbox for login details.</p>
-                    `);
-                }
-            },
-            error: function(xhr) {
-                var errors = xhr.responseJSON;
-                if (errors) {
-                    $('#payment_method-error').text(errors.payment_method ? errors.payment_method[0] : 'Payment step failed.');
-                }
-            }
-        });
-    });
-
-    // Step 4: Preview button
-    $(document).on('click', '#preview-button', function() {
-        var formData = {
-            name: $('input[name="name"]').val(),
-            phone: $('input[name="phone"]').val(),
-            manager_name: $('input[name="manager_name"]').val(),
-            manager_phone: $('input[name="manager_phone"]').val(),
-            contact_email: $('input[name="contact_email"]').val(),
-            country: $('input[name="country"]').val(),
-            state: $('input[name="state"]').val(),
-            city: $('input[name="city"]').val(),
-            latitude: $('input[name="latitude"]').val(),
-            longitude: $('input[name="longitude"]').val(),
-            address: $('input[name="address"]').val(),
-            delivery_type: $('select[name="delivery_type"]').val(),
-            cuisines: $('#cuisines-select').val() || []
-        };
-        formData.cuisines = formData.cuisines.map(Number);
-        $.ajax({
-            url: '{% url "restaurant-final" %}',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
-            headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()},
-            success: function(response) {
-                window.location.href = '/restaurants/' + response.restaurant_id + '/';
-            },
-            error: function(xhr) {
-                var errors = xhr.responseJSON;
-                if (errors) {
-                    $.each(errors, function(key, value) {
-                        $('#' + key + '-error').text(value[0]);
+                    $.get('{% url "restaurant-preview" %}', function(data) {
+                        $('#preview-content').html(data.preview_html);
                     });
-                } else {
-                    alert('Failed to save restaurant.');
                 }
+            },
+            error: function(xhr) {
+                alert('An error occurred during payment processing: ' + JSON.stringify(xhr.responseJSON));
             }
         });
     });
 
-    // Previous buttons navigation
+    // Previous button handlers
     $('#prev-1').on('click', function() {
         $('#steppanel2').removeClass('active');
         $('#steppanel1').addClass('active');
@@ -1013,9 +717,9 @@ $(document).ready(function() {
         $('#step1').addClass('active');
         $('#stepbtn2').removeClass('active');
         $('#stepbtn1').addClass('active');
+        $('#next-2').hide();
         $('#prev-1').hide();
         $('#next-1').show();
-        $('#next-2').hide();
     });
 
     $('#prev-2').on('click', function() {
@@ -1025,9 +729,9 @@ $(document).ready(function() {
         $('#step2').addClass('active');
         $('#stepbtn3').removeClass('active');
         $('#stepbtn2').addClass('active');
+        $('#next-3').hide();
         $('#prev-2').hide();
         $('#next-2').show();
-        $('#next-3').hide();
     });
 
     $('#prev-3').on('click', function() {
@@ -1037,9 +741,14 @@ $(document).ready(function() {
         $('#step3').addClass('active');
         $('#stepbtn4').removeClass('active');
         $('#stepbtn3').addClass('active');
+        $('#finish-1').hide();
         $('#prev-3').hide();
         $('#next-3').show();
-        $('#finish-1').hide();
+    });
+
+    // Finish button handler
+    $('#finish-1').on('click', function() {
+        alert('Submission completed!');
     });
 });
 </script>

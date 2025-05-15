@@ -1,6 +1,5 @@
-# app/restaurants/serializers.py
 from rest_framework import serializers
-from core.models import Restaurant, Package, Cuisine, Payment, RestaurantSubscription
+from core.models import Restaurant, Cuisine, Package
 
 class CuisineSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,66 +11,47 @@ class PackageSerializer(serializers.ModelSerializer):
         model = Package
         fields = ['id', 'name', 'price', 'duration_days', 'description']
 
-class RestaurantStep1Serializer(serializers.ModelSerializer):
-    cuisines = serializers.ListField(child=serializers.IntegerField(), write_only=True)
-
-    class Meta:
-        model = Restaurant
-        fields = ['name', 'phone', 'manager_name', 'manager_phone', 'contact_email',
-                  'country', 'state', 'city', 'latitude', 'longitude', 'address',
-                  'delivery_type', 'cuisines']
-
-    def validate(self, data):
-        if not data.get('name') or not data.get('country') or not data.get('contact_email'):
-            raise serializers.ValidationError("Name, country, and contact email are required.")
-        if 'latitude' in data and (data['latitude'] < -90 or data['latitude'] > 90):
-            raise serializers.ValidationError("Latitude must be between -90 and 90.")
-        if 'longitude' in data and (data['longitude'] < -180 or data['longitude'] > 180):
-            raise serializers.ValidationError("Longitude must be between -180 and 180.")
-        if not data.get('cuisines'):
-            raise serializers.ValidationError("At least one cuisine is required.")
-        return data
+class RestaurantStep1Serializer(serializers.Serializer):
+    name = serializers.CharField(max_length=255)
+    phone = serializers.CharField(max_length=15, required=False, allow_blank=True)
+    manager_name = serializers.CharField(max_length=100, required=False, allow_blank=True)
+    manager_phone = serializers.CharField(max_length=15, required=False, allow_blank=True)
+    contact_email = serializers.EmailField()
+    country = serializers.CharField(max_length=100)
+    state = serializers.CharField(max_length=100, required=False, allow_blank=True)
+    city = serializers.CharField(max_length=100, required=False, allow_blank=True)
+    latitude = serializers.FloatField(min_value=-90, max_value=90)
+    longitude = serializers.FloatField(min_value=-180, max_value=180)
+    address = serializers.CharField(required=False, allow_blank=True)
+    delivery_type = serializers.ChoiceField(choices=['delivery', 'pickup', 'delivery_and_pickup'])
+    cuisines = serializers.ListField(child=serializers.IntegerField(), min_length=1)
 
 class RestaurantStep2Serializer(serializers.Serializer):
     package = serializers.PrimaryKeyRelatedField(queryset=Package.objects.all())
 
-    def validate(self, data):
-        if not data.get('package'):
-            raise serializers.ValidationError("A package is required.")
-        return data
-
-    def to_representation(self, instance):
-        # Ensure only the package ID is returned
-        return {'package': instance['package'].pk}
-
 class RestaurantStep3Serializer(serializers.Serializer):
-    payment_method = serializers.ChoiceField(choices=[
-        ('credit_card', 'Credit Card'),
-        ('paypal', 'PayPal'),
-        ('cash', 'Cash'),
-        ('gift_card', 'Gift Card'),
-        ('amex', 'Amex Express'),
-    ])
-
-    def validate(self, data):
-        if not data.get('payment_method'):
-            raise serializers.ValidationError("Payment method is required.")
-        return data
+    payment_method = serializers.ChoiceField(choices=['credit_card', 'paypal', 'cash', 'gift_card', 'amex'])
 
 class RestaurantFinalSerializer(serializers.ModelSerializer):
-    cuisines = serializers.ListField(child=serializers.IntegerField(), write_only=True)
+    cuisines = serializers.PrimaryKeyRelatedField(queryset=Cuisine.objects.all(), many=True)
     package = serializers.PrimaryKeyRelatedField(queryset=Package.objects.all())
 
     class Meta:
         model = Restaurant
-        fields = ['id', 'name', 'phone', 'manager_name', 'manager_phone', 'contact_email',
-                  'country', 'state', 'city', 'latitude', 'longitude', 'address',
-                  'delivery_type', 'cuisines', 'logo', 'package', 'user']
+        fields = [
+            'name', 'phone', 'manager_name', 'manager_phone', 'contact_email',
+            'country', 'state', 'city', 'latitude', 'longitude', 'address',
+            'delivery_type', 'cuisines', 'package'
+        ]
 
     def create(self, validated_data):
-        cuisines_data = validated_data.pop('cuisines')
-        user = self.context['request'].user
-        restaurant = Restaurant.objects.create(user=user, **validated_data)
-        restaurant.cuisines.set(cuisines_data)
-        restaurant.save()
+        cuisines = validated_data.pop('cuisines', [])
+        package = validated_data.pop('package', None)  # Not saved in Restaurant model directly
+        # Create the restaurant instance
+        restaurant = Restaurant.objects.create(
+            user=self.context['request'].user,  # Set the user
+            **validated_data
+        )
+        # Set the ManyToMany cuisines
+        restaurant.cuisines.set(cuisines)
         return restaurant
