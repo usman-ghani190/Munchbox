@@ -1,7 +1,31 @@
-{% extends 'base.html' %}
 {% load static %}
-{% block title %}Munchbox | Register{% endblock %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Munchbox | Register</title>
+  <link href="{% static 'app/assets/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'app/assets/css/font-awesome.css' %}" rel="stylesheet">
+  <link href="{% static 'app/assets/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'app/assets/css/responsive.css' %}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
+  <style>
+    .field-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      cursor: pointer;
+    }
+    .form-control.form-control-submit {
+      padding-right: 40px; /* Ensure space for the icon */
+    }
+  </style>
+</head>
+<body>
 <div class="inner-wrapper">
   <div class="container-fluid no-padding">
     <div class="row no-gutters overflow-auto">
@@ -11,79 +35,46 @@
           <div class="overlay-2 main-padding">
             <img src="{% static 'app/assets/img/logo-2.jpg' %}" class="img-fluid" alt="logo" />
           </div>
-          <img src="{% static 'app/assets/img/banner/food.png' %}" class="footer-img" alt="footer-img" />
+          <img src="{% static 'app/assets/img/logo-2.jpg' %}" class="footer-img" alt="footer-img" />
         </div>
       </div>
       <div class="col-md-6">
         <div class="section-2 user-page main-padding">
           <div class="login-sec">
             <div class="login-box">
+              {% if user.is_authenticated %}
+              <div class="form-group text-center">
+                <p>You already signed in.</p>
+                <button id="logout-btn" class="btn-second btn-submit">Sign out</button>
+              </div>
+              {% else %}
               <form id="register-form">
-                <h4 class="text-light-black fw-600">
-                  Create your Munchbox account
-                </h4>
+                {% csrf_token %}
+                <h4 class="text-light-black fw-600">Create your Munchbox account</h4>
                 <div id="form-errors" class="alert alert-danger" style="display: none;"></div>
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
-                      <label class="text-light-white fs-14">First name</label>
-                      <input
-                        type="text"
-                        name="first_name"
-                        class="form-control form-control-submit"
-                        placeholder="First name"
-                        required
-                      />
+                      <label>First name</label>
+                      <input type="text" name="first_name" class="form-control form-control-submit" placeholder="First name" required />
                     </div>
                     <div class="form-group">
-                      <label class="text-light-white fs-14">Last name</label>
-                      <input
-                        type="text"
-                        name="last_name"
-                        class="form-control form-control-submit"
-                        placeholder="Last name"
-                        required
-                      />
+                      <label>Last name</label>
+                      <input type="text" name="last_name" class="form-control form-control-submit" placeholder="Last name" required />
                     </div>
                     <div class="form-group">
-                      <label class="text-light-white fs-14">Email</label>
-                      <input
-                        type="email"
-                        name="email"
-                        class="form-control form-control-submit"
-                        placeholder="Email I'd"
-                        required
-                      />
+                      <label>Email</label>
+                      <input type="email" name="email" class="form-control form-control-submit" placeholder="Email" required />
                     </div>
                     <div class="form-group">
-                      <label class="text-light-white fs-14">Password</label>
-                      <input
-                        type="password"
-                        id="password-field"
-                        name="password"
-                        class="form-control form-control-submit"
-                        placeholder="Password"
-                        required
-                      />
-                      <div
-                        data-name="#password-field"
-                        class="fa fa-fw fa-eye field-icon toggle-password"
-                      ></div>
+                      <label>Password</label>
+                      <input type="password" id="password-field" name="password" class="form-control form-control-submit" placeholder="Password" required />
+                      <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                     </div>
                     <div class="form-group">
-                      <label class="text-light-white fs-14">Confirm Password</label>
-                      <input
-                        type="password"
-                        id="password2-field"
-                        name="password2"
-                        class="form-control form-control-submit"
-                        placeholder="Confirm Password"
-                        required
-                      />
-                      <div
-                        data-name="#password2-field"
-                        class="fa fa-fw fa-eye field-icon toggle-password"
-                      ></div>
+                      <label>Confirm Password</label>
+                      <input type="password" id="password2-field" name="password2" class="form-control form-control-submit" placeholder="Confirm Password" required />
+                      <span toggle="#password2-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                     </div>
                     <div class="form-group checkbox-reset">
                       <label class="custom-checkbox mb-0">
@@ -92,50 +83,30 @@
                       </label>
                     </div>
                     <div class="form-group">
-                      <button
-                        type="submit"
-                        class="btn-second btn-submit full-width"
-                      >
-                        <img
-                          src="{% static 'app/assets/img/M.png' %}"
-                          alt="btn logo"
-                        />Create account
+                      <button type="submit" class="btn-second btn-submit full-width">
+                        <img src="{% static 'app/assets/img/M.png' %}" alt="btn logo" />Create account
                       </button>
                     </div>
                     <div class="form-group text-center">
                       <span>or</span>
                     </div>
                     <div class="form-group">
-                      <button
-                        type="submit"
-                        class="btn-second btn-facebook full-width"
-                      >
-                        <img
-                          src="{% static 'app/assets/img/facebook-logo.svg' %}"
-                          alt="btn logo"
-                        />Continue with Facebook
+                      <button type="submit" class="btn-second btn-facebook full-width">
+                        <img src="{% static 'app/assets/img/facebook-logo.svg' %}" alt="btn logo" />Continue with Facebook
                       </button>
                     </div>
                     <div class="form-group">
-                      <button
-                        type="submit"
-                        class="btn-second btn-google full-width"
-                      >
-                        <img
-                          src="{% static 'app/assets/img/google-logo.png' %}"
-                          alt="btn logo"
-                        />Continue with Google
+                      <button type="submit" class="btn-second btn-google full-width">
+                        <img src="{% static 'app/assets/img/google-logo.png' %}" alt="btn logo" />Continue with Google
                       </button>
                     </div>
                     <div class="form-group text-center mb-0">
-                      <p class="text-light-black">
-                        Already have an account?
-                        <a href="{% url 'login' %}">Sign in</a>
-                      </p>
+                      <p class="text-light-black">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
                     </div>
                   </div>
                 </div>
               </form>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -143,8 +114,8 @@
     </div>
   </div>
 </div>
-{% endblock %}
-{% block extra_scripts %}
+
+<!-- Scripts -->
 <script src="{% static 'app/assets/js/jquery.min.js' %}"></script>
 <script src="{% static 'app/assets/js/popper.min.js' %}"></script>
 <script src="{% static 'app/assets/js/bootstrap.min.js' %}"></script>
@@ -152,66 +123,120 @@
 <script src="{% static 'app/assets/js/swiper.min.js' %}"></script>
 <script src="{% static 'app/assets/js/jquery.nice-select.min.js' %}"></script>
 <script src="{% static 'app/assets/js/jquery.magnific-popup.min.js' %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnd9JwZvXty-1gHZihMoFhJtCXmHfeRQg"></script>
 <script src="{% static 'app/assets/js/sticksy.js' %}"></script>
 <script src="{% static 'app/assets/js/munchbox.js' %}"></script>
+
+<!-- JavaScript -->
 <script>
   $(document).ready(function() {
-      function getCookie(name) {
-          let cookieValue = null;
-          if (document.cookie && document.cookie !== '') {
-              const cookies = document.cookie.split(';');
-              for (let i = 0; i < cookies.length; i++) {
-                  const cookie = cookies[i].trim();
-                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                      break;
-                  }
-              }
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
           }
-          return cookieValue;
+        }
       }
+      return cookieValue;
+    }
 
-      const csrftoken = getCookie('csrftoken');
+    // Password toggle
+    $(".toggle-password").click(function() {
+      let input = $($(this).attr("toggle"));
+      if (input.attr("type") === "password") {
+        input.attr("type", "text");
+        $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+      } else {
+        input.attr("type", "password");
+        $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+      }
+    });
 
-      $('#register-form').on('submit', function(e) {
-          e.preventDefault();
-          var formData = $(this).serializeArray();
-          var data = {};
-          $.each(formData, function(i, field) {
-              data[field.name] = field.value;
-          });
-          // Avoid logging sensitive data
-          console.log('Submitting registration form...');
-          $.ajax({
-              url: '{% url 'api_register' %}',
-              type: 'POST',
-              data: JSON.stringify(data),
-              contentType: 'application/json',
-              headers: {'X-CSRFToken': csrftoken},
-              success: function(response) {
-                  console.log('Registration successful:', response);
-                  localStorage.setItem('token', response.token);
-                  window.location.href = '/';
-              },
-              error: function(xhr) {
-                  console.error('Registration failed:', xhr.responseJSON);
-                  var errors = xhr.responseJSON;
-                  var errorHtml = '';
-                  $.each(errors, function(key, value) {
-                      errorHtml += '<p>' + (Array.isArray(value) ? value.join('<br>') : value) + '</p>';
-                  });
-                  $('#form-errors').html(errorHtml).show();
-              }
-          });
+    // Register form submission
+    $('#register-form').on('submit', function(e) {
+      e.preventDefault();
+      var formData = $(this).serializeArray();
+      var data = {};
+      $.each(formData, function(i, field) {
+        data[field.name] = field.value;
       });
-
-      $('.toggle-password').click(function() {
-          var field = $($(this).data('name'));
-          var type = field.attr('type') === 'password' ? 'text' : 'password';
-          field.attr('type', type);
-          $(this).toggleClass('fa-eye fa-eye-slash');
+      console.log('Submitting registration form with data:', data);
+      $.ajax({
+        url: '{% url "api_register" %}',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        headers: {'X-CSRFToken': getCookie('csrftoken')},
+        success: function(response) {
+          console.log('Registration successful:', response);
+          localStorage.setItem('token', response.token);
+          window.location.href = '/';  // Redirect to refresh authentication state
+        },
+        error: function(xhr) {
+          console.error('Registration failed:', xhr.responseJSON);
+          var errors = xhr.responseJSON || {};
+          var errorHtml = '';
+          $.each(errors, function(key, value) {
+            errorHtml += '<p>' + (Array.isArray(value) ? value.join('<br>') : value) + '</p>';
+          });
+          $('#form-errors').html(errorHtml).show();
+        }
       });
+    });
+
+    // Logout button
+    $('#logout-btn').on('click', function(e) {
+      e.preventDefault();
+      const token = localStorage.getItem('token');
+      if (!token) {
+        $('#form-errors').html('<p>No authentication token found. Redirecting to login...</p>').show();
+        console.log('No token found in localStorage');
+        setTimeout(function() {
+          window.location.href = '{% url "login" %}';
+        }, 2000);
+        return;
+      }
+      console.log('Attempting logout with token:', token);
+      $.ajax({
+        url: '{% url "api_logout" %}',
+        type: 'POST',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Authorization': 'Token ' + token
+        },
+        success: function(response) {
+          console.log('Logout successful:', response);
+          localStorage.removeItem('token');
+          $('#form-errors').html('<p>' + response.message + '</p>').removeClass('alert-danger').addClass('alert-success').show();
+          setTimeout(function() {
+            window.location.href = '{% url "login" %}';
+          }, 2000);
+        },
+        error: function(xhr) {
+          console.error('Logout failed:', xhr.responseJSON);
+          var errors = xhr.responseJSON || {};
+          var errorHtml = '<p>Logout failed: ' + (errors.detail || 'Unauthorized') + '</p>';
+          $('#form-errors').html(errorHtml).show();
+          localStorage.removeItem('token');
+          setTimeout(function() {
+            window.location.href = '{% url "login" %}';
+          }, 2000);
+        }
+      });
+    });
+
+    // Social login placeholder
+    $('.btn-facebook, .btn-google').on('click', function(e) {
+      e.preventDefault();
+      const provider = $(this).hasClass('btn-facebook') ? 'facebook' : 'google';
+      $('#form-errors').html('<p>Social login with ' + provider + ' is not implemented yet.</p>').show();
+      console.log('Social login clicked for:', provider);
+    });
   });
 </script>
-{% endblock %}
+</body>
+</html>

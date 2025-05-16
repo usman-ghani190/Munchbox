@@ -296,6 +296,8 @@
                 </div>
                 <!-- mobile search -->
                 <!-- user account -->
+
+                {% if user.is_authenticated %}
                 <div class="user-details p-relative">
                   <a href="#" class="text-light-white fw-500">
                     <img
@@ -303,7 +305,7 @@
                       class="rounded-circle"
                       alt="userimg"
                     />
-                    <span>Hi, Kate</span>
+                    <span>Hi, {{user.username}}</span>
                   </a>
                   <div class="user-dropdown">
                     <ul>
@@ -374,6 +376,7 @@
                     {% endif %}
                   </div>
                 </div>
+                {% endif %}
                 <!-- mobile search -->
                 <!-- user notification -->
                 <div class="cart-btn notification-btn">
