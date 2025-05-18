@@ -10,6 +10,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     is_restaurant_manager = models.BooleanField(default=False)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
     class Meta:
         verbose_name = "User"
