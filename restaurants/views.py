@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from restaurants.form import RestaurantForm
-from core.models import Cuisine, Package, RestaurantSubscription
+from core.models import Cuisine, Package, Promotion, RestaurantSubscription
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -10,9 +11,49 @@ from rest_framework import status
 from core.models import Restaurant, Package
 from .serializers import CuisineSerializer, PackageSerializer, RestaurantStep1Serializer, RestaurantStep2Serializer, RestaurantFinalSerializer, RestaurantStep3Serializer
 
-def restaurant(request):
-    """View for restaurant"""
-    context = {}
+@login_required
+def restaurant(request, restaurant_id):
+    # Fetch the restaurant by its UUID
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+
+    # Fetch related menu items
+    menu_items = restaurant.menu_items.all()
+
+    # Fetch reviews for the restaurant
+    reviews = restaurant.reviews.all()
+    review_count = reviews.count()
+    if review_count > 0:
+        avg_rating = sum(review.rating for review in reviews) / review_count
+        food_quality_pct = (reviews.filter(food_quality=True).count() / review_count) * 100
+        delivery_time_pct = (reviews.filter(delivery_time=True).count() / review_count) * 100
+        order_accuracy_pct = (reviews.filter(order_accuracy=True).count() / review_count) * 100
+    else:
+        avg_rating = 0
+        food_quality_pct = 0
+        delivery_time_pct = 0
+        order_accuracy_pct = 0
+
+    # Fetch active promotions (valid as of now)
+    current_time = timezone.now()
+    promotions = Promotion.objects.filter(
+        valid_from__lte=current_time,
+        valid_until__gte=current_time
+    ).filter(is_first_order=True)  # Assuming first-order promotions for this example
+
+    # Context data
+    context = {
+        'restaurant': restaurant,
+        'menu_items': menu_items,
+        'reviews': reviews,
+        'review_count': review_count,
+        'avg_rating': round(avg_rating, 1),
+        'food_quality_pct': round(food_quality_pct),
+        'delivery_time_pct': round(delivery_time_pct),
+        'order_accuracy_pct': round(order_accuracy_pct),
+        'promotions': promotions,
+        'user': request.user,
+    }
+
     return render(request, 'restaurants/restaurant.html', context)
 
 @login_required
