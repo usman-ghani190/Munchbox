@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from restaurants.form import RestaurantForm
-from core.models import Cuisine, Package, Promotion, RestaurantSubscription
+from core.models import Cuisine, MenuItem, Package, Promotion, RestaurantSubscription
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -18,6 +18,9 @@ def restaurant(request, restaurant_id):
 
     # Fetch related menu items
     menu_items = restaurant.menu_items.all()
+
+    # Fetch all menu items from all restaurants
+    all_menu_items = MenuItem.objects.select_related('restaurant').all()
 
     # Fetch reviews for the restaurant
     reviews = restaurant.reviews.all()
@@ -43,6 +46,7 @@ def restaurant(request, restaurant_id):
     # Context data
     context = {
         'restaurant': restaurant,
+        'all_menu_items': all_menu_items,
         'menu_items': menu_items,
         'reviews': reviews,
         'review_count': review_count,

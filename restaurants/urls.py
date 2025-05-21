@@ -4,6 +4,8 @@ from django.urls import path
 
 from . import views
 
+app_name = 'restaurants'
+
 urlpatterns = [
     path('restaurant/<uuid:restaurant_id>/', views.restaurant, name='restaurant'),
     path('add_restaurant', views.add_restaurant, name='add_restaurant'),

@@ -1,12 +1,17 @@
 """Views for Homepage"""
 from django.shortcuts import render
 
+from core.models import Restaurant
+
 # Create your views here.
 
 def home(request):
     """View for homepage"""
 
-    context = {}
+    restaurant = Restaurant.objects.first()  # Get the first restaurant
+    context = {
+        'restaurant': restaurant if restaurant else None,  # Ensure None is explicit
+    }
     return render(request, 'home/homepage.html', context)
 
 def explore(request):

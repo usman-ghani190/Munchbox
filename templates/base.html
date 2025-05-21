@@ -217,19 +217,22 @@
                                   </div>
                                   <ul>
                                     <li>
+                                      {% if restaurant and restaurant.id %}
                                       <a
-                                        href="{% url 'restaurant' %}"
+                                        href="{% url 'restaurants:restaurant' restaurant_id=restaurant.id %}"
                                         class="text-light-white fw-500"
                                         >Restaurant</a
                                       >
                                     </li>
+                                    {% else %}
                                     <li>
                                       <a
-                                        href="{% url 'add_restaurant' %}"
+                                        href="{% url 'restaurants:add_restaurant' %}"
                                         class="text-light-white fw-500"
                                         >Add Restaurant</a
                                       >
                                     </li>
+                                    {% endif %}
                                   </ul>
                                 </div>
                               </div>

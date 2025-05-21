@@ -567,7 +567,7 @@
         $('.text-danger').text('');
 
         $.ajax({
-            url: '{% url "restaurant-step1" %}',
+            url: "{% url 'restaurants:restaurant-step1' %}",
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(formData),
@@ -583,7 +583,7 @@
                     $('#next-1').hide();
                     $('#prev-1').show();
                     $('#next-2').show();
-                    $.get('{% url "restaurant-step2" %}', function(data) {
+                    $.get("{% url 'restaurants:restaurant-step2' %}", function(data) {
                         var packagesHtml = '';
                         data.packages.forEach(function(pkg) {
                             packagesHtml += `
@@ -656,7 +656,7 @@
     $(document).on('click', '.choose-package', function() {
         var packageId = $(this).data('package-id');
         $.ajax({
-            url: '{% url "restaurant-step2" %}',
+            url: '{% url 'restaurants:restaurant-step2' %}',
             type: 'POST',
             data: { package: packageId },
             headers: { 'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val() },
@@ -683,7 +683,7 @@
     $(document).on('click', '.proceed-to-preview', function() {
         var paymentMethod = $(this).data('method') || 'credit_card'; // Default to credit_card if not specified
         $.ajax({
-            url: '{% url "restaurant-step3" %}',
+            url: "{% url 'restaurants:restaurant-step3' %}",
             type: 'POST',
             data: { payment_method: paymentMethod },
             headers: { 'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val() },
@@ -698,7 +698,7 @@
                     $('#next-3').hide();
                     $('#prev-3').show();
                     $('#finish-1').show();
-                    $.get('{% url "restaurant-preview" %}', function(data) {
+                    $.get('{% url "restaurants:restaurant-preview" %}', function(data) {
                         $('#preview-content').html(data.preview_html);
                     });
                 }
