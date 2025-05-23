@@ -153,3 +153,15 @@ def get_cuisines(request):
     cuisines = Cuisine.objects.all()
     serializer = CuisineSerializer(cuisines, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@login_required
+def list_restaurants(request):
+    # Fetch all restaurants
+    restaurants = Restaurant.objects.all()
+    # Fetch the user's own restaurant for base.html
+    user_restaurant = Restaurant.objects.filter(user=request.user).first()
+    context = {
+        'restaurants': restaurants,
+        'restaurant': user_restaurant,  # For base.html
+    }
+    return render(request, 'restaurants/list-restaurants.html', context)

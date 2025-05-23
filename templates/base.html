@@ -210,28 +210,21 @@
                                 <div class="menu-style">
                                   <div class="menu-title">
                                     <h6 class="cat-name">
-                                      <a href="#" class="text-light-black"
-                                        >Related Pages</a
-                                      >
+                                      <a href="#" class="text-light-black">Related Pages</a>
                                     </h6>
                                   </div>
                                   <ul>
                                     <li>
-                                      {% if restaurant and restaurant.id %}
-                                      <a
-                                        href="{% url 'restaurants:restaurant' restaurant_id=restaurant.id %}"
-                                        class="text-light-white fw-500"
-                                        >Restaurant</a
-                                      >
+                                      <a href="{% url 'restaurants:list_restaurants' %}" class="text-light-white fw-500">Browse Restaurants</a>
                                     </li>
+                                    {% if restaurant and restaurant.id and restaurant.id|length == 36 %}
+                                      <li>
+                                        <a href="{% url 'restaurants:restaurant' restaurant_id=restaurant.id %}" class="text-light-white fw-500">My Restaurant</a>
+                                      </li>
                                     {% else %}
-                                    <li>
-                                      <a
-                                        href="{% url 'restaurants:add_restaurant' %}"
-                                        class="text-light-white fw-500"
-                                        >Add Restaurant</a
-                                      >
-                                    </li>
+                                      <li>
+                                        <a href="{% url 'restaurants:add_restaurant' %}" class="text-light-white fw-500">Add Restaurant</a>
+                                      </li>
                                     {% endif %}
                                   </ul>
                                 </div>

@@ -8,9 +8,9 @@ from core.models import Restaurant
 def home(request):
     """View for homepage"""
 
-    restaurant = Restaurant.objects.first()  # Get the first restaurant
+    user_restaurant = Restaurant.objects.filter(user=request.user).first() if request.user.is_authenticated else None
     context = {
-        'restaurant': restaurant if restaurant else None,  # Ensure None is explicit
+        'restaurant': user_restaurant,  # Ensure None is explicit
     }
     return render(request, 'home/homepage.html', context)
 
