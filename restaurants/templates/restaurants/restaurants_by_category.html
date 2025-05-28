@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Munchbox | {{ category }} Restaurants{% endblock %}
+
+{% block content %}
+<div class="main-sec"></div>
+<section class="section-padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="section-header-left">
+          <h3 class="text-light-black header-title">Restaurants - {{ category }}</h3>
+        </div>
+      </div>
+      <div class="col-12">
+        {% if restaurants %}
+          <div class="row">
+            {% for restaurant in restaurants %}
+            <div class="col-md-4">
+              <div class="restaurant-box">
+                <div class="restaurant-img">
+                  <a href="{% url 'restaurants:restaurant' restaurant_id=restaurant.id %}">
+                    <img src="{% if restaurant.logo %}{{ restaurant.logo.url }}{% else %}{% static 'app/assets/img/logo-4.jpg' %}{% endif %}" class="img-fluid" alt="{{ restaurant.name }}" />
+                  </a>
+                </div>
+                <div class="restaurant-details">
+                  <h5 class="text-light-black fw-600">
+                    <a href="{% url 'restaurants:restaurant' restaurant_id=restaurant.id %}">{{ restaurant.name }}</a>
+                  </h5>
+                  <p class="text-light-white">
+                    {{ restaurant.address }}, {{ restaurant.city }}, {{ restaurant.state }}, {{ restaurant.country }}
+                  </p>
+                  <p class="text-light-white">
+                    Cuisines: {{ restaurant.cuisines.all|join:", " }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-light-black">No restaurants found for {{ category }}.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

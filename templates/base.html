@@ -76,7 +76,7 @@
             <div class="col-12 mainNavCol">
               <!-- logo -->
               <div class="logo mainNavCol">
-                <a href="{% url 'landing-page' %}">
+                <a href="{% url 'home:landing-page' %}">
                   <img
                     src="{% static 'app/assets/img/logo.png' %}"
                     class="img-fluid"
@@ -165,7 +165,7 @@
                                   <ul>
                                     <li>
                                       <a
-                                        href="{% url 'landing-page' %}"
+                                        href="{% url 'home:landing-page' %}"
                                         class="text-light-white fw-500"
                                         >Landing Page</a
                                       >
@@ -191,14 +191,14 @@
                                       >
                                     </li>
                                       <a
-                                        href="{% url 'explore' %}"
+                                        href="{% url 'home:explore' %}"
                                         class="text-light-white fw-500"
                                         >Ex Deals</a
                                       >
                                     </li>
                                     <li>
                                       <a
-                                        href="{% url 'about' %}"
+                                        href="{% url 'home:about' %}"
                                         class="text-light-white fw-500"
                                         >About Us</a
                                       >
@@ -723,14 +723,14 @@
               <h6 class="text-custom-white">Get to Know Us</h6>
               <ul>
                 <li>
-                  <a href="{% url 'about' %}" class="text-light-white fw-600">About Us</a>
+                  <a href="{% url 'home:about' %}" class="text-light-white fw-600">About Us</a>
                 </li>
                 <li><a href="{% url 'blogs' %}" class="text-light-white fw-600">Blog</a></li>
                 <li>
                   <a href="#" class="text-light-white fw-600">Socialize</a>
                 </li>
                 <li>
-                  <a href="{% url 'home' %}" class="text-light-white fw-600">Munchbox</a>
+                  <a href="{% url 'home:home' %}" class="text-light-white fw-600">Munchbox</a>
                 </li>
                 <li><a href="#" class="text-light-white fw-600">Perks</a></li>
               </ul>

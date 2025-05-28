@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Munchbox | Order #{{ order.id }}{% endblock %}
+
+{% block content %}
+<div class="main-sec"></div>
+<section class="section-padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="section-header-left">
+          <h3 class="text-light-black header-title">Order #{{ order.id }}</h3>
+        </div>
+      </div>
+      <div class="col-12">
+        <p><strong>Restaurant:</strong> <a href="{% url 'restaurants:restaurant' restaurant_id=order.restaurant.id %}">{{ order.restaurant.name }}</a></p>
+        <p><strong>Status:</strong> {{ order.status|title }}</p>
+        <p><strong>Delivery Type:</strong> {{ order.delivery_type|title }}</p>
+        <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+        <p><strong>Ordered on:</strong> {{ order.created_at }}</p>
+        <h5>Items:</h5>
+        <ul>
+          {% for order_item in order.order_items.all %}
+            <li>{{ order_item.quantity }}x {{ order_item.menu_item.name }} - ${{ order_item.price }}</li>
+          {% empty %}
+            <li>No items in this order.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

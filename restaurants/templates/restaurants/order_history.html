@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Munchbox | Order History{% endblock %}
+
+{% block content %}
+<div class="main-sec"></div>
+<section class="section-padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="section-header-left">
+          <h3 class="text-light-black header-title">Your Order History</h3>
+        </div>
+      </div>
+      <div class="col-12">
+        {% if orders %}
+          <div class="row">
+            {% for order in orders %}
+              <div class="col-md-4">
+                <div class="order-box">
+                  <h5 class="text-light-black fw-600">
+                    <a href="{% url 'restaurants:order_details' order_id=order.id %}">Order #{{ order.id }}</a>
+                  </h5>
+                  <p class="text-light-white">
+                    Restaurant: <a href="{% url 'restaurants:restaurant' restaurant_id=order.restaurant.id %}">{{ order.restaurant.name }}</a>
+                  </p>
+                  <p class="text-light-white">Placed on: {{ order.created_at }}</p>
+                  <p class="text-light-white">Total: ${{ order.total_price }}</p>
+                  <p class="text-light-white">Status: {{ order.status|title }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-light-black">You have no past orders.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

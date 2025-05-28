@@ -141,6 +141,15 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.quantity}x {self.menu_item.name}"
 
+# Collection 
+class Collection(models.Model):
+    name = models.CharField(max_length=100)  # e.g., "Top Rated", "New Arrivals"
+    filter_type = models.CharField(max_length=50)  # e.g., "top_rated", "recent"
+    image = models.ImageField(upload_to='collections/', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
 # Payment Model
 class Payment(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='payment')

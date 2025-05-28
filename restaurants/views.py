@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.db.models import Count, Avg
 from restaurants.form import RestaurantForm
-from core.models import Cuisine, MenuItem, Package, Promotion, RestaurantSubscription
+from core.models import Cuisine, MenuItem, Order, Package, Promotion, RestaurantSubscription
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -165,3 +166,79 @@ def list_restaurants(request):
         'restaurant': user_restaurant,  # For base.html
     }
     return render(request, 'restaurants/list-restaurants.html', context)
+
+@login_required
+def restaurants_by_category(request, category):
+    # Assuming category represents a cuisine name for now
+    restaurants = Restaurant.objects.filter(cuisines__name=category)
+    user_restaurant = Restaurant.objects.filter(user=request.user).first()
+    context = {
+        'restaurants': restaurants,
+        'category': category,
+        'restaurant': user_restaurant,  # For base.html
+    }
+    return render(request, 'restaurants/restaurants_by_category.html', context)
+
+@login_required
+def order_details(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    user_restaurant = Restaurant.objects.filter(user=request.user).first()
+    context = {
+        'order': order,
+        'restaurant': user_restaurant,  # For base.html
+    }
+    return render(request, 'restaurants/order_details.html', context)
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    user_restaurant = Restaurant.objects.filter(user=request.user).first()
+    context = {
+        'orders': orders,
+        'restaurant': user_restaurant,
+    }
+    return render(request, 'restaurants/order_history.html', context)
+
+@login_required
+def top_rated_restaurants(request):
+    restaurants = Restaurant.objects.annotate(
+        avg_rating=Avg('reviews__rating')
+    ).filter(avg_rating__isnull=False).order_by('-avg_rating')[:10]
+    user_restaurant = Restaurant.objects.filter(user=request.user).first()
+    context = {
+        'restaurants': restaurants,
+        'category': 'Top Rated',
+        'restaurant': user_restaurant,
+    }
+    return render(request, 'restaurants/restaurants_by_category.html', context)
+
+@login_required
+def popular_near_you(request):
+    user_restaurant = Restaurant.objects.filter(user=request.user).first()
+    user_location = (user_restaurant.latitude, user_restaurant.longitude) if user_restaurant and user_restaurant.latitude and user_restaurant.longitude else (40.7128, -74.0060)
+    restaurants = Restaurant.objects.annotate(order_count=Count('orders')).exclude(
+        latitude__isnull=True, longitude__isnull=True
+    )
+    nearby = []
+    for r in restaurants:
+        distance = get_distance(user_location[0], user_location[1], r.latitude, r.longitude)
+        if distance <= 10:
+            nearby.append((r, distance))
+    nearby.sort(key=lambda x: x[0].order_count, reverse=True)
+    restaurants = [r[0] for r in nearby[:10]]
+    context = {
+        'restaurants': restaurants,
+        'category': 'Most Popular Near You',
+        'restaurant': user_restaurant,
+    }
+    return render(request, 'restaurants/restaurants_by_category.html', context)
+
+def get_distance(lat1, lon1, lat2, lon2):
+    from math import radians, sin, cos, sqrt, atan2
+    R = 6371
+    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1-a))
+    return R * c
