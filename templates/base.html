@@ -241,14 +241,14 @@
                                   <ul>
                                     <li>
                                       <a
-                                        href="{% url 'login' %}"
+                                        href="{% url 'accounts:login' %}"
                                         class="text-light-white fw-500"
                                         >Login</a
                                       >
                                     </li>
                                     <li>
                                       <a
-                                        href="{% url 'register' %}"
+                                        href="{% url 'accounts:register' %}"
                                         class="text-light-white fw-500"
                                         >Sign-up</a
                                       >
@@ -978,11 +978,11 @@
               console.log('Sending logout with token:', token);
               if (!token) {
                   console.log('No token found, redirecting to login');
-                  window.location.href = '{% url 'login' %}';
+                  window.location.href = '{% url 'accounts:login' %}';
                   return;
               }
               $.ajax({
-                  url: '{% url 'api_logout' %}',
+                  url: '{% url 'accounts:api_logout' %}',
                   type: 'POST',
                   headers: {
                       'X-CSRFToken': csrftoken,
@@ -991,12 +991,12 @@
                   success: function(response) {
                       console.log('Logout successful:', response);
                       localStorage.removeItem('token');
-                      window.location.href = '{% url 'login' %}';
+                      window.location.href = '{% url 'accounts:login' %}';
                   },
                   error: function(xhr) {
                       console.error('Logout failed:', xhr.responseJSON);
                       localStorage.removeItem('token');
-                      window.location.href = '{% url 'login' %}';
+                      window.location.href = '{% url 'accounts:login' %}';
                   }
               });
           });
@@ -1009,3 +1009,4 @@
 
   <!-- munchbox/homepage-1.html  05 Dec 2019 10:14:51 GMT -->
 </html>
+

@@ -1,6 +1,11 @@
-{% extends 'base.html' %} {% load static %}
-{% block title %} Munchbox | Home {% endblock title %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
 
+{% block title %}
+Munchbox | Home
+{% endblock title %}
+
+{% block content %}
 <div class="main-sec"></div>
 <!-- Navigation -->
 <div class="inner-wrapper">
@@ -13,7 +18,9 @@
             class="img-fluid full-width main-img"
             alt="banner"
           />
-          <div class="overlay-2 main-padding">
+          <div class="overlay
+
+-2 main-padding">
             <img
               src="{% static 'app/assets/img/logo-2.jpg' %}"
               class="img-fluid"
@@ -35,9 +42,9 @@
             </h5>
             <h5>
               {% if user.is_authenticated %}
-                <a href="{% url 'api_logout' %}" class="text-light-green fw-700">Sign out</a>
+                <button id="logout-btn" class="text-light-green fw-700" style="background:none;border:none;padding:0;cursor:pointer;">Sign out</button>
               {% else %}
-                <a href="{% url 'api_login' %}" class="text-light-green fw-700">Sign in</a>
+                <a href="{% url 'accounts:login' %}" class="text-light-green fw-700">Sign in</a>
               {% endif %}
             </h5>
           </div>
@@ -200,8 +207,6 @@
 </section>
 <!-- Browse by category -->
 <!-- your previous order -->
-{% load static %}
-
 <section class="recent-order section-padding">
   <div class="container">
     <div class="row">
@@ -306,8 +311,7 @@
             <a
               href="{% url 'restaurants:popular_near_you' %}"
               class="btn-first white-btn text-light-black fw-600 full-width"
-              >See all</a
-            >
+            >See all</a>
           </div>
         </div>
       </div>
@@ -421,4 +425,88 @@
   </div>
 </section>
 <!-- Explore collection -->
+
+<!-- Error Display Area -->
+<div id="form-errors" class="alert" style="display:none;"></div>
+
 {% endblock content %}
+
+{% block extra_scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+// Get CSRF token from cookie
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+// Logout button
+$('#logout-btn').on('click', function(e) {
+    e.preventDefault();
+    console.log('Logout button clicked');
+
+    const token = localStorage.getItem('token');
+    console.log('Token:', token);
+
+    if (!token) {
+        console.log('No token found');
+        $('#form-errors').html('<p>No authentication token found. Redirecting to login...</p>').show();
+        setTimeout(function() {
+            window.location.href = '{% url "accounts:login" %}';
+        }, 2000);
+        return;
+    }
+
+    if (!csrftoken) {
+        console.log('CSRF token not found');
+        $('#form-errors').html('<p>CSRF token missing. Please refresh the page and try again.</p>').show();
+        return;
+    }
+
+    $.ajax({
+        url: '{% url "accounts:api_logout" %}',
+        type: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken,
+            'Authorization': 'Token ' + token
+        },
+        success: function(response) {
+            console.log('Logout successful:', response);
+            localStorage.removeItem('token');
+            $('#form-errors').html('<p>' + (response.message || 'Logged out successfully') + '</p>')
+                .removeClass('alert-danger')
+                .addClass('alert-success')
+                .show();
+            setTimeout(function() {
+                window.location.reload(); // Refresh the page to show login form
+            }, 2000);
+        },
+        error: function(xhr, status, error) {
+            console.error('Logout failed:', {
+                status: xhr.status,
+                response: xhr.responseJSON,
+                error: error
+            });
+            localStorage.removeItem('token');
+            var errorMsg = xhr.responseJSON?.error || xhr.responseJSON?.detail || 'An error occurred during logout';
+            $('#form-errors').html('<p>Logout failed: ' + errorMsg + '</p>').show();
+            setTimeout(function() {
+                window.location.reload(); // Refresh the page to reflect logout state
+            }, 2000);
+        }
+    });
+});
+</script>
+{% endblock extra_scripts %}
+

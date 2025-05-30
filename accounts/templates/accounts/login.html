@@ -99,7 +99,7 @@
                         <input type="checkbox" name="keep_signed_in" />
                         <span class="checkmark"></span> Keep me signed in
                       </label>
-                      <a href="{% url 'password_reset' %}">Reset password</a>
+                      <a href="{% url 'accounts:password_reset' %}">Reset password</a>
                     </div>
                     <div class="form-group">
                       <button
@@ -138,7 +138,7 @@
                       </button>
                     </div>
                     <div class="form-group text-center mb-0">
-                      <a href="{% url 'register' %}">Create your account</a>
+                      <a href="{% url 'accounts:register' %}">Create your account</a>
                     </div>
                   </div>
                 </div>
@@ -207,7 +207,7 @@
             console.log('Login form submitted');
             var formData = $(this).serialize();
             $.ajax({
-                url: '{% url "api_login" %}',
+                url: '{% url "accounts:api_login" %}',
                 type: 'POST',
                 data: formData,
                 headers: {'X-CSRFToken': csrftoken},
@@ -256,7 +256,7 @@
             }
 
             $.ajax({
-                url: '{% url "api_logout" %}',
+                url: '{% url "accounts:api_logout" %}',
                 type: 'POST',
                 headers: {
                     'X-CSRFToken': csrftoken,
