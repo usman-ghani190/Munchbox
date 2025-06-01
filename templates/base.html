@@ -185,7 +185,7 @@
                                   <ul>
                                     <li>
                                       <a
-                                        href="{% url 'blogs' %}"
+                                        href="{% url 'blog:blogs' %}"
                                         class="text-light-white fw-500"
                                         >Blog</a
                                       >
@@ -255,14 +255,7 @@
                                     </li>
                                     <li>
                                       <a
-                                        href="{% url 'checkout' %}"
-                                        class="text-light-white fw-500"
-                                        >Checkout</a
-                                      >
-                                    </li>
-                                    <li>
-                                      <a
-                                        href="{% url 'order_details' %}"
+                                        href="{% url 'checkouts:order_details' %}"
                                         class="text-light-white fw-500"
                                         >Order Details</a
                                       >
@@ -725,7 +718,7 @@
                 <li>
                   <a href="{% url 'home:about' %}" class="text-light-white fw-600">About Us</a>
                 </li>
-                <li><a href="{% url 'blogs' %}" class="text-light-white fw-600">Blog</a></li>
+                <li><a href="{% url 'blog:blogs' %}" class="text-light-white fw-600">Blog</a></li>
                 <li>
                   <a href="#" class="text-light-white fw-600">Socialize</a>
                 </li>

@@ -1,6 +1,7 @@
 """Models for Munchbox"""
 
 from django.db import models
+from django.db.models import Avg, Count
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 import uuid
@@ -66,6 +67,24 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def average_rating(self):
+        return self.reviews.aggregate(avg_rating=Avg('rating'))['avg_rating'] or 0
+
+    @property
+    def review_count(self):
+        return self.reviews.count()
+
+    @property
+    def latest_reviewer(self):
+        latest_review = self.reviews.order_by('-created_at').first()
+        return latest_review.user if latest_review else None
+
+    @property
+    def latest_review(self):
+        latest_review = self.reviews.order_by('-created_at').first()
+        return latest_review.comment if latest_review else None
 
 # Package Model
 class Package(models.Model):
@@ -141,7 +160,7 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.quantity}x {self.menu_item.name}"
 
-# Collection 
+# Collection
 class Collection(models.Model):
     name = models.CharField(max_length=100)  # e.g., "Top Rated", "New Arrivals"
     filter_type = models.CharField(max_length=50)  # e.g., "top_rated", "recent"
@@ -209,3 +228,34 @@ class Promotion(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class BlogPost(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='blog_posts')
+    date = models.DateTimeField(auto_now_add=True)
+    excerpt = models.TextField(blank=True, null=True)
+    content = models.TextField()
+    views = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-date']
+
+class Comment(models.Model):
+    blog = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=100, blank=True)
+    email = models.EmailField(blank=True)
+    text = models.TextField()
+    rating = models.PositiveIntegerField(default=1)  # 1-5 rating
+    created_at = models.DateTimeField(auto_now_add=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+
+    def __str__(self):
+        return f"Comment by {self.name or self.user.username} on {self.blog.title}"
