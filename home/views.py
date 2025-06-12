@@ -1,7 +1,9 @@
 """Views for Homepage"""
+from django.utils import timezone
 from django.shortcuts import render
+from datetime import timedelta
 
-from core.models import Collection, Cuisine, Order, Restaurant
+from core.models import Collection, Cuisine, Order, Promotion, Restaurant
 from django.db.models import Count, Avg
 
 
@@ -60,12 +62,31 @@ def get_distance(lat1, lon1, lat2, lon2):
     return R * c
 
 def explore(request):
-    """View for explore page"""
-    restaurants = Restaurant.objects.all()
+    """View for the explore page"""
+    # Annotate all querysets with annotated_review_count
+    trending_restaurants = Restaurant.objects.annotate(
+        annotated_review_count=Count('reviews')
+    ).order_by('-annotated_review_count')[:5]
+
+    featured_restaurants = Restaurant.objects.annotate(
+        annotated_review_count=Count('reviews')
+    ).order_by('-created_at')[:4]
+
+    fresh_deals = Restaurant.objects.annotate(
+        annotated_review_count=Count('reviews')
+    ).filter(created_at__gte=timezone.now() - timedelta(days=30))[:5]
+
+    local_deals = Restaurant.objects.annotate(
+        annotated_review_count=Count('reviews')
+    )[:6]
+
     context = {
-        'restaurants': restaurants,
+        'featured_restaurants': featured_restaurants,
+        'trending_restaurants': trending_restaurants,
+        'fresh_deals': fresh_deals,
+        'local_deals': local_deals,
     }
-    return render(request, 'home/explore.html', context)
+    return render(request, 'home/ex-deals.html', context)
 
 def landing_page(request):
     """View for landing page"""
