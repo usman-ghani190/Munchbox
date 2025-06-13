@@ -242,3 +242,11 @@ def get_distance(lat1, lon1, lat2, lon2):
     a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
     c = 2 * atan2(sqrt(a), sqrt(1-a))
     return R * c
+
+def restaurant_list(request):
+    """View to display a list of restaurants."""
+    restaurants = Restaurant.objects.all()  # Fetch all restaurants (customize as needed)
+    context = {
+        'restaurants': restaurants,
+    }
+    return render(request, 'restaurants/restaurant_list.html', context)

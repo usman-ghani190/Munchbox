@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.shortcuts import render
 from datetime import timedelta
 
-from core.models import Collection, Cuisine, Order, Promotion, Restaurant
+from core.models import AboutUsSection, BlogPost, Collection, Cuisine, Order, ProcessStep, Promotion, Restaurant, SliderItem, Testimonial
 from django.db.models import Count, Avg
 
 
@@ -95,5 +95,11 @@ def landing_page(request):
 
 def about(request):
     """View for about page"""
-    context = {}
+    context = {
+        'slider_items': SliderItem.objects.filter(is_active=True),
+        'about_section': AboutUsSection.objects.first(),  # Assuming one section for now
+        'process_steps': ProcessStep.objects.all(),
+        'blog_posts': BlogPost.objects.all()[:3],  # Top 3 recent posts
+        'testimonials': Testimonial.objects.filter(is_active=True),
+    }
     return render(request, 'home/about.html', context)

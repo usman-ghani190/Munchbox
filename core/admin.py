@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Cuisine, Tag, Restaurant, Package, RestaurantSubscription, MenuItem, Order, OrderItem, Collection, Payment, Review, Promotion
+from .models import AboutUsSection, BlogPost, ProcessStep, SliderItem, Testimonial, User, Cuisine, Tag, Restaurant, Package, RestaurantSubscription, MenuItem, Order, OrderItem, Collection, Payment, Review, Promotion
 
 # Register User with custom fields
 class CustomUserAdmin(UserAdmin):
@@ -97,3 +97,9 @@ class PromotionAdmin(admin.ModelAdmin):
 
 # Register the custom User model
 admin.site.register(User, CustomUserAdmin)
+
+admin.site.register(SliderItem)
+admin.site.register(AboutUsSection)
+admin.site.register(ProcessStep)
+admin.site.register(BlogPost)
+admin.site.register(Testimonial)

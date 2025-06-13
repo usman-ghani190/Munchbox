@@ -5,6 +5,7 @@ from django.db.models import Avg, Count
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 import uuid
+from django.utils.text import slugify
 
 # Custom User Model
 class User(AbstractUser):
@@ -229,17 +230,24 @@ class Promotion(models.Model):
     def __str__(self):
         return self.title
 
-
+# BlogPost Model (Consolidated)
 class BlogPost(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)  # Using AutoField for simplicity
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='blog_posts')
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='blog_posts')
     date = models.DateTimeField(auto_now_add=True)
     excerpt = models.TextField(blank=True, null=True)
     content = models.TextField()
+    image = models.ImageField(upload_to='blog_images/', blank=True, null=True)  # Added from second definition
+    slug = models.SlugField(unique=True, max_length=200, blank=True)  # Added from second definition
     views = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -247,15 +255,65 @@ class BlogPost(models.Model):
     class Meta:
         ordering = ['-date']
 
+# Comment Model
 class Comment(models.Model):
     blog = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=100, blank=True)
     email = models.EmailField(blank=True)
     text = models.TextField()
-    rating = models.PositiveIntegerField(default=1)  # 1-5 rating
+    rating = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(5)])  # Added validators
     created_at = models.DateTimeField(auto_now_add=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
 
     def __str__(self):
         return f"Comment by {self.name or self.user.username} on {self.blog.title}"
+
+# Slider Item
+class SliderItem(models.Model):
+    title = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=300, blank=True)
+    image = models.ImageField(upload_to='slider_images/', blank=True, null=True)
+    button_url = models.CharField(max_length=200, blank=True, help_text="URL for the button (e.g., /restaurants/restaurant_list/)")
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+
+# About Us Section
+class AboutUsSection(models.Model):
+    title = models.CharField(max_length=200)
+    description_1 = models.TextField()
+    description_2 = models.TextField(blank=True)
+    image_1 = models.ImageField(upload_to='about_images/', blank=True, null=True)
+    image_2 = models.ImageField(upload_to='about_images/', blank=True, null=True)
+    image_3 = models.ImageField(upload_to='about_images/', blank=True, null=True)
+    button_text = models.CharField(max_length=50, blank=True)
+    button_url = models.CharField(max_length=200, blank=True, help_text="URL for the button (e.g., #)")
+
+    def __str__(self):
+        return self.title
+
+# Process Step
+class ProcessStep(models.Model):
+    step_number = models.PositiveIntegerField()
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    icon = models.ImageField(upload_to='process_icons/', blank=True, null=True)
+
+    class Meta:
+        ordering = ['step_number']
+
+    def __str__(self):
+        return f"{self.step_number}. {self.title}"
+
+# Testimonial
+class Testimonial(models.Model):
+    name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
+    content = models.TextField()
+    image = models.ImageField(upload_to='testimonials/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.role}"
