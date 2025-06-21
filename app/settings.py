@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "checkouts",
     "blog",
     'widget_tweaks',
+    'locations.apps.LocationsConfig',
 ]
 
 AUTH_USER_MODEL = 'core.User'

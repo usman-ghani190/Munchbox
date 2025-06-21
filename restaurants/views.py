@@ -14,8 +14,8 @@ from .serializers import CuisineSerializer, PackageSerializer, RestaurantStep1Se
 
 @login_required
 def restaurant(request, restaurant_id):
-    # Fetch the restaurant by its UUID
-    restaurant = Restaurant.objects.get(id=restaurant_id)
+    # Fetch the restaurant by its UUID, raise 404 if not found
+    restaurant = get_object_or_404(Restaurant, id=restaurant_id)
 
     # Fetch related menu items
     menu_items = restaurant.menu_items.all()
@@ -42,7 +42,7 @@ def restaurant(request, restaurant_id):
     promotions = Promotion.objects.filter(
         valid_from__lte=current_time,
         valid_until__gte=current_time
-    ).filter(is_first_order=True)  # Assuming first-order promotions for this example
+    ).filter(is_first_order=True)
 
     # Context data
     context = {

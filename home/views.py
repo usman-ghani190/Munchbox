@@ -89,8 +89,15 @@ def explore(request):
     return render(request, 'home/ex-deals.html', context)
 
 def landing_page(request):
-    """View for landing page"""
-    context = {}
+    pending_order = None
+    if request.user.is_authenticated:
+        pending_order = Order.objects.filter(user=request.user, status='pending').order_by('-created_at').first()
+
+    context = {
+        'current_location': {'address': 'Brooklyn, NY', 'full_address': 'Brooklyn, NY 10041'},  # Default or fetch from user/restaurant
+        'pending_order': pending_order,
+        'user': request.user if request.user.is_authenticated else None,
+    }
     return render(request, 'home/landing_page.html', context)
 
 def about(request):

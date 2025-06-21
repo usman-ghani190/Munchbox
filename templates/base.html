@@ -7,64 +7,35 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="keywords" content="#" />
-    <meta name="description" content="#" />
-    <title>{% block title %} {% endblock title %}</title>
+    <meta name="keywords" content="food delivery, restaurant, takeout, Munchbox" />
+    <meta name="description" content="Order food online with Munchbox, the largest delivery platform in the U.S. and Canada." />
+    <title>{% block title %}Munchbox{% endblock title %}</title>
     <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="#" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="#" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="#" />
-    <link rel="apple-touch-icon-precomposed" href="#" />
-    <link rel="shortcut icon" href="#" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'app/assets/img/favicon-144x144.png' %}" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static 'app/assets/img/favicon-114x114.png' %}" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'app/assets/img/favicon-72x72.png' %}" />
+    <link rel="apple-touch-icon-precomposed" href="{% static 'app/assets/img/favicon.png' %}" />
+    <link rel="shortcut icon" href="{% static 'app/assets/img/favicon.ico' %}" />
     <!-- Bootstrap -->
-    <link
-      href="{% static 'app/assets/css/bootstrap.min.css' %}"
-      rel="stylesheet"
-    />
+    <link href="{% static 'app/assets/css/bootstrap.min.css' %}" rel="stylesheet" />
     <!-- Fontawesome -->
-    <link
-      href="{% static 'app/assets/css/font-awesome.css' %}"
-      rel="stylesheet"
-    />
+    <link href="{% static 'app/assets/css/font-awesome.css' %}" rel="stylesheet" />
     <!-- Flaticons -->
-    <link
-      href="{% static 'app/assets/css/font/flaticon.css' %}"
-      rel="stylesheet"
-    />
+    <link href="{% static 'app/assets/css/font/flaticon.css' %}" rel="stylesheet" />
     <!-- Swiper Slider -->
-    <link
-      href="{% static 'app/assets/css/swiper.min.css' %}"
-      rel="stylesheet"
-    />
+    <link href="{% static 'app/assets/css/swiper.min.css' %}" rel="stylesheet" />
     <!-- Range Slider -->
-    <link
-      href="{% static 'app/assets/css/ion.rangeSlider.min.css' %}"
-      rel="stylesheet"
-    />
+    <link href="{% static 'app/assets/css/ion.rangeSlider.min.css' %}" rel="stylesheet" />
     <!-- magnific popup -->
-    <link
-      href="{% static 'app/assets/css/magnific-popup.css' %}"
-      rel="stylesheet"
-    />
+    <link href="{% static 'app/assets/css/magnific-popup.css' %}" rel="stylesheet" />
     <!-- Nice Select -->
-    <link
-      href="{% static 'app/assets/css/nice-select.css' %}"
-      rel="stylesheet"
-    />
+    <link href="{% static 'app/assets/css/nice-select.css' %}" rel="stylesheet" />
     <!-- Custom Stylesheet -->
     <link href="{% static 'app/assets/css/style.css' %}" rel="stylesheet" />
     <!-- Custom Responsive -->
-    <link
-      href="{% static 'app/assets/css/responsive.css' %}"
-      rel="stylesheet"
-    />
+    <link href="{% static 'app/assets/css/responsive.css' %}" rel="stylesheet" />
     <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- place -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet" />
   </head>
 
   <body>
@@ -77,11 +48,7 @@
               <!-- logo -->
               <div class="logo mainNavCol">
                 <a href="{% url 'home:landing-page' %}">
-                  <img
-                    src="{% static 'app/assets/img/logo.png' %}"
-                    class="img-fluid"
-                    alt="Logo"
-                  />
+                  <img src="{% static 'app/assets/img/logo.png' %}" class="img-fluid" alt="Logo" />
                 </a>
               </div>
               <!-- logo -->
@@ -90,29 +57,25 @@
                   <div class="row">
                     <!-- location picker -->
                     <div class="col-lg-6 col-md-5">
-                      <a href="#" class="delivery-add p-relative">
-                        <span class="icon"
-                          ><i class="fas fa-map-marker-alt"></i
-                        ></span>
-                        <span class="address">Brooklyn, NY</span>
+                      <a href="#" class="delivery-add p-relative" data-toggle="modal" data-target="#address-box">
+                        <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
+                        <span class="address">
+                          {% if user.is_authenticated and user.restaurant %}
+                            {{ user.restaurant.address|default:"Brooklyn, NY" }}
+                          {% else %}
+                            {{ current_location.address|default:"Brooklyn, NY" }}
+                          {% endif %}
+                        </span>
                       </a>
                       <div class="location-picker">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Enter a new address"
-                        />
+                        <input type="text" class="form-control" placeholder="Enter a new address" />
                       </div>
                     </div>
                     <!-- location picker -->
                     <!-- search -->
                     <div class="col-lg-6 col-md-7">
                       <div class="search-box padding-10">
-                        <input
-                          type="text"
-                          class="form-control"
-                          placeholder="Pizza, Burger, Chinese"
-                        />
+                        <input type="text" class="form-control" placeholder="Pizza, Burger, Chinese" />
                       </div>
                     </div>
                     <!-- search -->
@@ -121,10 +84,10 @@
               </div>
               <div class="right-side fw-700 mainNavCol">
                 <div class="gem-points">
-                  <a href="#">
+                  {% comment %} <a href="{% url 'orders:create_order' %}">
                     <i class="fas fa-concierge-bell"></i>
                     <span>Order Now</span>
-                  </a>
+                  </a> {% endcomment %}
                 </div>
                 <div class="catring parent-megamenu">
                   <a href="#">
@@ -138,16 +101,10 @@
                           <div class="col-lg-4 col-md-5">
                             <div class="ex-collection-box h-100">
                               <a href="#">
-                                <img
-                                  src="{% static 'app/assets/img/nav-1.jpg' %}"
-                                  class="img-fluid full-width h-100"
-                                  alt="image"
-                                />
+                                <img src="{% static 'app/assets/img/nav-1.jpg' %}" class="img-fluid full-width h-100" alt="image" />
                               </a>
                               <div class="category-type overlay padding-15">
-                                <a href="restaurant.html" class="category-btn"
-                                  >Top rated</a
-                                >
+                                <a href="{% url 'restaurants:list_restaurants' %}" class="category-btn">Top rated</a>
                               </div>
                             </div>
                           </div>
@@ -157,18 +114,12 @@
                                 <div class="menu-style">
                                   <div class="menu-title">
                                     <h6 class="cat-name">
-                                      <a href="#" class="text-light-black"
-                                        >Home Pages</a
-                                      >
+                                      <a href="#" class="text-light-black">Home Pages</a>
                                     </h6>
                                   </div>
                                   <ul>
                                     <li>
-                                      <a
-                                        href="{% url 'home:landing-page' %}"
-                                        class="text-light-white fw-500"
-                                        >Landing Page</a
-                                      >
+                                      <a href="{% url 'home:landing-page' %}" class="text-light-white fw-500">Landing Page</a>
                                     </li>
                                   </ul>
                                 </div>
@@ -177,31 +128,18 @@
                                 <div class="menu-style">
                                   <div class="menu-title">
                                     <h6 class="cat-name">
-                                      <a href="#" class="text-light-black"
-                                        >Inner Pages</a
-                                      >
+                                      <a href="#" class="text-light-black">Inner Pages</a>
                                     </h6>
                                   </div>
                                   <ul>
                                     <li>
-                                      <a
-                                        href="{% url 'blog:blogs' %}"
-                                        class="text-light-white fw-500"
-                                        >Blog</a
-                                      >
-                                    </li>
-                                      <a
-                                        href="{% url 'home:explore' %}"
-                                        class="text-light-white fw-500"
-                                        >Ex Deals</a
-                                      >
+                                      <a href="{% url 'blog:blogs' %}" class="text-light-white fw-500">Blog</a>
                                     </li>
                                     <li>
-                                      <a
-                                        href="{% url 'home:about' %}"
-                                        class="text-light-white fw-500"
-                                        >About Us</a
-                                      >
+                                      <a href="{% url 'home:explore' %}" class="text-light-white fw-500">Ex Deals</a>
+                                    </li>
+                                    <li>
+                                      <a href="{% url 'home:about' %}" class="text-light-white fw-500">About Us</a>
                                     </li>
                                   </ul>
                                 </div>
@@ -217,9 +155,9 @@
                                     <li>
                                       <a href="{% url 'restaurants:list_restaurants' %}" class="text-light-white fw-500">Browse Restaurants</a>
                                     </li>
-                                    {% if restaurant and restaurant.id and restaurant.id|length == 36 %}
+                                    {% if user.is_authenticated and user.restaurant %}
                                       <li>
-                                        <a href="{% url 'restaurants:restaurant' restaurant_id=restaurant.id %}" class="text-light-white fw-500">My Restaurant</a>
+                                        <a href="{% url 'restaurants:restaurant_detail' restaurant_id=user.restaurant.id %}" class="text-light-white fw-500">My Restaurant</a>
                                       </li>
                                     {% else %}
                                       <li>
@@ -233,39 +171,21 @@
                                 <div class="menu-style">
                                   <div class="menu-title">
                                     <h6 class="cat-name">
-                                      <a href="#" class="text-light-black"
-                                        >Additional Pages</a
-                                      >
+                                      <a href="#" class="text-light-black">Additional Pages</a>
                                     </h6>
                                   </div>
                                   <ul>
                                     <li>
-                                      <a
-                                        href="{% url 'accounts:login' %}"
-                                        class="text-light-white fw-500"
-                                        >Login</a
-                                      >
+                                      <a href="{% url 'accounts:login' %}" class="text-light-white fw-500">Login</a>
                                     </li>
                                     <li>
-                                      <a
-                                        href="{% url 'accounts:register' %}"
-                                        class="text-light-white fw-500"
-                                        >Sign-up</a
-                                      >
+                                      <a href="{% url 'accounts:register' %}" class="text-light-white fw-500">Sign-up</a>
                                     </li>
                                     <li>
-                                      <a
-                                        href="{% url 'checkouts:order_details' %}"
-                                        class="text-light-white fw-500"
-                                        >Order Details</a
-                                      >
+                                      <a href="{% url 'restaurants:order_history' %}" class="text-light-white fw-500">Order Details</a>
                                     </li>
                                     <li>
-                                      <a
-                                        href="geo-locator.html"
-                                        class="text-light-white fw-500"
-                                        >Geo Locator</a
-                                      >
+                                      <a href="{% url 'locations:geo_locator' %}" class="text-light-white fw-500">Geo Locator</a>
                                     </li>
                                   </ul>
                                 </div>
@@ -285,86 +205,22 @@
                 </div>
                 <!-- mobile search -->
                 <!-- user account -->
-
                 {% if user.is_authenticated %}
                 <div class="user-details p-relative">
                   <a href="#" class="text-light-white fw-500">
                     <img
-                      src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'app/assets/img/user-1.png' %}
-                      {% endif %}"
+                      src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'app/assets/img/user-1.png' %}{% endif %}"
                       class="rounded-circle"
                       alt="userimg"
                       style="width: 40px; height: 40px; object-fit: cover;"
                     />
-                    <span>Hi, {{user.username}}</span>
+                    <span>Hi, {{ user.username }}</span>
                   </a>
-                  <div class="user-dropdown">
-                    <ul>
-                      <li>
-                        <a href="order-details.html">
-                          <div class="icon">
-                            <i class="flaticon-rewind"></i>
-                          </div>
-                          <span class="details">Past Orders</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="order-details.html">
-                          <div class="icon">
-                            <i class="flaticon-takeaway"></i>
-                          </div>
-                          <span class="details">Upcoming Orders</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <div class="icon">
-                            <i class="flaticon-breadbox"></i>
-                          </div>
-                          <span class="details">Saved</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <div class="icon"><i class="flaticon-gift"></i></div>
-                          <span class="details">Gift cards</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <div class="icon"><i class="flaticon-refer"></i></div>
-                          <span class="details">Refer a friend</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <div class="icon">
-                            <i class="flaticon-diamond"></i>
-                          </div>
-                          <span class="details">Perks</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <div class="icon"><i class="flaticon-user"></i></div>
-                          <span class="details">Account</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <div class="icon">
-                            <i class="flaticon-board-games-with-roles"></i>
-                          </div>
-                          <span class="details">Help</span>
-                        </a>
-                      </li>
-                    </ul>
-                    {% if user.is_authenticated %}
+                  
                     <div class="user-footer">
-                      <span class="text-light-black">Not {{user.username}}?</span>
+                      <span class="text-light-black">Not {{ user.username }}?</span>
                       <button id="logout-btn-base" class="text-custom-white fw-500" style="background: none; border: none; padding: 0; font: inherit; cursor: pointer; color: red">Sign Out</button>
                     </div>
-                    {% endif %}
                   </div>
                 </div>
                 {% endif %}
@@ -379,11 +235,7 @@
                     <div class="product-detail">
                       <a href="#">
                         <div class="img-box">
-                          <img
-                            src="{% static 'app/assets/img/shop-1.png' %}"
-                            class="rounded"
-                            alt="image"
-                          />
+                          <img src="{% static 'app/assets/img/shop-1.png' %}" class="rounded" alt="image" />
                         </div>
                         <div class="product-about">
                           <p class="text-light-black">Lil Johnny’s</p>
@@ -393,21 +245,11 @@
                     </div>
                     <div class="rating-box">
                       <p class="text-light-black">How was your last order ?.</p>
-                      <span class="text-dark-white"
-                        ><i class="fas fa-star"></i
-                      ></span>
-                      <span class="text-dark-white"
-                        ><i class="fas fa-star"></i
-                      ></span>
-                      <span class="text-dark-white"
-                        ><i class="fas fa-star"></i
-                      ></span>
-                      <span class="text-dark-white"
-                        ><i class="fas fa-star"></i
-                      ></span>
-                      <span class="text-dark-white"
-                        ><i class="fas fa-star"></i
-                      ></span>
+                      <span class="text-dark-white"><i class="fas fa-star"></i></span>
+                      <span class="text-dark-white"><i class="fas fa-star"></i></span>
+                      <span class="text-dark-white"><i class="fas fa-star"></i></span>
+                      <span class="text-dark-white"><i class="fas fa-star"></i></span>
+                      <span class="text-dark-white"><i class="fas fa-star"></i></span>
                       <cite class="text-light-white">Ordered 2 days ago</cite>
                     </div>
                   </div>
@@ -417,105 +259,54 @@
                 <div class="cart-btn cart-dropdown">
                   <a href="#" class="text-light-green fw-700">
                     <i class="fas fa-shopping-bag"></i>
-                    <span class="user-alert-cart">3</span>
+                    <span class="user-alert-cart">
+                      {% if pending_order and pending_order.order_items.count > 0 %}
+                        {{ pending_order.order_items.count }}
+                      {% else %}
+                        0
+                      {% endif %}
+                    </span>
                   </a>
                   <div class="cart-detail-box">
                     <div class="card">
                       <div class="card-header padding-15">Your Order</div>
                       <div class="card-body no-padding">
-                        <div class="cat-product-box">
-                          <div class="cat-product">
-                            <div class="cat-name">
-                              <a href="#">
-                                <p class="text-light-green">
-                                  <span class="text-dark-white">1</span> Chilli
-                                  Chicken
-                                </p>
-                                <span class="text-light-white"
-                                  >small, chilli chicken</span
-                                >
-                              </a>
+                        {% if pending_order and pending_order.order_items.count > 0 %}
+                          {% for item in pending_order.order_items.all %}
+                            <div class="cat-product-box">
+                              <div class="cat-product">
+                                <div class="cat-name">
+                                  <a href="#">
+                                    <p class="text-light-green"><span class="text-dark-white">{{ item.quantity }}</span> {{ item.menu_item.name }}</p>
+                                    <span class="text-light-white">{{ item.menu_item.description|default:"No description" }}</span>
+                                  </a>
+                                </div>
+                                <div class="delete-btn">
+                                  <a href="#" class="text-dark-white"><i class="far fa-trash-alt"></i></a>
+                                </div>
+                                <div class="price">
+                                  <a href="#" class="text-dark-white fw-500">${{ item.price }}</a>
+                                </div>
+                              </div>
                             </div>
-                            <div class="delete-btn">
-                              <a href="#" class="text-dark-white">
-                                <i class="far fa-trash-alt"></i>
-                              </a>
+                          {% endfor %}
+                          <div class="item-total">
+                            <div class="total-price border-0">
+                              <span class="text-dark-white fw-700">Items subtotal:</span>
+                              <span class="text-dark-white fw-700">${{ pending_order.total_price }}</span>
                             </div>
-                            <div class="price">
-                              <a href="#" class="text-dark-white fw-500">
-                                $2.25
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="cat-product-box">
-                          <div class="cat-product">
-                            <div class="cat-name">
-                              <a href="#">
-                                <p class="text-light-green">
-                                  <span class="text-dark-white">1</span> loaded
-                                  cheese
-                                </p>
-                                <span class="text-light-white"
-                                  >small, chilli chicken</span
-                                >
-                              </a>
-                            </div>
-                            <div class="delete-btn">
-                              <a href="#" class="text-dark-white">
-                                <i class="far fa-trash-alt"></i>
-                              </a>
-                            </div>
-                            <div class="price">
-                              <a href="#" class="text-dark-white fw-500">
-                                $2.25
-                              </a>
+                            <div class="empty-bag padding-15">
+                              <a href="#">Empty bag</a>
                             </div>
                           </div>
-                        </div>
-                        <div class="cat-product-box">
-                          <div class="cat-product">
-                            <div class="cat-name">
-                              <a href="#">
-                                <p class="text-light-green">
-                                  <span class="text-dark-white">1</span> Tortia
-                                  Chicken
-                                </p>
-                                <span class="text-light-white"
-                                  >small, chilli chicken</span
-                                >
-                              </a>
-                            </div>
-                            <div class="delete-btn">
-                              <a href="#" class="text-dark-white">
-                                <i class="far fa-trash-alt"></i>
-                              </a>
-                            </div>
-                            <div class="price">
-                              <a href="#" class="text-dark-white fw-500">
-                                $2.25
-                              </a>
-                            </div>
+                        {% else %}
+                          <div class="cat-product-box text-center">
+                            <p class="text-light-white">Your cart is empty.</p>
                           </div>
-                        </div>
-                        <div class="item-total">
-                          <div class="total-price border-0">
-                            <span class="text-dark-white fw-700"
-                              >Items subtotal:</span
-                            >
-                            <span class="text-dark-white fw-700">$9.99</span>
-                          </div>
-                          <div class="empty-bag padding-15">
-                            <a href="#">Empty bag</a>
-                          </div>
-                        </div>
+                        {% endif %}
                       </div>
                       <div class="card-footer padding-15">
-                        <a
-                          href="checkout.html"
-                          class="btn-first green-btn text-custom-white full-width fw-500"
-                          >Proceed to Checkout</a
-                        >
+                        <a href="{% url 'checkouts:checkout' %}" class="btn-first green-btn text-custom-white full-width fw-500">Proceed to Checkout</a>
                       </div>
                     </div>
                   </div>
@@ -525,19 +316,24 @@
             </div>
             <div class="col-sm-12 mobile-search">
               <div class="mobile-address">
-                <a
-                  href="#"
-                  class="delivery-add"
-                  data-toggle="modal"
-                  data-target="#address-box"
-                >
-                  <span class="address">Brooklyn, NY</span>
+                <a href="#" class="delivery-add" data-toggle="modal" data-target="#address-box">
+                  <span class="address">
+                    {% if user.is_authenticated and user.restaurant %}
+                      {{ user.restaurant.address|default:"Brooklyn, NY" }}
+                    {% else %}
+                      {{ current_location.address|default:"Brooklyn, NY" }}
+                    {% endif %}
+                  </span>
                 </a>
               </div>
               <div class="sorting-addressbox">
-                <span class="full-address text-light-green"
-                  >Brooklyn, NY 10041</span
-                >
+                <span class="full-address text-light-green">
+                  {% if user.is_authenticated and user.restaurant %}
+                    {{ user.restaurant.city }}, {{ user.restaurant.state }}, {{ user.restaurant.country }}
+                  {% else %}
+                    {{ current_location.full_address|default:"Brooklyn, NY 10041" }}
+                  {% endif %}
+                </span>
                 <div class="btns">
                   <div class="filter-btn">
                     <button type="button">
@@ -559,7 +355,7 @@
       </header>
     </div>
 
-    {% block content %} {% endblock content %}
+    {% block content %}{% endblock content %}
 
     <!-- footer -->
     <div class="footer-top section-padding bg-black">
@@ -567,54 +363,37 @@
         <div class="row">
           <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
             <div class="icon-box">
-              <span class="text-light-green"
-                ><i class="flaticon-credit-card-1"></i
-              ></span>
+              <span class="text-light-green"><i class="flaticon-credit-card-1"></i></span>
               <span class="text-custom-white">100% Payment<br />Secured</span>
             </div>
           </div>
           <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
             <div class="icon-box">
-              <span class="text-light-green"
-                ><i class="flaticon-wallet-1"></i
-              ></span>
-              <span class="text-custom-white"
-                >Support lots<br />
-                of Payments</span
-              >
+              <span class="text-light-green"><i class="flaticon-wallet-1"></i></span>
+              <span class="text-custom-white">Support lots<br />of Payments</span>
             </div>
           </div>
           <div class="col-md-2 col-sm-4 col-6 mb-sm-20">
             <div class="icon-box">
-              <span class="text-light-green"
-                ><i class="flaticon-help"></i
-              ></span>
-              <span class="text-custom-white"
-                >24 hours / 7 days<br />Support</span
-              >
+              <span class="text-light-green"><i class="flaticon-help"></i></span>
+              <span class="text-custom-white">24 hours / 7 days<br />Support</span>
             </div>
           </div>
           <div class="col-md-2 col-sm-4 col-6">
             <div class="icon-box">
-              <span class="text-light-green"
-                ><i class="flaticon-truck"></i
-              ></span>
+              <span class="text-light-green"><i class="flaticon-truck"></i></span>
               <span class="text-custom-white">Free Delivery<br />with $50</span>
             </div>
           </div>
           <div class="col-md-2 col-sm-4 col-6">
             <div class="icon-box">
-              <span class="text-light-green"
-                ><i class="flaticon-guarantee"></i
-              ></span>
+              <span class="text-light-green"><i class="flaticon-guarantee"></i></span>
               <span class="text-custom-white">Best Price<br />Guaranteed</span>
             </div>
           </div>
           <div class="col-md-2 col-sm-4 col-6">
             <div class="icon-box">
-              <span class="text-light-green"
-                ><i class="flaticon-app-file-symbol"></i
-              ></span>
+              <span class="text-light-green"><i class="flaticon-app-file-symbol"></i></span>
               <span class="text-custom-white">Mobile Apps<br />Ready</span>
             </div>
           </div>
@@ -625,60 +404,28 @@
       <div class="u-line instagram-slider swiper-container">
         <ul class="hm-list hm-instagram swiper-wrapper">
           <li class="swiper-slide">
-            <a href="#"
-              ><img
-                src="{% static 'app/assets/img/restaurants/250x200/insta-3.jpg' %}"
-                alt="instagram"
-            /></a>
+            <a href="#"><img src="{% static 'app/assets/img/restaurants/250x200/insta-3.jpg' %}" alt="instagram" /></a>
           </li>
           <li class="swiper-slide">
-            <a href="#"
-              ><img
-                src="{% static 'app/assets/img/restaurants/250x200/insta-1.jpg' %}"
-                alt="instagram"
-            /></a>
+            <a href="#"><img src="{% static 'app/assets/img/restaurants/250x200/insta-1.jpg' %}" alt="instagram" /></a>
           </li>
           <li class="swiper-slide">
-            <a href="#"
-              ><img
-                src="{% static 'app/assets/img/restaurants/250x200/insta-2.jpg' %}"
-                alt="instagram"
-            /></a>
+            <a href="#"><img src="{% static 'app/assets/img/restaurants/250x200/insta-2.jpg' %}" alt="instagram" /></a>
           </li>
           <li class="swiper-slide">
-            <a href="#"
-              ><img
-                src="{% static 'app/assets/img/restaurants/250x200/insta-4.jpg' %}"
-                alt="instagram"
-            /></a>
+            <a href="#"><img src="{% static 'app/assets/img/restaurants/250x200/insta-4.jpg' %}" alt="instagram" /></a>
           </li>
           <li class="swiper-slide">
-            <a href="#"
-              ><img
-                src="{% static 'app/assets/img/restaurants/250x200/insta-5.jpg' %}"
-                alt="instagram"
-            /></a>
+            <a href="#"><img src="{% static 'app/assets/img/restaurants/250x200/insta-5.jpg' %}" alt="instagram" /></a>
           </li>
           <li class="swiper-slide">
-            <a href="#"
-              ><img
-                src="{% static 'app/assets/img/restaurants/250x200/insta-6.jpg' %}"
-                alt="instagram"
-            /></a>
+            <a href="#"><img src="{% static 'app/assets/img/restaurants/250x200/insta-6.jpg' %}" alt="instagram" /></a>
           </li>
           <li class="swiper-slide">
-            <a href="#"
-              ><img
-                src="{% static 'app/assets/img/restaurants/250x200/insta-7.jpg' %}"
-                alt="instagram"
-            /></a>
+            <a href="#"><img src="{% static 'app/assets/img/restaurants/250x200/insta-7.jpg' %}" alt="instagram" /></a>
           </li>
           <li class="swiper-slide">
-            <a href="#"
-              ><img
-                src="{% static 'app/assets/img/restaurants/250x200/insta-8.jpg' %}"
-                alt="instagram"
-            /></a>
+            <a href="#"><img src="{% static 'app/assets/img/restaurants/250x200/insta-8.jpg' %}" alt="instagram" /></a>
           </li>
         </ul>
       </div>
@@ -690,15 +437,11 @@
               <ul>
                 <li class="fw-600">
                   <span class="text-light-white">Call Us</span>
-                  <a href="tel:" class="text-custom-white"
-                    >+(347) 123 456 789</a
-                  >
+                  <a href="tel:" class="text-custom-white">+(347) 123 456 789</a>
                 </li>
                 <li class="fw-600">
                   <span class="text-light-white">Email Us</span>
-                  <a href="mailto:" class="text-custom-white"
-                    >demo@domain.com</a
-                  >
+                  <a href="mailto:" class="text-custom-white">demo@domain.com</a>
                 </li>
                 <li class="fw-600">
                   <span class="text-light-white">Join our twitter</span>
@@ -715,16 +458,10 @@
             <div class="footer-links">
               <h6 class="text-custom-white">Get to Know Us</h6>
               <ul>
-                <li>
-                  <a href="{% url 'home:about' %}" class="text-light-white fw-600">About Us</a>
-                </li>
+                <li><a href="{% url 'home:about' %}" class="text-light-white fw-600">About Us</a></li>
                 <li><a href="{% url 'blog:blogs' %}" class="text-light-white fw-600">Blog</a></li>
-                <li>
-                  <a href="#" class="text-light-white fw-600">Socialize</a>
-                </li>
-                <li>
-                  <a href="{% url 'home:home' %}" class="text-light-white fw-600">Munchbox</a>
-                </li>
+                <li><a href="#" class="text-light-white fw-600">Socialize</a></li>
+                <li><a href="{% url 'home:home' %}" class="text-light-white fw-600">Munchbox</a></li>
                 <li><a href="#" class="text-light-white fw-600">Perks</a></li>
               </ul>
             </div>
@@ -733,23 +470,11 @@
             <div class="footer-links">
               <h6 class="text-custom-white">Let Us Help You</h6>
               <ul>
-                <li>
-                  <a href="#" class="text-light-white fw-600"
-                    >Account Details</a
-                  >
-                </li>
-                <li>
-                  <a href="#" class="text-light-white fw-600">Order History</a>
-                </li>
-                <li>
-                  <a href="#" class="text-light-white fw-600"
-                    >Find restaurant</a
-                  >
-                </li>
-                <li><a href="#" class="text-light-white fw-600">Login</a></li>
-                <li>
-                  <a href="#" class="text-light-white fw-600">Track order</a>
-                </li>
+                <li><a href="{% url 'accounts:account_details' %}" class="text-light-white fw-600">Account Details</a></li>
+                <li><a href="{% url 'orders:order_history' %}" class="text-light-white fw-600">Order History</a></li>
+                <li><a href="{% url 'restaurants:list_restaurants' %}" class="text-light-white fw-600">Find restaurant</a></li>
+                <li><a href="{% url 'accounts:login' %}" class="text-light-white fw-600">Login</a></li>
+                <li><a href="{% url 'orders:track_order' %}" class="text-light-white fw-600">Track order</a></li>
               </ul>
             </div>
           </div>
@@ -757,22 +482,10 @@
             <div class="footer-links">
               <h6 class="text-custom-white">Doing Business</h6>
               <ul>
-                <li>
-                  <a href="#" class="text-light-white fw-600"
-                    >Suggest an Idea</a
-                  >
-                </li>
-                <li>
-                  <a href="#" class="text-light-white fw-600"
-                    >Be a Partner restaurant</a
-                  >
-                </li>
-                <li>
-                  <a href="#" class="text-light-white fw-600"
-                    >Create an Account</a
-                  >
-                </li>
-                <li><a href="#" class="text-light-white fw-600">Help</a></li>
+                <li><a href="#" class="text-light-white fw-600">Suggest an Idea</a></li>
+                <li><a href="#" class="text-light-white fw-600">Be a Partner restaurant</a></li>
+                <li><a href="#" class="text-light-white fw-600">Create an Account</a></li>
+                <li><a href="{% url 'help:help' %}" class="text-light-white fw-600">Help</a></li>
               </ul>
             </div>
           </div>
@@ -780,22 +493,10 @@
             <div class="footer-links">
               <h6 class="text-custom-white">Download Apps</h6>
               <div class="appimg">
-                <a href="#">
-                  <img
-                    src="{% static 'app/assets/img/playstore.jpg' %}"
-                    class="img-fluid"
-                    alt="app logo"
-                  />
-                </a>
+                <a href="#"><img src="{% static 'app/assets/img/playstore.jpg' %}" class="img-fluid" alt="app logo" /></a>
               </div>
               <div class="appimg">
-                <a href="#">
-                  <img
-                    src="{% static 'app/assets/img/appstore.jpg' %}"
-                    class="img-fluid"
-                    alt="app logo"
-                  />
-                </a>
+                <a href="#"><img src="{% static 'app/assets/img/appstore.jpg' %}" class="img-fluid" alt="app logo" /></a>
               </div>
             </div>
           </div>
@@ -804,12 +505,7 @@
               <h6 class="text-custom-white">Newsletter</h6>
               <form class="subscribe_form">
                 <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control form-control-submit"
-                    name="email"
-                    placeholder="Enter your email"
-                  />
+                  <input type="text" class="form-control form-control-submit" name="email" placeholder="Enter your email" />
                   <span class="input-group-btn">
                     <button class="btn btn-second btn-submit" type="button">
                       <i class="fas fa-paper-plane"></i>
@@ -823,21 +519,11 @@
             <div class="ft-social-media">
               <h6 class="text-center text-light-black">Follow us</h6>
               <ul>
-                <li>
-                  <a href="#"><i class="fab fa-facebook-f"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fab fa-twitter"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fab fa-instagram"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fab fa-youtube"></i></a>
-                </li>
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                <li><a href="#"><i class="fab fa-youtube"></i></a></li>
               </ul>
             </div>
           </div>
@@ -851,30 +537,17 @@
             <div class="payment-logo mb-md-20">
               <span class="text-light-white fs-14 mr-3">We are accept</span>
               <div class="payemt-icon">
-                <img
-                  src="{% static 'app/assets/img/card-front.jpg' %}"
-                  alt="#"
-                />
+                <img src="{% static 'app/assets/img/card-front.jpg' %}" alt="#" />
                 <img src="{% static 'app/assets/img/visa.jpg' %}" alt="#" />
-                <img
-                  src="{% static 'app/assets/img/amex-card-front.png' %}"
-                  alt="#"
-                />
-                <img
-                  src="{% static 'app/assets/img/mastercard.png' %}"
-                  alt="#"
-                />
+                <img src="{% static 'app/assets/img/amex-card-front.png' %}" alt="#" />
+                <img src="{% static 'app/assets/img/mastercard.png' %}" alt="#" />
               </div>
             </div>
           </div>
-          <div
-            class="col-lg-4 text-center medewithlove align-self-center"
-          ></div>
+          <div class="col-lg-4 text-center medewithlove align-self-center"></div>
           <div class="col-lg-4">
             <div class="copyright-text">
-              <span class="text-light-white"
-                ><a href="templateshub.net">Templates Hub</a>
-              </span>
+              <span class="text-light-white"><a href="templateshub.net">Templates Hub</a></span>
             </div>
           </div>
         </div>
@@ -886,18 +559,12 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-              ×
-            </button>
+            <button type="button" class="close" data-dismiss="modal">×</button>
             <h4 class="modal-title fw-700">Change Address</h4>
           </div>
           <div class="modal-body">
             <div class="location-picker">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Enter a new address"
-              />
+              <input type="text" class="form-control" value="{% if user.is_authenticated and user.restaurant %}{{ user.restaurant.address|default:'Brooklyn, NY' }}{% else %}{{ current_location.address|default:'Brooklyn, NY' }}{% endif %}" placeholder="Enter a new address" />
             </div>
           </div>
         </div>
@@ -907,15 +574,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-              ×
-            </button>
+            <button type="button" class="close" data-dismiss="modal">×</button>
             <div class="search-box p-relative full-width">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Pizza, Burger, Chinese"
-              />
+              <input type="text" class="form-control" placeholder="Pizza, Burger, Chinese" />
             </div>
           </div>
           <div class="modal-body"></div>
@@ -968,9 +629,7 @@
           $('#logout-btn-base').on('click', function(e) {
               e.preventDefault();
               const token = localStorage.getItem('token');
-              console.log('Sending logout with token:', token);
               if (!token) {
-                  console.log('No token found, redirecting to login');
                   window.location.href = '{% url 'accounts:login' %}';
                   return;
               }
@@ -982,7 +641,6 @@
                       'Authorization': 'Token ' + token
                   },
                   success: function(response) {
-                      console.log('Logout successful:', response);
                       localStorage.removeItem('token');
                       window.location.href = '{% url 'accounts:login' %}';
                   },
@@ -1002,4 +660,3 @@
 
   <!-- munchbox/homepage-1.html  05 Dec 2019 10:14:51 GMT -->
 </html>
-
